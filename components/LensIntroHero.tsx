@@ -396,7 +396,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           }}
         >
           <div className="hero-badge reveal-fade animated" style={{ marginBottom: "1.25rem" }}>
-            ✦ BUILT FOR BRANDS THAT SCALE ✦
+            ✦ BUILT FOR FAST-GROWING INDIAN BRANDS ✦
           </div>
           <h1
             className="hero-headline"
@@ -417,14 +417,14 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             style={{
               fontSize: "clamp(1.15rem, 2.5vw, 1.75rem)",
               color: "rgba(240, 237, 232, 0.95)",
-              maxWidth: "48ch",
+              maxWidth: "52ch",
               marginBottom: "2.25rem",
               lineHeight: 1.35,
               fontWeight: 500,
               letterSpacing: "-0.01em",
             }}
           >
-            From Creative Ideas to High-Performing Ads.
+            High-Converting UGC &amp; Meta Ad Reels for Indian D2C Brands.
           </p>
           <div className="hero-ctas animated">
             <a href="#portfolio" className="btn btn-red" style={{ padding: "0.95rem 2.4rem", fontSize: "0.95rem" }}>

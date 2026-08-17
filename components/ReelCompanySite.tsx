@@ -551,14 +551,13 @@ export default function ReelCompanySite() {
             <div className="hero-content">
               <div className="hero-grid">
                 <div className="hero-text">
-                  <div className="hero-badge reveal-fade">✦ BUILT FOR BRANDS THAT SCALE ✦</div>
+                  <div className="hero-badge reveal-fade">✦ BUILT FOR FAST-GROWING INDIAN BRANDS ✦</div>
                   <h1 className="hero-headline">
                     <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                   </h1>
-                  <h2 className="hero-tagline reveal-up">From Creative Ideas to High-Performing Ads.</h2>
+                  <h2 className="hero-tagline reveal-up">High-Converting UGC Ads for Indian D2C &amp; E-Commerce.</h2>
                   <p className="hero-sub reveal-up">
-                    We build and run your entire content department — strategy, production, editing,
-                    and delivery — so your brand never runs out of high-performing UGC and ad videos.
+                    We power video ad performance for 150+ Indian brands — strategy, pan-India creator sourcing in Hinglish, Hindi &amp; regional languages, editing, &amp; 48hr delivery for Meta Ads, Amazon India &amp; Quick Commerce.
                   </p>
                   <div className="hero-ctas reveal-up" style={{ '--delay': '0.2s' } as React.CSSProperties}>
                     <a href="#portfolio" className="btn btn-red" onClick={e => handleAnchorClick(e, '#portfolio')}>See Our Work</a>
@@ -581,8 +580,8 @@ export default function ReelCompanySite() {
                       </div>
                     </div>
                     <div className="floating-card-text">
-                      <span className="floating-card-title">9:16 Vertical Master</span>
-                      <span className="floating-card-sub">High Converting UGC</span>
+                      <span className="floating-card-title">Hinglish &amp; Vernacular</span>
+                      <span className="floating-card-sub">Pan-India Creators</span>
                     </div>
                   </div>
 
@@ -590,8 +589,8 @@ export default function ReelCompanySite() {
                   <div className="hero-floating-card card-float-right">
                     <div className="floating-card-icon">🔥</div>
                     <div className="floating-card-text">
-                      <span className="floating-card-title">3.2x Avg ROAS</span>
-                      <span className="floating-card-sub">48hr Delivery</span>
+                      <span className="floating-card-title">3.8x Avg ROAS</span>
+                      <span className="floating-card-sub">Meta India Ads</span>
                     </div>
                   </div>
 

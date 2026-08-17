@@ -406,6 +406,7 @@ export default function DiscoveryCallModal({
                     required
                     autoComplete="tel"
                     inputMode="tel"
+                    placeholder="+91 98765 43210 (WhatsApp)"
                     maxLength={25}
                     value={formData.contactNumber}
                     onChange={handleChange}

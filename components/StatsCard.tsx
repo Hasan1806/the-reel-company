@@ -1,11 +1,11 @@
 import React from "react";
 
 export const STATS_DATA = [
-  { value: "300", suffix: "+", label: "VIDEOS / WEEK" },
-  { value: "50", suffix: "+", label: "BRANDS SERVED EVERY MONTH" },
-  { value: "1000", suffix: "+", label: "ARTISTS ENROLLED" },
-  { value: "3", suffix: "x", label: "AVG. ROAS IMPROVEMENT" },
-  { value: "500", suffix: "+", label: "TRUSTED BRANDS" },
+  { value: "₹50Cr", suffix: "+", label: "AD SPEND GENERATED" },
+  { value: "150", suffix: "+", label: "INDIAN D2C BRANDS" },
+  { value: "500", suffix: "+", label: "PAN-INDIA CREATORS" },
+  { value: "3.8", suffix: "x", label: "AVG. ROAS ON META INDIA" },
+  { value: "48", suffix: "hr", label: "EXPRESS DELIVERY" },
 ];
 
 interface StatsCardProps {
