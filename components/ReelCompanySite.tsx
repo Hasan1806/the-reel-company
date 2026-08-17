@@ -1040,27 +1040,80 @@ export default function ReelCompanySite() {
               </table>
             </div>
 
-            {/* Mobile Switcher View - Simplified 2 Card Stack */}
+            {/* Mobile Switcher View - Horizontal Carousel */}
             <div className="mobile-comp-view">
-              <div className="mobile-simple-card mobile-simple-card-trc">
-                <div className="mobile-simple-card-header">With The Reel Company</div>
-                <ul className="mobile-simple-list">
-                  <li><span className="badge-check-glow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Fast 48-72hr delivery</li>
-                  <li><span className="badge-check-glow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Consistent Quality</li>
-                  <li><span className="badge-check-glow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span> UGC &amp; Ad Specialization</li>
-                  <li><span className="badge-check-glow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Cancel Anytime (No Lock-in)</li>
-                  <li><span className="badge-check-glow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span> Unlimited Scalable Volume</li>
-                </ul>
-              </div>
+              <div className="mobile-carousel">
+                {/* Card 1: The Reel Company */}
+                <div className="mobile-carousel-card mobile-carousel-card-trc">
+                  <div className="mobile-carousel-header">
+                    <span className="trc-badge" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>✦ RECOMMENDED FOR D2C BRANDS</span>
+                    <h3>The Reel Company</h3>
+                  </div>
+                  <ul className="mobile-carousel-list">
+                    <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span></span></li>
+                    <li><span className="feature-name">Pricing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Flat Rate</strong></span></span></li>
+                    <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></span></li>
+                    <li><span className="feature-name">Specialisation</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span></span></li>
+                    <li><span className="feature-name">Volume at Scale</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Unlimited Scale</strong></span></span></li>
+                    <li><span className="feature-name">Ad Strategy</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Full Strategy</strong></span></span></li>
+                    <li><span className="feature-name">Contracts</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Cancel Anytime</strong></span></span></li>
+                    <li><span className="feature-name">Account Manager</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>1-on-1 Slack/Sync</strong></span></span></li>
+                  </ul>
+                </div>
 
-              <div className="mobile-simple-card mobile-simple-card-others">
-                <div className="mobile-simple-card-header">Traditional Agencies &amp; Freelancers</div>
-                <ul className="mobile-simple-list">
-                  <li><span className="badge-cross"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span> Slow 3-4 week delivery</li>
-                  <li><span className="badge-cross"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span> Inconsistent quality</li>
-                  <li><span className="badge-cross"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span> High overhead/retainers</li>
-                  <li><span className="badge-cross"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span> Rigid lock-in contracts</li>
-                </ul>
+                {/* Card 2: In-House Team */}
+                <div className="mobile-carousel-card">
+                  <div className="mobile-carousel-header">
+                    <h3>In-House Team</h3>
+                  </div>
+                  <ul className="mobile-carousel-list">
+                    <li><span className="feature-name">Quality</span> <span className="val"><span className="badge-tag">Varies</span></span></li>
+                    <li><span className="feature-name">Pricing</span> <span className="val"><span className="badge-tag">High Overhead</span></span></li>
+                    <li><span className="feature-name">Turnaround</span> <span className="val"><span className="badge-tag">Weeks</span></span></li>
+                    <li><span className="feature-name">Specialisation</span> <span className="val"><span className="badge-tag">Generalist</span></span></li>
+                    <li><span className="feature-name">Volume at Scale</span> <span className="val"><span className="badge-tag">Limited</span></span></li>
+                    <li><span className="feature-name">Ad Strategy</span> <span className="val"><span className="badge-tag">Sometimes</span></span></li>
+                    <li><span className="feature-name">Contracts</span> <span className="val"><span className="badge-tag">Fixed Salary</span></span></li>
+                    <li><span className="feature-name">Account Manager</span> <span className="val"><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> N/A</span></span></li>
+                  </ul>
+                </div>
+
+                {/* Card 3: Freelancers */}
+                <div className="mobile-carousel-card">
+                  <div className="mobile-carousel-header">
+                    <h3>Freelancers</h3>
+                  </div>
+                  <ul className="mobile-carousel-list">
+                    <li><span className="feature-name">Quality</span> <span className="val"><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Inconsistent</span></span></li>
+                    <li><span className="feature-name">Pricing</span> <span className="val"><span className="badge-tag">Varies</span></span></li>
+                    <li><span className="feature-name">Turnaround</span> <span className="val"><span className="badge-tag">Slow</span></span></li>
+                    <li><span className="feature-name">Specialisation</span> <span className="val"><span className="badge-tag">Hit or Miss</span></span></li>
+                    <li><span className="feature-name">Volume at Scale</span> <span className="val"><span className="badge-tag">Single Operator</span></span></li>
+                    <li><span className="feature-name">Ad Strategy</span> <span className="val"><span className="badge-tag">Execution Only</span></span></li>
+                    <li><span className="feature-name">Contracts</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Per Project</span></span></li>
+                    <li><span className="feature-name">Account Manager</span> <span className="val"><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> N/A</span></span></li>
+                  </ul>
+                </div>
+
+                {/* Card 4: Big Agencies */}
+                <div className="mobile-carousel-card">
+                  <div className="mobile-carousel-header">
+                    <h3>Big Agencies</h3>
+                  </div>
+                  <ul className="mobile-carousel-list">
+                    <li><span className="feature-name">Quality</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> High</span></span></li>
+                    <li><span className="feature-name">Pricing</span> <span className="val"><span className="badge-tag">Enterprise Only</span></span></li>
+                    <li><span className="feature-name">Turnaround</span> <span className="val"><span className="badge-tag">3-4 Weeks</span></span></li>
+                    <li><span className="feature-name">Specialisation</span> <span className="val"><span className="badge-tag">Rarely</span></span></li>
+                    <li><span className="feature-name">Volume at Scale</span> <span className="val"><span className="badge-tag">$$ Extra</span></span></li>
+                    <li><span className="feature-name">Ad Strategy</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Included</span></span></li>
+                    <li><span className="feature-name">Contracts</span> <span className="val"><span className="badge-tag">6-12 Mo Lock-in</span></span></li>
+                    <li><span className="feature-name">Account Manager</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Yes</span></span></li>
+                  </ul>
+                </div>
+              </div>
+              <div className="mobile-carousel-indicator">
+                <span>Swipe to compare vendors →</span>
               </div>
             </div>
 
