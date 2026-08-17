@@ -1122,25 +1122,23 @@ export default function ReelCompanySite() {
                     agencies: <span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Yes</span>
                   }
                 ].map((item, index) => (
-                  <div className="mobile-comp-card" key={index}>
-                    <div className="mobile-comp-feature-name">{item.feature}</div>
-                    <div className="mobile-comp-grid">
-                      <div className="mobile-comp-col competitor-col">
-                        <span className="mobile-comp-col-title">
-                          {activeMobileTab === 'inhouse' && 'In-House Team'}
-                          {activeMobileTab === 'freelancers' && 'Freelancers'}
-                          {activeMobileTab === 'agencies' && 'Big Agencies'}
-                        </span>
-                        <div className="mobile-comp-val">
-                          {activeMobileTab === 'inhouse' && item.inhouse}
-                          {activeMobileTab === 'freelancers' && item.freelancers}
-                          {activeMobileTab === 'agencies' && item.agencies}
-                        </div>
+                  <div className="mobile-comp-row-3col" key={index}>
+                    <div className="mobile-comp-feature-cell">
+                      {item.feature}
+                    </div>
+                    <div className="mobile-comp-val-cell trc-val-cell">
+                      <div className="mobile-comp-val-header trc-header">The Reel Company</div>
+                      {item.trc}
+                    </div>
+                    <div className="mobile-comp-val-cell comp-val-cell">
+                      <div className="mobile-comp-val-header">
+                        {activeMobileTab === 'inhouse' && 'In-House'}
+                        {activeMobileTab === 'freelancers' && 'Freelancers'}
+                        {activeMobileTab === 'agencies' && 'Agencies'}
                       </div>
-                      <div className="mobile-comp-col trc-col-mobile">
-                        <span className="mobile-comp-col-title trc-highlight-title">The Reel Company</span>
-                        <div className="mobile-comp-val">{item.trc}</div>
-                      </div>
+                      {activeMobileTab === 'inhouse' && item.inhouse}
+                      {activeMobileTab === 'freelancers' && item.freelancers}
+                      {activeMobileTab === 'agencies' && item.agencies}
                     </div>
                   </div>
                 ))}
