@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Reel Company — Studio-Quality UGC &amp; Content Production</title>
+  <meta name="description" content="The Reel Company delivers studio-quality UGC and ad videos for brands. On-demand, affordable, and delivered quickly. Stop struggling to create content." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+  <header id="site-header" role="banner">
+    <div class="header-inner">
+      <a href="#hero" class="logo" aria-label="The Reel Company Home">
+        <span class="logo-mark">TRC</span>
+        <span class="logo-text">The Reel Company</span>
+      </a>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <a href="#capabilities" class="nav-link">Services</a>
+        <a href="#comparison" class="nav-link">Compare</a>
+        <a href="#footer-cta" class="nav-link">Contact</a>
+      </nav>
+      <a href="https://drive.google.com/drive/folders/your-portfolio-link" target="_blank" rel="noopener" class="btn btn-outline header-cta" id="header-cta-btn">
+        Request Portfolio Access
+      </a>
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+      <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="mobile-nav-scroll-container">
+        <a href="#hero" class="mobile-nav-link">Home</a>
+        <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+        <a href="#capabilities" class="mobile-nav-link">Services</a>
+        <a href="#comparison" class="mobile-nav-link">Compare</a>
+        <a href="#footer-cta" class="mobile-nav-link">Contact</a>
+        <a href="https://drive.google.com/drive/folders/your-portfolio-link" target="_blank" rel="noopener" class="btn btn-red mobile-nav-cta">Request Portfolio Access</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+    <section id="hero" class="hero-section" aria-label="Hero">
+      <div class="hero-bg">
+        <div class="hero-bg-image" id="hero-bg-image"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-red-glow"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <div class="hero-badge reveal-fade">UGC &amp; Content Production Studio</div>
+            <h1 class="hero-headline">
+              <span class="line-mask"><span class="line-inner">The Reel Company</span></span>
+            </h1>
+            <h2 class="hero-tagline reveal-up">Stop Struggling to Create Content.</h2>
+            <p class="hero-sub reveal-up">
+              We build and run your entire content department — strategy, production, editing,
+              and delivery — so your brand never runs out of high-performing UGC and ad videos.
+            </p>
+            <div class="hero-ctas reveal-up" style="--delay:0.2s">
+              <a href="#portfolio" class="btn btn-red">See Our Work</a>
+              <a href="#footer-cta" class="btn btn-outline">Book a Discovery Call</a>
+            </div>
+          </div>
+
+          <div class="hero-video-wrap reveal-up" style="--delay:0.3s">
+            <div class="hero-phone-card">
+              <div class="phone-glow"></div>
+              <div class="phone-frame">
+                <video id="hero-preview-video" autoplay muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4"></video>
+                <div class="phone-header">
+                  <span class="phone-badge">9:16 Reel Preview</span>
+                  <label for="hero-video-input" class="upload-btn" title="Upload custom 9:16 video">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span>Upload Video</span>
+                  </label>
+                  <input type="file" id="hero-video-input" accept="video/*" style="display:none;" />
+                </div>
+                <div class="phone-overlay">
+                  <div class="phone-info">
+                    <span class="video-filename" id="hero-video-name">Sample_Reel_9x16.mp4</span>
+                    <span class="video-hint">Click Upload to test your video</span>
+                  </div>
+                  <div class="phone-actions">
+                    <button class="icon-btn" id="hero-play-toggle" aria-label="Toggle Play/Pause">
+                      <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                      <svg class="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </button>
+                    <button class="icon-btn" id="hero-mute-toggle" aria-label="Toggle Mute">
+                      <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v6a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/></svg>
+                      <svg class="icon-sound" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CLIENT MARQUEE ═══════════════════════════ -->
+    <section id="clients" class="client-marquee-section" aria-label="Trusted Clients">
+      <div class="client-marquee-header">
+        <p class="client-marquee-label">✦ TRUSTED BY GLOBAL BRANDS &amp; HIGH-GROWTH DTC CAMPAIGNS ✦</p>
+      </div>
+
+      <div class="client-marquee-container">
+        <div class="marquee-fade-left" aria-hidden="true"></div>
+        <div class="marquee-fade-right" aria-hidden="true"></div>
+
+        <!-- Row 1 (Upper): Left to Right -->
+        <div class="client-marquee-row row-right">
+          <div class="client-marquee-track">
+            <span class="client-item">OZIVA</span><span class="item-dot">✦</span>
+            <span class="client-item">FRIDO</span><span class="item-dot">✦</span>
+            <span class="client-item">JUICY CHEMISTRY</span><span class="item-dot">✦</span>
+            <span class="client-item">TRAVALATE</span><span class="item-dot">✦</span>
+            <span class="client-item">SLEEPYCAT</span><span class="item-dot">✦</span>
+            <span class="client-item">ICON</span><span class="item-dot">✦</span>
+            <span class="client-item">SONIC LAMB</span><span class="item-dot">✦</span>
+            <span class="client-item">WELME</span><span class="item-dot">✦</span>
+          </div>
+          <div class="client-marquee-track" aria-hidden="true">
+            <span class="client-item">OZIVA</span><span class="item-dot">✦</span>
+            <span class="client-item">FRIDO</span><span class="item-dot">✦</span>
+            <span class="client-item">JUICY CHEMISTRY</span><span class="item-dot">✦</span>
+            <span class="client-item">TRAVALATE</span><span class="item-dot">✦</span>
+            <span class="client-item">SLEEPYCAT</span><span class="item-dot">✦</span>
+            <span class="client-item">ICON</span><span class="item-dot">✦</span>
+            <span class="client-item">SONIC LAMB</span><span class="item-dot">✦</span>
+            <span class="client-item">WELME</span><span class="item-dot">✦</span>
+          </div>
+        </div>
+
+        <!-- Row 2 (Lower): Right to Left -->
+        <div class="client-marquee-row row-left">
+          <div class="client-marquee-track">
+            <span class="client-item">BROWN LIVING</span><span class="item-dot">✦</span>
+            <span class="client-item">HAMMER</span><span class="item-dot">✦</span>
+            <span class="client-item">HOMESTRAP</span><span class="item-dot">✦</span>
+            <span class="client-item">SÜKHAM</span><span class="item-dot">✦</span>
+            <span class="client-item">PLUM STORIES</span><span class="item-dot">✦</span>
+            <span class="client-item">TABBSZ</span><span class="item-dot">✦</span>
+            <span class="client-item">A BIG INDIAN STORY</span><span class="item-dot">✦</span>
+          </div>
+          <div class="client-marquee-track" aria-hidden="true">
+            <span class="client-item">BROWN LIVING</span><span class="item-dot">✦</span>
+            <span class="client-item">HAMMER</span><span class="item-dot">✦</span>
+            <span class="client-item">HOMESTRAP</span><span class="item-dot">✦</span>
+            <span class="client-item">SÜKHAM</span><span class="item-dot">✦</span>
+            <span class="client-item">PLUM STORIES</span><span class="item-dot">✦</span>
+            <span class="client-item">TABBSZ</span><span class="item-dot">✦</span>
+            <span class="client-item">A BIG INDIAN STORY</span><span class="item-dot">✦</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ SHOWREEL ═══════════════════════════ -->
+    <section id="portfolio" class="showreel-section" aria-label="Portfolio Showreel">
+
+      <div class="portfolio-header">
+        <p class="section-label">Our Work</p>
+        <h2 class="section-title">Content That <em>Converts</em></h2>
+        <p class="section-sub">Eight handpicked UGC and ad videos from our active client campaigns.</p>
+      </div>
+
+      <div class="portfolio-grid" id="portfolio-grid">
+        <!-- Video cards injected by JS -->
+      </div>
+
+      <div class="portfolio-mobile-carousel" id="portfolio-carousel">
+        <!-- Mobile carousel injected by JS -->
+      </div>
+
+      <div class="portfolio-cta">
+        <a href="https://drive.google.com/drive/folders/your-portfolio-link" target="_blank" rel="noopener" class="btn btn-outline">
+          View Full Portfolio
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ STATS ═══════════════════════════════ -->
+    <section id="stats" class="stats-section" aria-label="Key Statistics">
+      <div class="stats-container">
+        <div class="stats-strip">
+          <div class="stat-item" data-count="300" data-suffix="+">
+            <div class="stat-value"><span class="stat-num">300</span>+</div>
+            <div class="stat-label">Videos / Week</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item" data-count="50" data-suffix="+">
+            <div class="stat-value"><span class="stat-num">50</span>+</div>
+            <div class="stat-label">Brands Served Every Month</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item" data-count="1000" data-suffix="+">
+            <div class="stat-value"><span class="stat-num">1000</span>+</div>
+            <div class="stat-label">Artists Enrolled</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item" data-count="3" data-suffix="x">
+            <div class="stat-value"><span class="stat-num">3</span>x</div>
+            <div class="stat-label">Avg. ROAS Improvement</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item" data-count="500" data-suffix="+">
+            <div class="stat-value"><span class="stat-num">500</span>+</div>
+            <div class="stat-label">Trusted Brands</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ PROBLEM ═══════════════════════════════ -->
+    <section id="problems" class="problem-section" aria-label="Content Challenges">
+      <div class="problem-inner">
+        <div class="problem-sticky">
+          <p class="section-label">The Reality</p>
+          <h2 class="section-title">Content Is The Biggest<br/>Growth Lever.<br/><em>And The Hardest To Scale.</em></h2>
+          <p class="section-sub">Most brands hit the same wall when trying to scale content. Here's what's holding you back.</p>
+        </div>
+        <div class="problem-cards" id="problem-cards">
+          <div class="problem-card" data-index="01">
+            <div class="problem-index">01</div>
+            <h3>Hiring in-house is too expensive</h3>
+            <p>Building a content team means salaries, benefits, equipment, software, and management overhead — before you've filmed a single frame.</p>
+          </div>
+          <div class="problem-card" data-index="02">
+            <div class="problem-index">02</div>
+            <h3>Freelancers are inconsistent</h3>
+            <p>One great video, then silence. Freelancers deliver varying quality, miss deadlines, and disappear — leaving your pipeline dry when you need it most.</p>
+          </div>
+          <div class="problem-card" data-index="03">
+            <div class="problem-index">03</div>
+            <h3>Agencies charge enterprise rates</h3>
+            <p>Traditional production agencies quote $5k–$25k per video. That's not a content strategy — that's a quarterly budget burned on one asset.</p>
+          </div>
+          <div class="problem-card" data-index="04">
+            <div class="problem-index">04</div>
+            <h3>Platforms demand constant volume</h3>
+            <p>Instagram, TikTok, YouTube Shorts, and Meta Ads all punish brands that post infrequently. The algorithm rewards volume AND quality — simultaneously.</p>
+          </div>
+          <div class="problem-card" data-index="05">
+            <div class="problem-index">05</div>
+            <h3>UGC is hard to produce at scale</h3>
+            <p>Authentic-feeling content requires the right creators, briefs, direction, and editing. Doing this consistently without a dedicated system is nearly impossible.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CAPABILITIES ═══════════════════════════ -->
+    <section id="capabilities" class="capabilities-section" aria-label="Content Capabilities">
+      <div class="capabilities-bg-text" aria-hidden="true">ONE TEAM</div>
+      <div class="capabilities-inner">
+        <div class="capabilities-header">
+          <p class="section-label">Full Service</p>
+          <h2 class="section-title">Your Entire Content Department.<br/>Under One Roof.</h2>
+          <p class="capabilities-desc">
+            We replace the cost and complexity of building an internal content team.
+            Strategy, production, editing, and distribution — handled by one dedicated studio
+            that knows your brand inside and out.
+          </p>
+          <p class="capabilities-desc">
+            No briefing multiple agencies. No chasing freelancers. No quality inconsistency.
+            One partner, one process, one standard of excellence — delivered on a schedule
+            that keeps your channels fed and your ads converting.
+          </p>
+        </div>
+        <div class="capabilities-grid" id="capabilities-grid">
+          <div class="cap-card" style="--i:0">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>UGC Video Production</h3>
+            <p>Authentic creator-style videos that feel native to every platform and drive real conversions.</p>
+          </div>
+          <div class="cap-card" style="--i:1">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Ad Creative Development</h3>
+            <p>Performance-focused video ads built specifically for Meta, TikTok, and YouTube paid campaigns.</p>
+          </div>
+          <div class="cap-card" style="--i:2">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Content Strategy</h3>
+            <p>A data-informed content calendar aligned to your brand goals, audience, and platform algorithms.</p>
+          </div>
+          <div class="cap-card" style="--i:3">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Professional Editing</h3>
+            <p>Studio-grade post-production including colour grading, motion graphics, captions, and sound design.</p>
+          </div>
+          <div class="cap-card" style="--i:4">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Creator Sourcing &amp; Management</h3>
+            <p>We recruit, brief, and manage vetted UGC creators on your behalf — you approve, we handle the rest.</p>
+          </div>
+          <div class="cap-card" style="--i:5">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Scriptwriting &amp; Briefing</h3>
+            <p>Conversion-optimised scripts and detailed creator briefs that eliminate guesswork and maintain brand voice.</p>
+          </div>
+          <div class="cap-card" style="--i:6">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Short-Form Social Content</h3>
+            <p>Reels, Shorts, and TikToks engineered for reach — with hooks, pacing, and formats proven to stop the scroll.</p>
+          </div>
+          <div class="cap-card" style="--i:7">
+            <div class="cap-check" aria-hidden="true">✓</div>
+            <h3>Revision &amp; Iteration</h3>
+            <p>Unlimited revisions until the content is right. We iterate based on performance data, not guesswork.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CLIENT CTA ═══════════════════════════ -->
+    <section id="client-cta" class="client-cta-section" aria-label="Work With Us">
+      <div class="client-cta-inner">
+        <p class="section-label light">Partner With Us</p>
+        <h2 class="client-cta-headline">Happy clients are our<br/>best case study.</h2>
+        <p class="client-cta-sub">Join brands that stopped struggling with content and started scaling it.</p>
+        <a href="#footer-cta" class="btn btn-white">Start a Conversation →</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ PRODUCTION STATEMENT ═══════════════════════════════ -->
+    <section id="production" class="production-section" aria-label="Production Statement">
+      <div class="production-bg" id="production-bg"></div>
+      <div class="production-overlay"></div>
+      <div class="production-glow"></div>
+      <div class="production-content">
+        <p class="section-label light">Our Studio</p>
+        <h2 class="production-headline reveal-scroll">
+          Helping Brands with<br/>Studio-Quality<br/><em>UGC &amp; Ad Videos.</em>
+        </h2>
+        <p class="production-sub reveal-scroll">On-demand, affordable, and delivered quickly.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ COMPARISON ═══════════════════════════ -->
+    <section id="comparison" class="comparison-section" aria-label="Vendor Comparison">
+      <div class="comparison-inner">
+        <div class="comparison-header">
+          <p class="section-label">Why Choose Us</p>
+          <h2 class="section-title">The Smarter Choice<br/>for Content at Scale.</h2>
+          <p class="section-sub">See how The Reel Company stacks up against every other option.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="comparison-table" role="table" aria-label="Vendor comparison table">
+            <thead>
+              <tr>
+                <th scope="col">What you need</th>
+                <th scope="col">In-House Team</th>
+                <th scope="col">Freelancers</th>
+                <th scope="col">Big Agencies</th>
+                <th scope="col" class="trc-col">The Reel Company</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Consistent Quality</td>
+                <td class="neg">Varies</td>
+                <td class="neg">Inconsistent</td>
+                <td class="pos">✓</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>Affordable Pricing</td>
+                <td class="neg">High overhead</td>
+                <td class="mixed">Varies</td>
+                <td class="neg">Enterprise only</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>Fast Turnaround (48hr)</td>
+                <td class="neg">✗</td>
+                <td class="neg">✗</td>
+                <td class="neg">✗</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>UGC Specialisation</td>
+                <td class="neg">✗</td>
+                <td class="mixed">Sometimes</td>
+                <td class="neg">Rarely</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>Volume at Scale</td>
+                <td class="neg">Limited</td>
+                <td class="neg">✗</td>
+                <td class="mixed">With budget</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>Strategy Included</td>
+                <td class="mixed">Maybe</td>
+                <td class="neg">✗</td>
+                <td class="pos">✓</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>No Long-Term Lock-in</td>
+                <td class="neg">✗</td>
+                <td class="pos">✓</td>
+                <td class="neg">✗</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+              <tr>
+                <td>Dedicated Account Manager</td>
+                <td class="neg">✗</td>
+                <td class="neg">✗</td>
+                <td class="pos">✓</td>
+                <td class="trc-col pos">✓</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ FOOTER CTA ═══════════════════════════ -->
+    <section id="footer-cta" class="footer-cta-section" aria-label="Final Call To Action">
+      <div class="footer-cta-glow"></div>
+      <div class="footer-cta-container">
+        <div class="footer-cta-content">
+          <p class="section-label light">Let's Work Together</p>
+          <h2 class="footer-cta-headline">Need More Content<br/>Without Building A<br/>Bigger Team?</h2>
+          <p class="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
+          <div class="footer-cta-buttons">
+            <a href="https://calendly.com/thereelcompany" target="_blank" rel="noopener" class="btn btn-red">Book a Discovery Call</a>
+            <a href="https://drive.google.com/drive/folders/your-portfolio-link" target="_blank" rel="noopener" class="btn btn-outline">View Portfolio</a>
+          </div>
+        </div>
+        <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 16V4M10 4L4 10M10 4L16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to top
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#hero" class="logo footer-logo" aria-label="The Reel Company">
+          <span class="logo-mark">TRC</span>
+          <span class="logo-text">The Reel Company</span>
+        </a>
+        <p class="footer-tagline">Studio-quality UGC &amp; ad videos.<br/>On-demand. Affordable. Fast.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-col">
+          <h4>Navigation</h4>
+          <a href="#hero">Home</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#capabilities">Services</a>
+          <a href="#comparison">Compare</a>
+          <a href="#footer-cta">Contact</a>
+        </div>
+        <div class="footer-nav-col">
+          <h4>Work with us</h4>
+          <a href="https://calendly.com/thereelcompany" target="_blank" rel="noopener">Book a Call</a>
+          <a href="https://drive.google.com/drive/folders/your-portfolio-link" target="_blank" rel="noopener">Portfolio Access</a>
+          <a href="mailto:hello@thereelcompany.com">Email Us</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 The Reel Company. All rights reserved.</p>
+      <p>UGC &amp; Content Production Studio</p>
+    </div>
+  </footer>
+
+  <!-- GSAP + ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="main.js" defer></script>
+</body>
+</html>
