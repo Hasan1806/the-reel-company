@@ -274,15 +274,273 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .comparison-section{padding:8rem 0;}
 .comparison-inner{max-width:var(--max-w);margin:0 auto;padding:0 2rem;}
 .comparison-header{text-align:center;max-width:54ch;margin:0 auto 3.5rem;}
-.table-wrap{overflow-x:auto;border-radius:var(--radius-card);border:1px solid var(--border);}
-.comparison-table{width:100%;border-collapse:collapse;background:var(--bg-2);font-size:.9rem;}
-.comparison-table th{padding:1.25rem 1.5rem;text-align:left;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border);white-space:nowrap;}
-.comparison-table td{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);color:var(--text-muted);}
-.comparison-table tbody tr:last-child td{border-bottom:none;}
-.comparison-table tbody tr:hover td{background:rgba(255,255,255,0.025);}
-.comparison-table td:first-child{color:var(--text);font-weight:500;}
-.trc-col{background:rgba(224,32,32,0.07);border-left:1px solid rgba(224,32,32,0.25);border-right:1px solid rgba(224,32,32,0.25);}
-.comparison-table th.trc-col{color:var(--red);}
+/* ═══════════════════ COMPARISON (PREMIUM LUXURY CRO) ═══════════════════ */
+.comparison-section {
+  padding: 6rem 0;
+  position: relative;
+  background: radial-gradient(circle at 50% 30%, rgba(224, 32, 32, 0.05) 0%, transparent 60%);
+}
+.comparison-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.comparison-header {
+  text-align: center;
+  max-width: 60ch;
+  margin: 0 auto 3rem;
+}
+.section-badge-pill {
+  display: inline-block;
+  padding: 0.4rem 1.1rem;
+  background: rgba(224, 32, 32, 0.12);
+  border: 1px solid rgba(224, 32, 32, 0.3);
+  color: var(--red);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 16px rgba(224, 32, 32, 0.15);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, rgba(16, 16, 20, 0.95) 0%, rgba(10, 10, 12, 0.98) 100%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(224, 32, 32, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.92rem;
+  text-align: left;
+}
+
+.comparison-table th {
+  padding: 1.5rem 1.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.comparison-table th.feature-col {
+  color: #f8fafc;
+  font-size: 0.82rem;
+}
+
+.comparison-table td {
+  padding: 1.25rem 1.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  vertical-align: middle;
+}
+
+.comparison-table td.feature-name {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.comparison-table tbody tr {
+  transition: background 0.25s ease;
+}
+
+.comparison-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Featured Winner Column (The Reel Company) */
+.trc-col {
+  background: linear-gradient(180deg, rgba(224, 32, 32, 0.18) 0%, rgba(224, 32, 32, 0.06) 100%) !important;
+  border-left: 1px solid rgba(224, 32, 32, 0.35) !important;
+  border-right: 1px solid rgba(224, 32, 32, 0.35) !important;
+  box-shadow: inset 0 0 24px rgba(224, 32, 32, 0.08);
+}
+
+.comparison-table th.trc-col {
+  text-align: center;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(224, 32, 32, 0.35);
+}
+
+.trc-badge {
+  background: linear-gradient(135deg, #e02020 0%, #b81515 100%);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(224, 32, 32, 0.5);
+  display: inline-block;
+  margin-bottom: 0.35rem;
+}
+
+.trc-header-title {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.comparison-table td.trc-col {
+  text-align: center;
+}
+
+/* Badges for Comparison Statuses */
+.badge-check-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.25);
+  white-space: nowrap;
+}
+
+.badge-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #4ade80;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-cross {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge-mixed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* High-CRO Conversion Card Below Table */
+.comparison-cta-card {
+  margin-top: 2.5rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, rgba(20, 20, 26, 0.95) 0%, rgba(12, 12, 16, 0.98) 100%);
+  border: 1px solid rgba(224, 32, 32, 0.3);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 30px rgba(224, 32, 32, 0.1);
+}
+
+.comparison-cta-text h3 {
+  font-family: var(--font-head);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.comparison-cta-text p {
+  font-size: 0.92rem;
+  color: #94a3b8;
+  max-width: 55ch;
+  line-height: 1.5;
+}
+
+.comparison-cta-btn {
+  flex-shrink: 0;
+  padding: 0.95rem 2.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 0 24px rgba(224, 32, 32, 0.4);
+}
+
+/* Phone View / Mobile Responsive Enhancements */
+@media (max-width: 768px) {
+  .comparison-section {
+    padding: 3.5rem 0;
+  }
+  .comparison-inner {
+    padding: 0 1rem;
+  }
+  .comparison-header {
+    margin-bottom: 1.75rem;
+  }
+  .table-wrap {
+    border-radius: 20px;
+  }
+  .comparison-table th, .comparison-table td {
+    padding: 0.9rem 1rem;
+    font-size: 0.82rem;
+  }
+  /* Sticky feature column on small phone screens for seamless side scrolling */
+  .comparison-table th.feature-col,
+  .comparison-table td.feature-name {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: #0b0b0e;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.5);
+  }
+  .comparison-cta-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.75rem 1.5rem;
+    gap: 1.25rem;
+  }
+  .comparison-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 .pos{color:#4ade80;font-weight:600;}
 .neg{color:var(--text-muted);}
 .mixed{color:#fbbf24;}

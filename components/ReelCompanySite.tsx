@@ -960,80 +960,94 @@ export default function ReelCompanySite() {
         <section id="comparison" className="comparison-section" aria-label="Vendor Comparison">
           <div className="comparison-inner">
             <div className="comparison-header">
-              <p className="section-label">Why Choose Us</p>
+              <div className="section-badge-pill reveal-fade">✦ VENDOR COMPARISON ✦</div>
               <h2 className="section-title">The Smarter Choice<br/>for Content at Scale.</h2>
-              <p className="section-sub">See how The Reel Company stacks up against every other option.</p>
+              <p className="section-sub">See how The Reel Company outperforms traditional agencies, freelancers, and in-house teams.</p>
             </div>
             <div className="table-wrap">
               <table className="comparison-table" role="table" aria-label="Vendor comparison table">
                 <thead>
                   <tr>
-                    <th scope="col">What you need</th>
+                    <th scope="col" className="feature-col">Feature / Requirement</th>
                     <th scope="col">In-House Team</th>
                     <th scope="col">Freelancers</th>
                     <th scope="col">Big Agencies</th>
-                    <th scope="col" className="trc-col">The Reel Company</th>
+                    <th scope="col" className="trc-col">
+                      <span className="trc-badge">✦ RECOMMENDED</span>
+                      <div className="trc-header-title">The Reel Company</div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Consistent Quality</td>
-                    <td className="neg">Varies</td>
-                    <td className="neg">Inconsistent</td>
-                    <td className="pos">✓</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">Consistent Quality</td>
+                    <td><span className="badge-mixed">Varies</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Inconsistent</span></td>
+                    <td><span className="badge-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg> High</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span></td>
                   </tr>
                   <tr>
-                    <td>Affordable Pricing</td>
-                    <td className="neg">High overhead</td>
-                    <td className="mixed">Varies</td>
-                    <td className="neg">Enterprise only</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">Affordable Pricing</td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> High Overhead</span></td>
+                    <td><span className="badge-mixed">Varies</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Enterprise ($10k+)</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Flat Rate</strong></span></td>
                   </tr>
                   <tr>
-                    <td>Fast Turnaround (48hr)</td>
-                    <td className="neg">✗</td>
-                    <td className="neg">✗</td>
-                    <td className="neg">✗</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">Fast Turnaround (48hr)</td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Weeks</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Slow</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> 3-4 Weeks</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></td>
                   </tr>
                   <tr>
-                    <td>UGC Specialisation</td>
-                    <td className="neg">✗</td>
-                    <td className="mixed">Sometimes</td>
-                    <td className="neg">Rarely</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">UGC &amp; Ad Specialisation</td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> General</span></td>
+                    <td><span className="badge-mixed">Hit or Miss</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Rarely</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span></td>
                   </tr>
                   <tr>
-                    <td>Volume at Scale</td>
-                    <td className="neg">Limited</td>
-                    <td className="neg">✗</td>
-                    <td className="mixed">With budget</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">Volume at Scale</td>
+                    <td><span className="badge-mixed">Limited Capacity</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Single Operator</span></td>
+                    <td><span className="badge-mixed">$$ Extra</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Unlimited Scale</strong></span></td>
                   </tr>
                   <tr>
-                    <td>Strategy Included</td>
-                    <td className="mixed">Maybe</td>
-                    <td className="neg">✗</td>
-                    <td className="pos">✓</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">Ad Strategy &amp; Hooks Included</td>
+                    <td><span className="badge-mixed">Sometimes</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Execution Only</span></td>
+                    <td><span className="badge-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Yes</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Full Strategy</strong></span></td>
                   </tr>
                   <tr>
-                    <td>No Long-Term Lock-in</td>
-                    <td className="neg">✗</td>
-                    <td className="pos">✓</td>
-                    <td className="neg">✗</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">No Long-Term Contracts</td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Salaries</span></td>
+                    <td><span className="badge-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Per Project</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> 6-12 Mo Lock-in</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Cancel Anytime</strong></span></td>
                   </tr>
                   <tr>
-                    <td>Dedicated Account Manager</td>
-                    <td className="neg">✗</td>
-                    <td className="neg">✗</td>
-                    <td className="pos">✓</td>
-                    <td className="trc-col pos">✓</td>
+                    <td className="feature-name">Dedicated Account Manager</td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> N/A</span></td>
+                    <td><span className="badge-cross"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> N/A</span></td>
+                    <td><span className="badge-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Yes</span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>1-on-1 Slack/Sync</strong></span></td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+
+            {/* High-CRO Conversion Banner */}
+            <div className="comparison-cta-card">
+              <div className="comparison-cta-text">
+                <h3>Ready to upgrade your brand's ad performance?</h3>
+                <p>Stop overpaying agencies or dealing with unreliable freelancers. Get high-converting video reels in 48 hours.</p>
+              </div>
+              <button type="button" className="btn btn-red comparison-cta-btn" onClick={openDiscoveryModal}>
+                Book a Discovery Call
+              </button>
             </div>
           </div>
         </section>
