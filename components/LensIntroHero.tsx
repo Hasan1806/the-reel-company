@@ -16,6 +16,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
   const lensLayerRef = useRef<HTMLDivElement>(null);
   const lensImgRef = useRef<HTMLImageElement>(null);
   const introTextRef = useRef<HTMLDivElement>(null);
+  const readabilityOverlayRef = useRef<HTMLDivElement>(null);
   const tempStatsWrapRef = useRef<HTMLDivElement>(null);
   const tempStatsCardRef = useRef<HTMLDivElement>(null);
   const tempStatItemsRef = useRef<HTMLDivElement[]>([]);
@@ -30,6 +31,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
     const lensLayer = lensLayerRef.current;
     const lensImg = lensImgRef.current;
     const introText = introTextRef.current;
+    const readabilityOverlay = readabilityOverlayRef.current;
     const tempStatsWrap = tempStatsWrapRef.current;
     const tempStatsCard = tempStatsCardRef.current;
     const tempStatItems = tempStatItemsRef.current.filter(Boolean);
@@ -42,6 +44,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
       !lensLayer ||
       !lensImg ||
       !introText ||
+      !readabilityOverlay ||
       !tempStatsWrap ||
       !tempStatsCard ||
       !mainHeroWrap
@@ -194,7 +197,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           0.99
         );
 
-        // Fade out black base lens layers so Main Hero Section appears smoothly without statistics overlay
+        // Fade out black base lens layers and readability overlay so Main Hero Section appears smoothly with full brightness
         tl.to(
           blackBg,
           {
@@ -207,6 +210,16 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
 
         tl.to(
           lensLayer,
+          {
+            opacity: 0,
+            duration: 0.1,
+            ease: "power2.out",
+          },
+          0.92
+        );
+
+        tl.to(
+          readabilityOverlay,
           {
             opacity: 0,
             duration: 0.1,
@@ -351,6 +364,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
 
         {/* Layer 3: Contrast Scrim Overlay */}
         <div
+          ref={readabilityOverlayRef}
           className="intro-readability-overlay"
           style={{
             position: "absolute",
@@ -359,6 +373,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             background:
               "radial-gradient(circle at 50% 50%, rgba(8,8,8,0.55) 0%, rgba(8,8,8,0.2) 65%, rgba(8,8,8,0.75) 100%)",
             pointerEvents: "none",
+            willChange: "opacity",
           }}
         />
 
