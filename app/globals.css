@@ -1762,12 +1762,24 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   }
 
   .mobile-carousel-indicator {
-    text-align: center;
-    font-size: 0.75rem;
-    color: #94a3b8;
-    margin-top: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .carousel-dot.active {
+    background: #f87171;
+    width: 24px;
+    border-radius: 4px;
   }
 }

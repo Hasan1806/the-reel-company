@@ -31,7 +31,7 @@ export default function ReelCompanySite() {
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
   const [activeMobileTab, setActiveMobileTab] = useState<'inhouse' | 'freelancers' | 'agencies'>('inhouse');
-
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
   // Discovery Call Modal state
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const lastActiveCtaRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
@@ -498,6 +498,31 @@ export default function ReelCompanySite() {
       ctx.revert();
     };
   }, []);
+
+  const handleCarouselScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const scrollLeft = container.scrollLeft;
+    const centerPoint = scrollLeft + container.clientWidth / 2;
+    
+    const cards = container.children;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i] as HTMLElement;
+      if (!card) continue;
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2 - container.offsetLeft;
+      const distance = Math.abs(centerPoint - cardCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    }
+    
+    if (activeCarouselIndex !== closestIndex) {
+      setActiveCarouselIndex(closestIndex);
+    }
+  };
 
   return (
     <>
@@ -1042,26 +1067,8 @@ export default function ReelCompanySite() {
 
             {/* Mobile Switcher View - Horizontal Carousel */}
             <div className="mobile-comp-view">
-              <div className="mobile-carousel">
-                {/* Card 1: The Reel Company */}
-                <div className="mobile-carousel-card mobile-carousel-card-trc">
-                  <div className="mobile-carousel-header">
-                    <span className="trc-badge" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>✦ RECOMMENDED FOR D2C BRANDS</span>
-                    <h3>The Reel Company</h3>
-                  </div>
-                  <ul className="mobile-carousel-list">
-                    <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span></span></li>
-                    <li><span className="feature-name">Pricing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Flat Rate</strong></span></span></li>
-                    <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></span></li>
-                    <li><span className="feature-name">Specialisation</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span></span></li>
-                    <li><span className="feature-name">Volume at Scale</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Unlimited Scale</strong></span></span></li>
-                    <li><span className="feature-name">Ad Strategy</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Full Strategy</strong></span></span></li>
-                    <li><span className="feature-name">Contracts</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Cancel Anytime</strong></span></span></li>
-                    <li><span className="feature-name">Account Manager</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>1-on-1 Slack/Sync</strong></span></span></li>
-                  </ul>
-                </div>
-
-                {/* Card 2: In-House Team */}
+              <div className="mobile-carousel" onScroll={handleCarouselScroll}>
+                {/* Card 1: In-House Team */}
                 <div className="mobile-carousel-card">
                   <div className="mobile-carousel-header">
                     <h3>In-House Team</h3>
@@ -1078,7 +1085,7 @@ export default function ReelCompanySite() {
                   </ul>
                 </div>
 
-                {/* Card 3: Freelancers */}
+                {/* Card 2: Freelancers */}
                 <div className="mobile-carousel-card">
                   <div className="mobile-carousel-header">
                     <h3>Freelancers</h3>
@@ -1095,7 +1102,7 @@ export default function ReelCompanySite() {
                   </ul>
                 </div>
 
-                {/* Card 4: Big Agencies */}
+                {/* Card 3: Big Agencies */}
                 <div className="mobile-carousel-card">
                   <div className="mobile-carousel-header">
                     <h3>Big Agencies</h3>
@@ -1111,9 +1118,30 @@ export default function ReelCompanySite() {
                     <li><span className="feature-name">Account Manager</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Yes</span></span></li>
                   </ul>
                 </div>
+
+                {/* Card 4: The Reel Company */}
+                <div className="mobile-carousel-card mobile-carousel-card-trc">
+                  <div className="mobile-carousel-header">
+                    <span className="trc-badge" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>✦ RECOMMENDED FOR D2C BRANDS</span>
+                    <h3>The Reel Company</h3>
+                  </div>
+                  <ul className="mobile-carousel-list">
+                    <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span></span></li>
+                    <li><span className="feature-name">Pricing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Flat Rate</strong></span></span></li>
+                    <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></span></li>
+                    <li><span className="feature-name">Specialisation</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span></span></li>
+                    <li><span className="feature-name">Volume at Scale</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Unlimited Scale</strong></span></span></li>
+                    <li><span className="feature-name">Ad Strategy</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Full Strategy</strong></span></span></li>
+                    <li><span className="feature-name">Contracts</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Cancel Anytime</strong></span></span></li>
+                    <li><span className="feature-name">Account Manager</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>1-on-1 Slack/Sync</strong></span></span></li>
+                  </ul>
+                </div>
               </div>
               <div className="mobile-carousel-indicator">
-                <span>Swipe to compare vendors →</span>
+                <div className={`carousel-dot ${activeCarouselIndex === 0 ? 'active' : ''}`} />
+                <div className={`carousel-dot ${activeCarouselIndex === 1 ? 'active' : ''}`} />
+                <div className={`carousel-dot ${activeCarouselIndex === 2 ? 'active' : ''}`} />
+                <div className={`carousel-dot ${activeCarouselIndex === 3 ? 'active' : ''}`} />
               </div>
             </div>
 
