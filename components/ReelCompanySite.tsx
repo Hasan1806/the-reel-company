@@ -30,6 +30,7 @@ export default function ReelCompanySite() {
   const [heroVideoName, setHeroVideoName] = useState('CN-Outro-Animation.mp4');
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
+  const [activeMobileTab, setActiveMobileTab] = useState<'inhouse' | 'freelancers' | 'agencies'>('inhouse');
 
   // Discovery Call Modal state
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
@@ -963,7 +964,8 @@ export default function ReelCompanySite() {
               <h2 className="section-title">Why High-Growth Brands<br/>Switch to Us.</h2>
               <p className="section-sub">Traditional agencies move too slow. Freelancers lack scale. We deliver both.</p>
             </div>
-            <div className="table-wrap">
+            {/* Desktop Table View */}
+            <div className="table-wrap desktop-table-view">
               <table className="comparison-table" role="table" aria-label="Vendor comparison table">
                 <thead>
                   <tr>
@@ -1036,6 +1038,113 @@ export default function ReelCompanySite() {
                   </tr>
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Switcher View */}
+            <div className="mobile-comp-view">
+              <div className="mobile-comp-tabs">
+                <button 
+                  className={`mobile-comp-tab ${activeMobileTab === 'inhouse' ? 'active' : ''}`}
+                  onClick={() => setActiveMobileTab('inhouse')}
+                >
+                  vs In-House
+                </button>
+                <button 
+                  className={`mobile-comp-tab ${activeMobileTab === 'freelancers' ? 'active' : ''}`}
+                  onClick={() => setActiveMobileTab('freelancers')}
+                >
+                  vs Freelancers
+                </button>
+                <button 
+                  className={`mobile-comp-tab ${activeMobileTab === 'agencies' ? 'active' : ''}`}
+                  onClick={() => setActiveMobileTab('agencies')}
+                >
+                  vs Agencies
+                </button>
+              </div>
+
+              <div className="mobile-comp-cards">
+                {[
+                  {
+                    feature: "Consistent Quality",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span>,
+                    inhouse: <span className="badge-tag">Varies</span>,
+                    freelancers: <span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Inconsistent</span>,
+                    agencies: <span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> High</span>
+                  },
+                  {
+                    feature: "Affordable Pricing",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Flat Rate</strong></span>,
+                    inhouse: <span className="badge-tag">High Overhead</span>,
+                    freelancers: <span className="badge-tag">Varies</span>,
+                    agencies: <span className="badge-tag">Enterprise Only</span>
+                  },
+                  {
+                    feature: "Fast Turnaround (48hr)",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span>,
+                    inhouse: <span className="badge-tag">Weeks</span>,
+                    freelancers: <span className="badge-tag">Slow</span>,
+                    agencies: <span className="badge-tag">3-4 Weeks</span>
+                  },
+                  {
+                    feature: "UGC & Ad Specialisation",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span>,
+                    inhouse: <span className="badge-tag">Generalist</span>,
+                    freelancers: <span className="badge-tag">Hit or Miss</span>,
+                    agencies: <span className="badge-tag">Rarely</span>
+                  },
+                  {
+                    feature: "Volume at Scale",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Unlimited Scale</strong></span>,
+                    inhouse: <span className="badge-tag">Limited</span>,
+                    freelancers: <span className="badge-tag">Single Operator</span>,
+                    agencies: <span className="badge-tag">$$ Extra</span>
+                  },
+                  {
+                    feature: "Ad Strategy & Hooks Included",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Full Strategy</strong></span>,
+                    inhouse: <span className="badge-tag">Sometimes</span>,
+                    freelancers: <span className="badge-tag">Execution Only</span>,
+                    agencies: <span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Included</span>
+                  },
+                  {
+                    feature: "No Long-Term Contracts",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Cancel Anytime</strong></span>,
+                    inhouse: <span className="badge-tag">Fixed Salary</span>,
+                    freelancers: <span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Per Project</span>,
+                    agencies: <span className="badge-tag">6-12 Mo Lock-in</span>
+                  },
+                  {
+                    feature: "Dedicated Account Manager",
+                    trc: <span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>1-on-1 Slack/Sync</strong></span>,
+                    inhouse: <span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> N/A</span>,
+                    freelancers: <span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> N/A</span>,
+                    agencies: <span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Yes</span>
+                  }
+                ].map((item, index) => (
+                  <div className="mobile-comp-card" key={index}>
+                    <div className="mobile-comp-feature-name">{item.feature}</div>
+                    <div className="mobile-comp-grid">
+                      <div className="mobile-comp-col competitor-col">
+                        <span className="mobile-comp-col-title">
+                          {activeMobileTab === 'inhouse' && 'In-House Team'}
+                          {activeMobileTab === 'freelancers' && 'Freelancers'}
+                          {activeMobileTab === 'agencies' && 'Big Agencies'}
+                        </span>
+                        <div className="mobile-comp-val">
+                          {activeMobileTab === 'inhouse' && item.inhouse}
+                          {activeMobileTab === 'freelancers' && item.freelancers}
+                          {activeMobileTab === 'agencies' && item.agencies}
+                        </div>
+                      </div>
+                      <div className="mobile-comp-col trc-col-mobile">
+                        <span className="mobile-comp-col-title trc-highlight-title">The Reel Company</span>
+                        <div className="mobile-comp-val">{item.trc}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* High-CRO Conversion Banner */}
