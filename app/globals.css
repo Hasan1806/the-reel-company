@@ -786,12 +786,15 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   text-align: center;
   flex: 1;
   padding: 0 1rem;
-  transition: all 0.3s ease;
   border-radius: 12px;
 }
 
+.original-stats-card .hero-lens-stat-item {
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
 @media (min-width: 993px) {
-  .hero-lens-stat-item:hover {
+  .original-stats-card .hero-lens-stat-item:hover {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.015);
   }
@@ -805,11 +808,14 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   line-height: 1;
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
+}
+
+.original-stats-card .stat-value-custom {
   transition: opacity 0.3s ease;
 }
 
 @media (min-width: 993px) {
-  .hero-lens-stat-item:hover .stat-value-custom {
+  .original-stats-card .hero-lens-stat-item:hover .stat-value-custom {
     opacity: 1;
   }
 }
