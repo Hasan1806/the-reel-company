@@ -13,14 +13,14 @@ interface VideoItem {
 }
 
 const VIDEOS: VideoItem[] = [
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4', label: 'Brand Campaign #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-man-doing-sports-in-an-urban-environment-40463-large.mp4', label: 'UGC Ad #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-using-her-smartphone-while-outside-42387-large.mp4', label: 'Social Content #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-with-shopping-bags-in-a-city-43227-large.mp4', label: 'Product Reel #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-overhead-shot-of-a-coffee-cup-being-filled-42813-large.mp4', label: 'Brand Campaign #2' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-coffee-shop-with-barista-working-23482-large.mp4', label: 'UGC Ad #2' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-posing-with-a-camera-in-a-studio-42370-large.mp4', label: 'Social Content #2' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-smiling-woman-sitting-on-bed-using-her-smartphone-42234-large.mp4', label: 'Product Reel #2' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4', label: 'Activewear Brand' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-man-doing-sports-in-an-urban-environment-40463-large.mp4', label: 'Men\'s Grooming' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-using-her-smartphone-while-outside-42387-large.mp4', label: 'Tech Accessories' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-with-shopping-bags-in-a-city-43227-large.mp4', label: 'Fashion Label' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-overhead-shot-of-a-coffee-cup-being-filled-42813-large.mp4', label: 'Wellness Beverage' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-coffee-shop-with-barista-working-23482-large.mp4', label: 'Skincare Brand' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-posing-with-a-camera-in-a-studio-42370-large.mp4', label: 'Beauty Cosmetics' },
+  { src: 'https://assets.mixkit.co/videos/preview/mixkit-smiling-woman-sitting-on-bed-using-her-smartphone-42234-large.mp4', label: 'Home Goods' },
 ];
 
 export default function ReelCompanySite() {
