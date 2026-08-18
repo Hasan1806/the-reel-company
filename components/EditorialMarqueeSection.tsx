@@ -8,20 +8,8 @@ const services = [
     image: { src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=400&auto=format&fit=crop', width: '130px', height: '90px', rotate: '-4deg' } 
   },
   { 
-    text: 'Scriptwriting', 
-    image: { src: 'https://images.unsplash.com/photo-1455390582262-044cdead27d8?q=80&w=400&auto=format&fit=crop', width: '110px', height: '110px', rotate: '3deg' } 
-  },
-  { 
-    text: 'Sound Design', 
-    image: { src: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=400&auto=format&fit=crop', width: '120px', height: '85px', rotate: '-2deg' } 
-  },
-  { 
     text: 'Color Grading', 
     image: { src: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=400&auto=format&fit=crop', width: '145px', height: '105px', rotate: '2.5deg' } 
-  },
-  { 
-    text: 'Motion Graphics', 
-    image: { src: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&auto=format&fit=crop', width: '135px', height: '95px', rotate: '-3deg' } 
   },
   { 
     text: 'VFX', 
