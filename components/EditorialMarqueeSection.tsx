@@ -1,12 +1,13 @@
 import React from 'react';
 
+// Using high-quality Unsplash creative-studio placeholders since the repo only contained camera product cutouts.
 const services = [
   { 
     text: 'Filming', 
     image: { 
-      src: '/camera-hero-380.webp', 
-      width: '120px', height: '95px', 
-      top: '-40%', left: '45%', 
+      src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=400&auto=format&fit=crop', // Cinematic camera setup
+      width: '110px', height: '110px', 
+      top: '50%', left: '40%', 
       rotate: '-4deg' 
     } 
   },
@@ -15,20 +16,20 @@ const services = [
   { 
     text: 'Color Grading', 
     image: { 
-      src: '/camera-lens-black-center-hero-480.webp', 
-      width: '150px', height: '125px', 
-      top: '25%', left: '55%', 
-      rotate: '2.5deg' 
+      src: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=400&auto=format&fit=crop', // Color grading / editing bay
+      width: '145px', height: '115px', 
+      top: '60%', left: '60%', 
+      rotate: '-2deg' 
     } 
   },
   { text: 'Motion Graphics' },
   { 
     text: 'VFX', 
     image: { 
-      src: '/lens-eye-bg.webp', 
-      width: '165px', height: '110px', 
-      top: '-20%', left: '20%', 
-      rotate: '-2deg' 
+      src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop', // Creative/cyberpunk visual
+      width: '125px', height: '95px', 
+      top: '30%', left: '55%', 
+      rotate: '3deg' 
     } 
   }
 ];
@@ -57,7 +58,7 @@ export default function EditorialMarqueeSection() {
                     height: service.image.height,
                     top: service.image.top,
                     left: service.image.left,
-                    transform: `rotate(${service.image.rotate})`,
+                    transform: `translate(-50%, -50%) rotate(${service.image.rotate})`,
                   }}
                 />
               )}

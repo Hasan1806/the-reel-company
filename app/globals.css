@@ -2042,7 +2042,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: relative;
   width: 100%;
   overflow: hidden;
-  min-height: 360px;
+  min-height: 260px;
+  padding-block: 50px;
   display: flex;
   align-items: center;
   background: var(--bg);
@@ -2083,8 +2084,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: clamp(24px, 2vw, 38px);
-  animation: editorialMarquee 22s linear infinite;
+  column-gap: clamp(18px, 1.5vw, 30px);
+  animation: editorialMarquee 24s linear infinite;
 }
 
 @keyframes editorialMarquee {
@@ -2106,28 +2107,27 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 .editorial-service-item {
   position: relative;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
 }
 
 .editorial-marquee-text {
   font-family: var(--font-head);
-  font-size: clamp(42px, 3.6vw, 64px);
+  font-size: clamp(36px, 3vw, 56px);
   font-weight: 500;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.30);
-  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
   white-space: nowrap;
   position: relative;
   z-index: 1;
 }
 
 .editorial-marquee-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
   background-color: #ef2024;
   display: inline-block;
   flex-shrink: 0;
@@ -2135,16 +2135,16 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 .editorial-floating-image {
   position: absolute;
-  z-index: 2;
-  border-radius: 12px;
+  z-index: 3;
+  border-radius: 8px;
   object-fit: cover;
-  pointer-events: none; /* ensures it's decorative */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  filter: brightness(0.85); /* darken slightly so text stands out more */
 }
 
 @media (max-width: 768px) {
-  .editorial-marquee-section { min-height: 280px; }
-  .editorial-marquee-text { font-size: clamp(34px, 8vw, 46px); }
-  .editorial-marquee-dot { width: 10px; height: 10px; }
+  .editorial-marquee-section { min-height: 200px; padding-block: 40px; }
+  .editorial-marquee-text { font-size: clamp(28px, 8vw, 36px); }
+  .editorial-marquee-dot { width: 6px; height: 6px; }
   .editorial-floating-image { transform-origin: center center; scale: 0.7; }
 }
