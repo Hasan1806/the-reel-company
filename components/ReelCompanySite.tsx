@@ -964,8 +964,8 @@ export default function ReelCompanySite() {
         <section id="testimonials" className="testimonials-section" aria-label="Client Testimonials">
           <div className="testimonials-inner">
             <div className="testimonials-header">
-              <h2 className="testimonials-title reveal-fade">What Our Clients Say</h2>
-              <p className="testimonials-sub reveal-fade">Real video testimonials from brands who have worked with The Reel Company.</p>
+              <h2 className="testimonials-title">What Our Clients Say</h2>
+              <p className="testimonials-sub">Real video testimonials from brands who have worked with The Reel Company.</p>
             </div>
             
             <div className="testimonials-slider-container">
