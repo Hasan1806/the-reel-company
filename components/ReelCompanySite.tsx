@@ -971,7 +971,7 @@ export default function ReelCompanySite() {
             <div className="testimonials-slider-container">
               {/* Single Row (Moving Left) */}
               <div className="testimonials-track track-left">
-                {[1, 2, 3].map((groupIndex) => (
+                {[1, 2].map((groupIndex) => (
                   <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
                     {VIDEOS.map((vid, idx) => (
                       <div key={`t1-${idx}`} className="testimonial-card">
