@@ -1,50 +1,36 @@
 import React from 'react';
 
-type ItemType = 
-  | { type: 'text'; value: string }
-  | { type: 'dot' }
-  | { 
-      type: 'image'; 
-      src: string; 
-      sizeClass: string; 
-      rotation: string; 
-      translateY: string 
-    };
-
-const marqueeItems: ItemType[] = [
-  { type: 'text', value: 'Filming' },
-  { type: 'dot' },
+const services = [
   { 
-    type: 'image', 
-    src: '/camera-hero-380.webp',
-    sizeClass: 'img-square',
-    rotation: '-1.5deg',
-    translateY: '-25px'
+    text: 'Filming', 
+    image: { 
+      src: '/camera-hero-380.webp', 
+      width: '120px', height: '95px', 
+      top: '-40%', left: '45%', 
+      rotate: '-4deg' 
+    } 
   },
-  { type: 'text', value: 'Scriptwriting' },
-  { type: 'dot' },
-  { type: 'text', value: 'Sound Design' },
-  { type: 'dot' },
-  { type: 'text', value: 'Color Grading' },
+  { text: 'Scriptwriting' },
+  { text: 'Sound Design' },
   { 
-    type: 'image', 
-    src: '/camera-lens-black-center-hero-480.webp',
-    sizeClass: 'img-landscape',
-    rotation: '2deg',
-    translateY: '20px'
+    text: 'Color Grading', 
+    image: { 
+      src: '/camera-lens-black-center-hero-480.webp', 
+      width: '150px', height: '125px', 
+      top: '25%', left: '55%', 
+      rotate: '2.5deg' 
+    } 
   },
-  { type: 'dot' },
-  { type: 'text', value: 'Motion Graphics' },
-  { type: 'dot' },
+  { text: 'Motion Graphics' },
   { 
-    type: 'image', 
-    src: '/lens-eye-bg.webp',
-    sizeClass: 'img-portrait',
-    rotation: '-2deg',
-    translateY: '-15px'
-  },
-  { type: 'text', value: 'VFX' },
-  { type: 'dot' },
+    text: 'VFX', 
+    image: { 
+      src: '/lens-eye-bg.webp', 
+      width: '165px', height: '110px', 
+      top: '-20%', left: '20%', 
+      rotate: '-2deg' 
+    } 
+  }
 ];
 
 export default function EditorialMarqueeSection() {
@@ -53,42 +39,32 @@ export default function EditorialMarqueeSection() {
       className="editorial-marquee-group" 
       aria-hidden={groupIndex > 1 ? "true" : undefined}
     >
-      {marqueeItems.map((item, index) => {
+      {services.map((service, index) => {
         const uniqueKey = `g${groupIndex}-${index}`;
         
-        if (item.type === 'text') {
-          return (
-            <span key={uniqueKey} className="editorial-marquee-text">
-              {item.value}
-            </span>
-          );
-        }
-        
-        if (item.type === 'dot') {
-          return (
-            <span key={uniqueKey} className="editorial-marquee-dot"></span>
-          );
-        }
-
-        if (item.type === 'image') {
-          return (
-            <div 
-              key={uniqueKey}
-              className={`editorial-image-wrapper ${item.sizeClass}`}
-              style={{
-                transform: `translateY(${item.translateY}) rotate(${item.rotation})`,
-              }}
-            >
-              <img
-                src={item.src}
-                alt=""
-                className="editorial-image"
-                loading="lazy"
-              />
+        return (
+          <React.Fragment key={uniqueKey}>
+            <div className="editorial-service-item">
+              <span className="editorial-marquee-text">{service.text}</span>
+              {service.image && (
+                <img
+                  src={service.image.src}
+                  alt=""
+                  className="editorial-floating-image"
+                  loading="lazy"
+                  style={{
+                    width: service.image.width,
+                    height: service.image.height,
+                    top: service.image.top,
+                    left: service.image.left,
+                    transform: `rotate(${service.image.rotate})`,
+                  }}
+                />
+              )}
             </div>
-          );
-        }
-        return null;
+            <span className="editorial-marquee-dot"></span>
+          </React.Fragment>
+        );
       })}
     </div>
   );
