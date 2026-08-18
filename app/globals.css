@@ -770,62 +770,79 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 /* ════════════════ HERO LENS STATS STRIP (MATCHING REFERENCE IMAGE 2) ════════════════ */
 .stats-strip-custom {
-  background: #141416;
+  background: #111113;
+  background: linear-gradient(180deg, #161619 0%, #111113 100%);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.75rem 2.25rem;
+  padding: 3.5rem 2.5rem; /* ~56px vertical, 40px horizontal */
   width: 100%;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03), 0 20px 60px rgba(0, 0, 0, 0.28);
 }
 
 .hero-lens-stat-item {
   text-align: center;
   flex: 1;
-  padding: 0 0.75rem;
+  padding: 0 1rem;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+@media (min-width: 993px) {
+  .hero-lens-stat-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.015);
+  }
 }
 
 .stat-value-custom {
   font-family: var(--font-head, sans-serif);
-  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-size: clamp(42px, 4.5vw, 72px);
   font-weight: 800;
-  color: #ffffff;
+  color: #F7F7F7;
   line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+@media (min-width: 993px) {
+  .hero-lens-stat-item:hover .stat-value-custom {
+    opacity: 1;
+  }
 }
 
 .stat-plus-accent {
-  color: #ffffff;
+  color: #F7F7F7;
   margin-left: 2px;
   font-weight: 700;
 }
 
 .stat-label-custom {
-  font-size: clamp(0.68rem, 0.9vw, 0.78rem);
+  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.45);
-  letter-spacing: 0.07em;
+  color: rgba(255, 255, 255, 0.48);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-top: 0.65rem;
-  line-height: 1.25;
+  margin-top: 0.5rem;
+  line-height: 1.3;
 }
 
 .stat-divider-custom {
   width: 1px;
-  height: 3.5rem;
-  background: rgba(255, 255, 255, 0.08);
+  height: 80px;
+  background: rgba(255, 255, 255, 0.10);
   flex-shrink: 0;
 }
 
 @media (max-width: 992px) {
   .stats-strip-custom {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.75rem 1rem;
-    padding: 2.25rem 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1rem;
+    padding: 2.5rem 1.5rem;
   }
   .stat-divider-custom {
     display: none;
@@ -834,13 +851,12 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 @media (max-width: 640px) {
   .stats-strip-custom {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 0.75rem;
-    padding: 1.75rem 1.25rem;
-    border-radius: 16px;
+    gap: 2rem 0.5rem;
+    padding: 2rem 1rem;
+    border-radius: 20px;
   }
-  .hero-lens-stat-item:nth-child(9) {
-    grid-column: span 2;
+  .stat-value-custom {
+    font-size: clamp(32px, 8vw, 42px);
   }
 }
 
