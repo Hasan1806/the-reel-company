@@ -2043,7 +2043,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   width: 100%;
   overflow: hidden;
   min-height: 260px;
-  padding-block: 50px;
   display: flex;
   align-items: center;
   background: var(--bg);
@@ -2110,18 +2109,24 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  cursor: default;
 }
 
 .editorial-marquee-text {
   font-family: var(--font-head);
-  font-size: clamp(36px, 3vw, 56px);
+  font-size: clamp(38px, 3vw, 56px);
   font-weight: 500;
   letter-spacing: -0.035em;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.28);
   white-space: nowrap;
   position: relative;
   z-index: 1;
+  transition: color 260ms ease-out;
+}
+
+.editorial-service-item.is-active .editorial-marquee-text {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .editorial-marquee-dot {
@@ -2133,48 +2138,33 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   flex-shrink: 0;
 }
 
-.editorial-floating-image-wrapper {
-  position: absolute;
-  z-index: 3;
-  pointer-events: none; /* purely decorative, don't steal hover from the word */
-  opacity: 0;
-  visibility: hidden;
-  /* 
-    The base transform comes from inline styles (translate + rotate).
-    We define the transition for opacity and visibility here.
-    Because we're animating a wrapper, the scale and subtle translateY
-    can be applied using an inner element or by overriding transform, 
-    but since transform is set inline, it's safer to animate the child img.
-  */
-  transition: opacity 280ms ease-out, visibility 280ms ease-out;
-}
-
-.editorial-floating-image-wrapper.is-active {
-  opacity: 1;
-  visibility: visible;
-}
-
 .editorial-floating-image {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
   border-radius: 8px;
   object-fit: cover;
+  pointer-events: none;
   filter: brightness(0.85);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   
-  /* Entrance animation start state */
-  transform: translateY(12px) scale(0.92);
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Hidden state */
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -44%) scale(0.82) rotate(var(--image-rotation, 0deg));
+  transition: opacity 260ms ease-out, transform 320ms cubic-bezier(.2,.8,.2,1), visibility 260ms;
 }
 
-.editorial-floating-image-wrapper.is-active .editorial-floating-image {
-  /* Entrance animation active state */
-  transform: translateY(0) scale(1);
+.editorial-service-item.is-active .editorial-floating-image {
+  /* Active state */
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -52%) scale(1) rotate(var(--image-rotation, 0deg));
 }
 
 @media (max-width: 768px) {
   .editorial-marquee-section { min-height: 200px; padding-block: 40px; }
   .editorial-marquee-text { font-size: clamp(28px, 8vw, 36px); }
   .editorial-marquee-dot { width: 6px; height: 6px; }
-  .editorial-floating-image-wrapper { transform-origin: center center; scale: 0.7; }
 }

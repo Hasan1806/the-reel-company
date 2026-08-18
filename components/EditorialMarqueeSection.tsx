@@ -2,37 +2,30 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-// Using high-quality Unsplash creative-studio placeholders since the repo only contained camera product cutouts.
 const services = [
   { 
     text: 'Filming', 
-    image: { 
-      src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=400&auto=format&fit=crop', 
-      width: '110px', height: '110px', 
-      top: '50%', left: '40%', 
-      rotate: '-4deg' 
-    } 
+    image: { src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=400&auto=format&fit=crop', width: '130px', height: '90px', rotate: '-4deg' } 
   },
-  { text: 'Scriptwriting' },
-  { text: 'Sound Design' },
+  { 
+    text: 'Scriptwriting', 
+    image: { src: 'https://images.unsplash.com/photo-1455390582262-044cdead27d8?q=80&w=400&auto=format&fit=crop', width: '110px', height: '110px', rotate: '3deg' } 
+  },
+  { 
+    text: 'Sound Design', 
+    image: { src: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=400&auto=format&fit=crop', width: '120px', height: '85px', rotate: '-2deg' } 
+  },
   { 
     text: 'Color Grading', 
-    image: { 
-      src: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=400&auto=format&fit=crop', 
-      width: '145px', height: '115px', 
-      top: '60%', left: '60%', 
-      rotate: '-2deg' 
-    } 
+    image: { src: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=400&auto=format&fit=crop', width: '145px', height: '105px', rotate: '2.5deg' } 
   },
-  { text: 'Motion Graphics' },
+  { 
+    text: 'Motion Graphics', 
+    image: { src: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&auto=format&fit=crop', width: '135px', height: '95px', rotate: '-3deg' } 
+  },
   { 
     text: 'VFX', 
-    image: { 
-      src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop', 
-      width: '125px', height: '95px', 
-      top: '30%', left: '55%', 
-      rotate: '3deg' 
-    } 
+    image: { src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop', width: '125px', height: '115px', rotate: '2deg' } 
   }
 ];
 
@@ -48,7 +41,7 @@ export default function EditorialMarqueeSection() {
       const centerX = window.innerWidth / 2;
       let closestId: string | null = null;
       let minDistance = Infinity;
-      const zoneThreshold = 200; // Activation zone width in pixels from center
+      const zoneThreshold = window.innerWidth * 0.15; // 35% to 65% is +/- 15% from center
 
       Object.entries(itemRefs.current).forEach(([id, el]) => {
         if (el) {
@@ -88,39 +81,32 @@ export default function EditorialMarqueeSection() {
         const isHovered = activeHoverId === uniqueKey;
         const isCentered = activeCenterId === uniqueKey;
         
-        // Hover takes precedence. If no item is hovered globally, use center logic.
+        // Priority: Hovered item globally takes priority. 
+        // If NO item is hovered, center logic activates the closest item.
         const isActive = activeHoverId ? isHovered : isCentered;
         
         return (
           <React.Fragment key={uniqueKey}>
             <div 
-              className="editorial-service-item"
+              className={`editorial-service-item ${isActive ? 'is-active' : ''}`}
               ref={el => { itemRefs.current[uniqueKey] = el; }}
               onMouseEnter={() => setActiveHoverId(uniqueKey)}
               onMouseLeave={() => setActiveHoverId(null)}
               onTouchStart={() => setActiveHoverId(uniqueKey)}
-              onTouchEnd={() => setActiveHoverId(null)}
+              onTouchEnd={() => setTimeout(() => setActiveHoverId(null), 1000)}
             >
               <span className="editorial-marquee-text">{service.text}</span>
-              {service.image && (
-                <div 
-                  className={`editorial-floating-image-wrapper ${isActive ? 'is-active' : ''}`}
-                  style={{
-                    width: service.image.width,
-                    height: service.image.height,
-                    top: service.image.top,
-                    left: service.image.left,
-                    transform: `translate(-50%, -50%) rotate(${service.image.rotate})`,
-                  }}
-                >
-                  <img
-                    src={service.image.src}
-                    alt=""
-                    className="editorial-floating-image"
-                    loading="lazy"
-                  />
-                </div>
-              )}
+              <img
+                src={service.image.src}
+                alt=""
+                className="editorial-floating-image"
+                loading="lazy"
+                style={{
+                  width: service.image.width,
+                  height: service.image.height,
+                  '--image-rotation': service.image.rotate,
+                } as React.CSSProperties}
+              />
             </div>
             <span className="editorial-marquee-dot"></span>
           </React.Fragment>
