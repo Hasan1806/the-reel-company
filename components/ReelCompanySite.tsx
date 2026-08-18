@@ -6,6 +6,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import LensIntroHero from './LensIntroHero';
 import { StatsCard } from './StatsCard';
 import DiscoveryCallModal from './DiscoveryCallModal';
+import EditorialMarqueeSection from './EditorialMarqueeSection';
 
 interface VideoItem {
   src: string;
@@ -931,6 +932,9 @@ export default function ReelCompanySite() {
             </div>
           </div>
         </section>
+
+        {/* ═══════════════════════════════ EDITORIAL MARQUEE ═══════════════════════════ */}
+        <EditorialMarqueeSection />
 
         {/* ═══════════════════════════════ CLIENT CTA ═══════════════════════════ */}
         <section id="client-cta" className="client-cta-section" aria-label="Work With Us">

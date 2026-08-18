@@ -2036,3 +2036,182 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     border-radius: 4px;
   }
 }
+
+/* ════════════════ EDITORIAL MARQUEE SECTION ════════════════ */
+.editorial-marquee-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 100px 0;
+  background: var(--bg);
+}
+
+.editorial-intro-label {
+  text-align: center;
+  color: #ef2024;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.editorial-marquee-viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.editorial-fade-left, .editorial-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15vw;
+  z-index: 10;
+  pointer-events: none;
+}
+.editorial-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
+}
+.editorial-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+}
+
+.editorial-marquee-track {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  width: max-content;
+}
+
+.editorial-marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  animation: editorialMarquee 20s linear infinite;
+}
+
+@keyframes editorialMarquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-marquee-group {
+    animation: none !important;
+  }
+  .editorial-marquee-viewport {
+    overflow-x: auto;
+  }
+  .editorial-marquee-track {
+    width: auto;
+  }
+}
+
+.editorial-marquee-text {
+  font-family: var(--font-head);
+  font-size: clamp(48px, 8vw, 140px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0 3rem;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.editorial-marquee-dot {
+  color: #ef2024;
+  font-size: clamp(24px, 3vw, 40px);
+}
+
+.editorial-video-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0 3rem;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+  cursor: pointer;
+}
+
+.editorial-video-card:hover:not(.is-active) {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-4px) !important;
+}
+
+.editorial-video-card.is-active {
+  border-color: rgba(239, 32, 36, 0.8);
+  box-shadow: 0 0 40px rgba(239, 32, 36, 0.15);
+  transform: scale(1.05) !important;
+  z-index: 20;
+}
+
+.aspect-portrait {
+  aspect-ratio: 9/16;
+  width: clamp(140px, 15vw, 240px);
+}
+
+.aspect-vertical {
+  aspect-ratio: 4/5;
+  width: clamp(160px, 18vw, 280px);
+}
+
+.aspect-landscape {
+  aspect-ratio: 4/3;
+  width: clamp(200px, 22vw, 340px);
+}
+
+.editorial-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.editorial-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  transition: background 0.3s;
+}
+
+.editorial-video-card:hover .editorial-play-overlay {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.editorial-play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.editorial-video-card:hover .editorial-play-btn {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .editorial-marquee-section { padding: 60px 0; }
+  .editorial-marquee-text { padding: 0 1.5rem; font-size: clamp(40px, 12vw, 72px); }
+  .editorial-video-card { margin: 0 1.5rem; }
+  .aspect-portrait { width: 140px; }
+  .aspect-vertical { width: 160px; }
+  .aspect-landscape { width: 200px; }
+  .editorial-play-btn { width: 44px; height: 44px; }
+}
