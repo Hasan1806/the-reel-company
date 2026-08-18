@@ -964,46 +964,17 @@ export default function ReelCompanySite() {
         <section id="testimonials" className="testimonials-section" aria-label="Client Testimonials">
           <div className="testimonials-inner">
             <div className="testimonials-header">
-              <p className="section-label light reveal-fade">Hear directly from the brands we've worked with</p>
-              <h2 className="section-title reveal-fade">CLIENT TESTIMONIALS</h2>
+              <h2 className="section-title reveal-fade">What Our Clients Say</h2>
+              <p className="section-label light reveal-fade">Real video testimonials from brands who have worked with The Reel Company.</p>
             </div>
             
             <div className="testimonials-slider-container">
-              {/* Row 1 (Moving Left) */}
+              {/* Single Row (Moving Left) */}
               <div className="testimonials-track track-left">
                 {[1, 2, 3].map((groupIndex) => (
                   <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
-                    {VIDEOS.slice(0, 4).map((vid, idx) => (
+                    {VIDEOS.map((vid, idx) => (
                       <div key={`t1-${idx}`} className="testimonial-card">
-                        <div className="testimonial-video-wrap">
-                          <video 
-                            src={vid.src} 
-                            autoPlay 
-                            muted 
-                            loop 
-                            playsInline 
-                            className="testimonial-video"
-                          />
-                          <div className="testimonial-overlay"></div>
-                          {vid.label && <div className="testimonial-label">{vid.label}</div>}
-                          <div className="testimonial-play-indicator">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              
-              {/* Row 2 (Moving Right) */}
-              <div className="testimonials-track track-right">
-                {[1, 2, 3].map((groupIndex) => (
-                  <div key={`group2-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
-                    {VIDEOS.slice(4, 8).map((vid, idx) => (
-                      <div key={`t2-${idx}`} className="testimonial-card">
                         <div className="testimonial-video-wrap">
                           <video 
                             src={vid.src} 
