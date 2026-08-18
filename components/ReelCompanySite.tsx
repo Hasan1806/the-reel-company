@@ -960,17 +960,73 @@ export default function ReelCompanySite() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════ PRODUCTION STATEMENT ═══════════════════════════════ */}
-        <section id="production" className="production-section" aria-label="Production Statement">
-          <div className="production-bg" id="production-bg"></div>
-          <div className="production-overlay"></div>
-          <div className="production-glow"></div>
-          <div className="production-content">
-            <p className="section-label light">Our Studio</p>
-            <h2 className="production-headline reveal-scroll">
-              Helping Brands with<br/>Studio-Quality<br/><em>UGC &amp; Ad Videos.</em>
-            </h2>
-            <p className="production-sub reveal-scroll">On-demand, affordable, and delivered quickly.</p>
+        {/* ═══════════════════════════════ CLIENT TESTIMONIALS ═══════════════════════════════ */}
+        <section id="testimonials" className="testimonials-section" aria-label="Client Testimonials">
+          <div className="testimonials-inner">
+            <div className="testimonials-header">
+              <p className="section-label light reveal-fade">Hear directly from the brands we've worked with</p>
+              <h2 className="section-title reveal-fade">CLIENT TESTIMONIALS</h2>
+            </div>
+            
+            <div className="testimonials-slider-container">
+              {/* Row 1 (Moving Left) */}
+              <div className="testimonials-track track-left">
+                {[1, 2, 3].map((groupIndex) => (
+                  <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
+                    {VIDEOS.slice(0, 4).map((vid, idx) => (
+                      <div key={`t1-${idx}`} className="testimonial-card">
+                        <div className="testimonial-video-wrap">
+                          <video 
+                            src={vid.src} 
+                            autoPlay 
+                            muted 
+                            loop 
+                            playsInline 
+                            className="testimonial-video"
+                          />
+                          <div className="testimonial-overlay"></div>
+                          {vid.label && <div className="testimonial-label">{vid.label}</div>}
+                          <div className="testimonial-play-indicator">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Row 2 (Moving Right) */}
+              <div className="testimonials-track track-right">
+                {[1, 2, 3].map((groupIndex) => (
+                  <div key={`group2-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
+                    {VIDEOS.slice(4, 8).map((vid, idx) => (
+                      <div key={`t2-${idx}`} className="testimonial-card">
+                        <div className="testimonial-video-wrap">
+                          <video 
+                            src={vid.src} 
+                            autoPlay 
+                            muted 
+                            loop 
+                            playsInline 
+                            className="testimonial-video"
+                          />
+                          <div className="testimonial-overlay"></div>
+                          {vid.label && <div className="testimonial-label">{vid.label}</div>}
+                          <div className="testimonial-play-indicator">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
