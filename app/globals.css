@@ -1044,7 +1044,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 /* ════════════════ CLIENT TESTIMONIALS ════════════════ */
 .testimonials-section {
-  padding: 10rem 0 8rem 0;
+  padding: 6rem 0 4rem 0;
   background: var(--bg);
   position: relative;
   overflow: hidden;
