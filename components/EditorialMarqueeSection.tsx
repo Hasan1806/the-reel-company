@@ -1,63 +1,24 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
 const services = [
   { 
     text: 'Filming', 
-    image: { src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=400&auto=format&fit=crop', width: '130px', height: '90px', rotate: '-4deg' } 
+    image: { src: 'https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=400&auto=format&fit=crop', width: '150px', height: '110px', rotate: '-4deg' } 
   },
   { 
     text: 'Color Grading', 
-    image: { src: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=400&auto=format&fit=crop', width: '145px', height: '105px', rotate: '2.5deg' } 
+    image: { src: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=400&auto=format&fit=crop', width: '165px', height: '125px', rotate: '2.5deg' } 
   },
   { 
     text: 'VFX', 
-    image: { src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop', width: '125px', height: '115px', rotate: '2deg' } 
+    image: { src: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&auto=format&fit=crop', width: '145px', height: '135px', rotate: '2deg' } 
   }
 ];
 
 export default function EditorialMarqueeSection() {
   const [activeHoverId, setActiveHoverId] = useState<string | null>(null);
-  const [activeCenterId, setActiveCenterId] = useState<string | null>(null);
-  const itemRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const rafRef = useRef<number>();
-
-  // Center detection logic
-  useEffect(() => {
-    const checkCenter = () => {
-      const centerX = window.innerWidth / 2;
-      let closestId: string | null = null;
-      let minDistance = Infinity;
-      const zoneThreshold = window.innerWidth * 0.15; // 35% to 65% is +/- 15% from center
-
-      Object.entries(itemRefs.current).forEach(([id, el]) => {
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const itemCenterX = rect.left + rect.width / 2;
-          const distance = Math.abs(centerX - itemCenterX);
-          
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestId = id;
-          }
-        }
-      });
-
-      if (minDistance < zoneThreshold) {
-        setActiveCenterId(closestId);
-      } else {
-        setActiveCenterId(null);
-      }
-
-      rafRef.current = requestAnimationFrame(checkCenter);
-    };
-
-    rafRef.current = requestAnimationFrame(checkCenter);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
 
   const renderGroup = (groupIndex: number) => (
     <div 
@@ -66,22 +27,16 @@ export default function EditorialMarqueeSection() {
     >
       {services.map((service, index) => {
         const uniqueKey = `g${groupIndex}-${index}`;
-        const isHovered = activeHoverId === uniqueKey;
-        const isCentered = activeCenterId === uniqueKey;
-        
-        // Priority: Hovered item globally takes priority. 
-        // If NO item is hovered, center logic activates the closest item.
-        const isActive = activeHoverId ? isHovered : isCentered;
+        const isActive = activeHoverId === uniqueKey;
         
         return (
           <React.Fragment key={uniqueKey}>
             <div 
               className={`editorial-service-item ${isActive ? 'is-active' : ''}`}
-              ref={el => { itemRefs.current[uniqueKey] = el; }}
               onMouseEnter={() => setActiveHoverId(uniqueKey)}
               onMouseLeave={() => setActiveHoverId(null)}
               onTouchStart={() => setActiveHoverId(uniqueKey)}
-              onTouchEnd={() => setTimeout(() => setActiveHoverId(null), 1000)}
+              onTouchEnd={() => setTimeout(() => setActiveHoverId(null), 1200)}
             >
               <span className="editorial-marquee-text">{service.text}</span>
               <img
@@ -112,6 +67,7 @@ export default function EditorialMarqueeSection() {
         <div className="editorial-marquee-track">
           {renderGroup(1)}
           {renderGroup(2)}
+          {renderGroup(3)}
         </div>
       </div>
     </section>
