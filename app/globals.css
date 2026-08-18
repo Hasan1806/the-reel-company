@@ -2084,7 +2084,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  animation: editorialMarquee 18s linear infinite;
+  animation: editorialMarquee 36s linear infinite;
 }
 
 @keyframes editorialMarquee {
