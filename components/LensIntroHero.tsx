@@ -70,9 +70,10 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         if (conditions.reduceMotion) {
           gsap.set(blackBg, { display: "none" });
           gsap.set(lensLayer, { display: "none" });
+          gsap.set(readabilityOverlay, { display: "none" });
           gsap.set(introText, { display: "none" });
           gsap.set(tempStatsWrap, { display: "none" });
-          gsap.set(mainHeroWrap, { opacity: 1, pointerEvents: "auto" });
+          gsap.set(mainHeroWrap, { opacity: 1, y: 0, pointerEvents: "auto" });
           return;
         }
 
@@ -88,15 +89,16 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           Math.max(2.5, Math.ceil((screenDiagonal / blackCenterInitialDiameter) * 1.08))
         );
 
-        // Responsive scroll height allowing full zoom -> temporary stats reveal & hold -> exit -> main hero reveal
-        container.style.height = conditions.isMobile ? "180svh" : "210svh";
-
+        // One unified master timeline for the whole hero transition
+        // Controlled scroll distance of ~100% - 120% (1 natural smooth scroll gesture)
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: "top top",
-            end: "bottom bottom",
-            scrub: conditions.isMobile ? 0.2 : 0.4,
+            end: conditions.isMobile ? "+=100%" : "+=120%",
+            scrub: conditions.isMobile ? 0.3 : 0.45,
+            pin: true,
+            anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         });
@@ -106,18 +108,48 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           transformOrigin: "50% 50%",
           transform: "translate3d(0, 0, 0) scale(1)",
         });
-        gsap.set(mainHeroWrap, { opacity: 1, pointerEvents: "none" });
+        gsap.set(introText, { opacity: 1, y: 0, pointerEvents: "auto" });
+        gsap.set(blackBg, { opacity: 1 });
+        gsap.set(lensLayer, { opacity: 1 });
+        gsap.set(readabilityOverlay, { opacity: 1 });
         gsap.set(tempStatsWrap, { opacity: 0, visibility: "hidden", pointerEvents: "none" });
-        gsap.set(tempStatsCard, { y: 30, opacity: 0 });
-        gsap.set(tempStatItems, { opacity: 0, y: 12 });
+        gsap.set(tempStatsCard, { y: 35, opacity: 0 });
+        gsap.set(tempStatItems, { opacity: 0, y: 15 });
+        gsap.set(mainHeroWrap, { opacity: 0, y: 20, pointerEvents: "none" });
 
+        // Performance will-change optimization
         tl.call(() => {
-          lensImg.style.willChange = "transform, opacity";
+          lensImg.style.willChange = "transform";
           introText.style.willChange = "transform, opacity";
           tempStatsCard.style.willChange = "transform, opacity";
-        }, undefined, 0);
+          mainHeroWrap.style.willChange = "transform, opacity";
+        }, undefined, 0.01);
 
-        // Stage 1 (0% - 65%): Lens zoom, hero intro text fades out. Temporary stats hidden.
+        // ══════════════════════════════════════════════════════════
+        // MASTER SCROLL TIMELINE (0.0 -> 1.0)
+        // ══════════════════════════════════════════════════════════
+
+        // 1. (0.00 -> 0.28): Initial Hero Intro text fades out and moves up smoothly
+        tl.to(
+          introText,
+          {
+            opacity: 0,
+            y: -20,
+            duration: 0.28,
+            ease: "power1.out",
+          },
+          0.0
+        );
+
+        tl.call(
+          () => {
+            introText.style.pointerEvents = "none";
+          },
+          undefined,
+          0.28
+        );
+
+        // 2. (0.05 -> 0.70): Camera Lens zooms smoothly into the black aperture center
         tl.to(
           lensImg,
           {
@@ -125,29 +157,26 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             duration: 0.65,
             ease: "power2.inOut",
           },
-          0
+          0.05
         );
 
-        tl.to(
-          introText,
-          {
-            scale: 0.95,
-            opacity: 0,
-            duration: 0.35,
-            ease: "power1.out",
+        // 3. (0.35 -> 0.52): Stats Card transitions into the black lens center
+        tl.call(
+          () => {
+            tempStatsWrap.style.visibility = "visible";
           },
-          0.1
+          undefined,
+          0.35
         );
 
-        // Stage 1 (65% - 82%): Lens is in final black center state. Reveal temporary statistics card upward.
         tl.to(
           tempStatsWrap,
           {
             opacity: 1,
-            visibility: "visible",
-            duration: 0.05,
+            duration: 0.12,
+            ease: "power1.out",
           },
-          0.65
+          0.35
         );
 
         tl.to(
@@ -158,7 +187,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             duration: 0.17,
             ease: "power2.out",
           },
-          0.65
+          0.35
         );
 
         tl.to(
@@ -166,69 +195,68 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           {
             opacity: 1,
             y: 0,
-            stagger: 0.03,
+            stagger: 0.02,
             duration: 0.14,
             ease: "power2.out",
           },
-          0.68
+          0.38
         );
 
-        // Stage 1 (82% - 92%): Hold temporary statistics fully visible and readable.
+        // 4. (0.52 -> 0.63): Stats HOLD comfortably readable in the aperture center
 
-        // Stage 1 (92% - 100%): Temporary statistics completely fade & exit out before main hero appears!
+        // 5. (0.63 -> 0.75): Stats EXIT cleanly BEFORE Main Home Section enters
         tl.to(
           tempStatsCard,
           {
             opacity: 0,
-            y: -20,
-            duration: 0.08,
+            y: -25,
+            duration: 0.11,
             ease: "power2.in",
           },
-          0.92
+          0.63
         );
 
         tl.to(
           tempStatsWrap,
           {
             opacity: 0,
-            visibility: "hidden",
-            duration: 0.01,
+            duration: 0.09,
+            ease: "power1.in",
           },
-          0.99
+          0.66
         );
 
-        // Fade out black base lens layers and readability overlay so Main Hero Section appears smoothly with full brightness
+        tl.call(
+          () => {
+            tempStatsWrap.style.visibility = "hidden";
+            tempStatsWrap.style.pointerEvents = "none";
+          },
+          undefined,
+          0.75
+        );
+
+        // 6. (0.75 -> 1.00): Lens/black background fades away as Main Home Section enters
         tl.to(
-          blackBg,
+          [blackBg, lensLayer, readabilityOverlay],
           {
             opacity: 0,
-            duration: 0.1,
+            duration: 0.22,
             ease: "power2.out",
           },
-          0.92
+          0.75
         );
 
         tl.to(
-          lensLayer,
+          mainHeroWrap,
           {
-            opacity: 0,
-            duration: 0.1,
+            opacity: 1,
+            y: 0,
+            duration: 0.25,
             ease: "power2.out",
           },
-          0.92
+          0.75
         );
 
-        tl.to(
-          readabilityOverlay,
-          {
-            opacity: 0,
-            duration: 0.1,
-            ease: "power2.out",
-          },
-          0.92
-        );
-
-        // Release sticky hero & enable main hero pointer events
         tl.call(
           () => {
             mainHeroWrap.style.pointerEvents = "auto";
@@ -237,11 +265,17 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           0.95
         );
 
-        tl.call(() => {
-          lensImg.style.willChange = "auto";
-          introText.style.willChange = "auto";
-          tempStatsCard.style.willChange = "auto";
-        }, undefined, 1.0);
+        // Release willChange after transition completion
+        tl.call(
+          () => {
+            lensImg.style.willChange = "auto";
+            introText.style.willChange = "auto";
+            tempStatsCard.style.willChange = "auto";
+            mainHeroWrap.style.willChange = "auto";
+          },
+          undefined,
+          0.99
+        );
       }
     );
 
@@ -257,8 +291,9 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
       style={{
         position: "relative",
         width: "100%",
-        height: "210svh",
+        height: "100vh",
         backgroundColor: "#080808",
+        zIndex: 10,
       }}
     >
       <noscript>
@@ -274,52 +309,51 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         ref={stickyRef}
         className="intro-lens-sticky-viewport"
         style={{
-          position: "sticky",
-          top: 0,
-          height: "100svh",
+          position: "relative",
+          height: "100%",
           width: "100%",
           overflow: "hidden",
           backgroundColor: "#080808",
         }}
       >
-        {/* Layer 0: Main Hero Section Content */}
+        {/* Layer 0: Main Hero Section Content (Z-Index: 1, emerges smoothly at 0.75-1.00) */}
         <div
           ref={mainHeroWrapRef}
           className="main-hero-preview-layer"
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 0,
+            zIndex: 1,
             width: "100%",
             height: "100%",
             pointerEvents: "none",
+            opacity: 0,
           }}
         >
           {children}
         </div>
 
-        {/* Layer 1: Solid Black Base Layer */}
+        {/* Layer 1: Solid Black Base Layer (Z-Index: 2) */}
         <div
           ref={blackBgRef}
           className="intro-black-bg"
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 1,
+            zIndex: 2,
             backgroundColor: "#080808",
             pointerEvents: "none",
-            willChange: "opacity",
           }}
         />
 
-        {/* Layer 2: Full Screen Camera Lens Image */}
+        {/* Layer 2: Full Screen Camera Lens Image (Z-Index: 3) */}
         <div
           ref={lensLayerRef}
           className="intro-lens-layer"
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 2,
+            zIndex: 3,
             width: "100%",
             height: "100%",
             display: "flex",
@@ -327,7 +361,6 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             justifyContent: "center",
             pointerEvents: "none",
             overflow: "hidden",
-            willChange: "opacity",
           }}
         >
           <picture style={{ width: "100%", height: "100%", display: "block" }}>
@@ -362,29 +395,28 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           </picture>
         </div>
 
-        {/* Layer 3: Contrast Scrim Overlay */}
+        {/* Layer 3: Contrast Scrim Overlay (Z-Index: 4) */}
         <div
           ref={readabilityOverlayRef}
           className="intro-readability-overlay"
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 3,
+            zIndex: 4,
             background:
               "radial-gradient(circle at 50% 50%, rgba(8,8,8,0.55) 0%, rgba(8,8,8,0.2) 65%, rgba(8,8,8,0.75) 100%)",
             pointerEvents: "none",
-            willChange: "opacity",
           }}
         />
 
-        {/* Layer 4: Initial Vertically Centred Hero Headline & CTA */}
+        {/* Layer 4: Initial Vertically Centred Hero Headline & CTA (Z-Index: 5) */}
         <div
           ref={introTextRef}
           className="intro-text-cta-layer"
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 4,
+            zIndex: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -433,14 +465,14 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           </div>
         </div>
 
-        {/* Layer 5: Temporary Visual Statistics Card (Appears during 65%-92% of lens zoom, disappears completely at 92-100% before Main Hero) */}
+        {/* Layer 5: Transitional Statistics Card (Z-Index: 6, appears only during 0.35-0.75, cleanly exits before Main Hero) */}
         <div
           ref={tempStatsWrapRef}
           className="temp-transition-stats-wrap"
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 5,
+            zIndex: 6,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -462,6 +494,3 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
     </div>
   );
 }
-
-
-

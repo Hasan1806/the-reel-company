@@ -664,13 +664,6 @@ export default function ReelCompanySite() {
           </section>
         </LensIntroHero>
 
-        {/* ═══════════════════════════════ STATISTICS SECTION ═══════════════════════════ */}
-        <section id="stats" className="statistics-section" aria-label="Key Statistics">
-          <div className="statistics-container">
-            <StatsCard variant="original" />
-          </div>
-        </section>
-
         {/* ═══════════════════════════════ CLIENT MARQUEE ═══════════════════════════ */}
         <section id="clients" className="client-marquee-section" aria-label="Trusted Clients">
           <div className="client-marquee-header">
