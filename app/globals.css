@@ -2041,7 +2041,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .editorial-marquee-section {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   min-height: 260px;
   display: flex;
   align-items: center;
@@ -2051,7 +2052,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .editorial-marquee-viewport {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
 }
 
@@ -2083,7 +2084,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  column-gap: clamp(24px, 3vw, 50px);
   animation: editorialMarquee 18s linear infinite;
 }
 
@@ -2110,6 +2110,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: flex;
   align-items: center;
   cursor: default;
+  /* Fills the gap to next item's text, making hover contiguous */
+  padding-right: clamp(24px, 3vw, 50px);
 }
 
 .editorial-marquee-text {
@@ -2123,6 +2125,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: relative;
   z-index: 1;
   transition: color 260ms ease-out;
+  /* Fills the gap between text and dot */
+  margin-right: clamp(24px, 3vw, 50px);
 }
 
 .editorial-service-item.is-active .editorial-marquee-text {

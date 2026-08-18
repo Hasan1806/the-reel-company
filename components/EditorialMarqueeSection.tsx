@@ -43,15 +43,15 @@ export default function EditorialMarqueeSection() {
                 src={service.image.src}
                 alt=""
                 className="editorial-floating-image"
-                loading="lazy"
+                loading="eager"
                 style={{
                   width: service.image.width,
                   height: service.image.height,
                   '--image-rotation': service.image.rotate,
                 } as React.CSSProperties}
               />
+              <span className="editorial-marquee-dot"></span>
             </div>
-            <span className="editorial-marquee-dot"></span>
           </React.Fragment>
         );
       })}
