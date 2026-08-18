@@ -1202,8 +1202,22 @@ export default function ReelCompanySite() {
           </nav>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 The Reel Company. All rights reserved.</p>
-          <p>UGC &amp; Content Production Studio</p>
+          <div className="footer-copyright">
+            <span className="copyright-text">&copy; 2026 The Reel Company Co.</span>
+            <span className="footer-separator" aria-hidden="true">•</span>
+            <span className="powered-by-wrap">
+              <span className="powered-by-label">Powered by</span>
+              <a
+                href="https://creatornavigator.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="powered-by-brand"
+              >
+                CreatorNavigator
+              </a>
+            </span>
+          </div>
+          <p className="footer-studio-tag">UGC &amp; Content Production Studio</p>
         </div>
       </footer>
 
