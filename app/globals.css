@@ -2035,6 +2035,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     width: 24px;
     border-radius: 4px;
   }
+}
+
 /* ════════════════ COMPACT PRICING CALLOUT BANNER ════════════════ */
 .pricing-callout-section {
   position: relative;
