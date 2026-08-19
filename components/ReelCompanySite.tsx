@@ -7,6 +7,7 @@ import LensIntroHero from './LensIntroHero';
 import { StatsCard } from './StatsCard';
 import DiscoveryCallModal from './DiscoveryCallModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
+import UgcProcessSection from './process/UgcProcessSection';
 
 interface VideoItem {
   src: string;
@@ -823,6 +824,9 @@ export default function ReelCompanySite() {
             </div>
           </div>
         </section>
+
+        {/* ═══════════════════════════════ UGC PROCESS ═══════════════════════════ */}
+        <UgcProcessSection />
 
         {/* ═══════════════════════════════ COMPACT PRICING CALLOUT ═══════════════════════════ */}
         <section className="pricing-callout-section" aria-label="Transparent Pricing">

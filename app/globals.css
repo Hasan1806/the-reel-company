@@ -2365,3 +2365,457 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .editorial-floating-image { border-radius: 14px; }
 }
 
+/* ════════════════ UGC PROCESS SECTION ════════════════ */
+.ugc-process-section {
+  position: relative;
+  background: radial-gradient(circle at 50% 10%, rgba(229, 9, 20, 0.09), transparent 34%), #050505;
+  padding: 120px 2rem 110px;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ugc-process-ambient-glow {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.12) 0%, rgba(229, 9, 20, 0) 70%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.ugc-process-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header */
+.ugc-process-header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 72px;
+}
+
+.ugc-process-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--red);
+  margin-bottom: 1.25rem;
+}
+
+.ugc-process-headline {
+  font-family: var(--font-head);
+  font-size: clamp(42px, 5.2vw, 76px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+}
+
+.ugc-headline-white {
+  display: block;
+  color: #F5F5F5;
+}
+
+.ugc-headline-red {
+  display: block;
+  color: #E50914;
+}
+
+.ugc-process-sub {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #A7A7AD;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* Grid Layout */
+.ugc-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+  align-items: stretch;
+}
+
+/* Process Card */
+.ugc-process-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)), #0D0D0F;
+  border: 1px solid rgba(255, 35, 45, 0.20);
+  border-radius: 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 540px;
+  position: relative;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ugc-process-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 35, 45, 0.45);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 35px rgba(229, 9, 20, 0.08);
+}
+
+.ugc-card-ambient-flare {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 100% 0%, rgba(229, 9, 20, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+/* Illustration Box (55-62% of card) */
+.ugc-card-illustration-box {
+  height: 295px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #121215;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.ugc-illustration-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ugc-svg-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+  max-height: 220px;
+  display: block;
+}
+
+/* Card Body */
+.ugc-card-body {
+  padding: 1.75rem 1.6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.ugc-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.ugc-card-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #E50914;
+  color: #FFFFFF;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(229, 9, 20, 0.45);
+}
+
+.ugc-card-title {
+  font-family: var(--font-head);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #F4F4F5;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.ugc-card-description {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #99999F;
+  font-weight: 400;
+}
+
+/* ════════════════ ANIMATION 01: SCRIPT ════════════════ */
+.script-drawn-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.ugc-process-section.is-active .script-drawn-line.line-1 {
+  animation: scriptLine1Anim 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .script-drawn-line.line-2 {
+  animation: scriptLine2Anim 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .script-drawn-line.line-3 {
+  animation: scriptLine3Anim 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .script-stylus-group {
+  animation: scriptStylusMove 5.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes scriptLine1Anim {
+  0%, 2% { stroke-dashoffset: 100; opacity: 1; }
+  22%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  94% { stroke-dashoffset: 0; opacity: 0; }
+  98%, 100% { stroke-dashoffset: 100; opacity: 0; }
+}
+
+@keyframes scriptLine2Anim {
+  0%, 26% { stroke-dashoffset: 100; opacity: 1; }
+  48%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  94% { stroke-dashoffset: 0; opacity: 0; }
+  98%, 100% { stroke-dashoffset: 100; opacity: 0; }
+}
+
+@keyframes scriptLine3Anim {
+  0%, 52% { stroke-dashoffset: 100; opacity: 1; }
+  74%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  94% { stroke-dashoffset: 0; opacity: 0; }
+  98%, 100% { stroke-dashoffset: 100; opacity: 0; }
+}
+
+@keyframes scriptStylusMove {
+  0% { transform: translate(64px, 82px); opacity: 0; }
+  2% { transform: translate(64px, 82px); opacity: 1; }
+  22% { transform: translate(256px, 82px); opacity: 1; }
+  26% { transform: translate(64px, 116px); opacity: 1; }
+  48% { transform: translate(242px, 116px); opacity: 1; }
+  52% { transform: translate(64px, 150px); opacity: 1; }
+  74% { transform: translate(198px, 150px); opacity: 1; }
+  78%, 88% { transform: translate(204px, 144px); opacity: 1; }
+  94% { transform: translate(204px, 144px); opacity: 0; }
+  98% { transform: translate(64px, 82px); opacity: 0; }
+  100% { transform: translate(64px, 82px); opacity: 1; }
+}
+
+/* ════════════════ ANIMATION 02: FILM ════════════════ */
+.film-rotating-wheel {
+  transform-origin: 140px 110px;
+}
+
+.ugc-process-section.is-active .film-rotating-wheel {
+  animation: filmWheelRotate 5.5s linear infinite;
+}
+
+@keyframes filmWheelRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.ugc-process-section.is-active .film-strip-flow {
+  animation: filmFlowSway 4s ease-in-out infinite;
+  transform-origin: 140px 48px;
+}
+
+@keyframes filmFlowSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.5deg) translateY(-1px); }
+}
+
+/* ════════════════ ANIMATION 03: EDIT ════════════════ */
+.scissors-top-blade,
+.scissors-bottom-blade {
+  transform-origin: 140px 110px;
+}
+
+.ugc-process-section.is-active .scissors-top-blade {
+  animation: scissorsTopCut 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .scissors-bottom-blade {
+  animation: scissorsBottomCut 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .edit-film-left {
+  animation: editFilmLeftSplice 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .edit-film-right {
+  animation: editFilmRightSplice 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ugc-process-section.is-active .edit-spark-burst {
+  animation: editSparkFlash 4.5s ease-out infinite;
+}
+
+@keyframes scissorsTopCut {
+  0%, 15% { transform: translate(0, 0) rotate(-20deg); }
+  22% { transform: translate(8px, 0) rotate(-22deg); }
+  34%, 48% { transform: translate(10px, 0) rotate(0deg); }
+  60% { transform: translate(10px, 0) rotate(0deg); }
+  72%, 85% { transform: translate(0, 0) rotate(-20deg); }
+  100% { transform: translate(0, 0) rotate(-20deg); }
+}
+
+@keyframes scissorsBottomCut {
+  0%, 15% { transform: translate(0, 0) rotate(20deg); }
+  22% { transform: translate(8px, 0) rotate(22deg); }
+  34%, 48% { transform: translate(10px, 0) rotate(0deg); }
+  60% { transform: translate(10px, 0) rotate(0deg); }
+  72%, 85% { transform: translate(0, 0) rotate(20deg); }
+  100% { transform: translate(0, 0) rotate(20deg); }
+}
+
+@keyframes editFilmLeftSplice {
+  0%, 34% { transform: translateX(0); }
+  40%, 75% { transform: translateX(-4px); }
+  85%, 100% { transform: translateX(0); }
+}
+
+@keyframes editFilmRightSplice {
+  0%, 34% { transform: translateX(0); }
+  40%, 75% { transform: translateX(4px); }
+  85%, 100% { transform: translateX(0); }
+}
+
+@keyframes editSparkFlash {
+  0%, 32% { opacity: 0; transform: scale(0.3); }
+  35%, 38% { opacity: 1; transform: scale(1.1); }
+  44%, 100% { opacity: 0; transform: scale(1.4); }
+}
+
+/* ════════════════ ANIMATION 04: MEASURE ════════════════ */
+.measure-rotating-sector {
+  transform-origin: 160px 110px;
+}
+
+.ugc-process-section.is-active .measure-rotating-sector {
+  animation: measureSectorRotation 3.6s linear infinite;
+}
+
+@keyframes measureSectorRotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(1080deg); }
+}
+
+.countdown-num {
+  opacity: 0;
+  transform-origin: 160px 110px;
+}
+
+.ugc-process-section.is-active .countdown-num.num-3 {
+  animation: countdownStep3 3.6s linear infinite;
+}
+
+.ugc-process-section.is-active .countdown-num.num-2 {
+  animation: countdownStep2 3.6s linear infinite;
+}
+
+.ugc-process-section.is-active .countdown-num.num-1 {
+  animation: countdownStep1 3.6s linear infinite;
+}
+
+@keyframes countdownStep3 {
+  0%, 32% { opacity: 1; transform: scale(1); }
+  33.3%, 100% { opacity: 0; transform: scale(0.9); }
+}
+
+@keyframes countdownStep2 {
+  0%, 33.2% { opacity: 0; transform: scale(0.9); }
+  33.3%, 65.3% { opacity: 1; transform: scale(1); }
+  66.6%, 100% { opacity: 0; transform: scale(0.9); }
+}
+
+@keyframes countdownStep1 {
+  0%, 66.5% { opacity: 0; transform: scale(0.9); }
+  66.6%, 98.7% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* Performance Pausing when section is not visible */
+.ugc-process-section.is-idle * {
+  animation-play-state: paused !important;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1180px) {
+  .ugc-process-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ugc-process-section {
+    padding: 85px 1.25rem 75px;
+  }
+
+  .ugc-process-header {
+    margin-bottom: 50px;
+  }
+
+  .ugc-process-headline {
+    font-size: clamp(34px, 9.5vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .ugc-process-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ugc-process-card {
+    min-height: auto;
+  }
+
+  .ugc-card-illustration-box {
+    height: 240px;
+  }
+
+  .ugc-card-body {
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .script-drawn-line {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+
+  .script-stylus-group,
+  .film-rotating-wheel,
+  .film-strip-flow,
+  .scissors-top-blade,
+  .scissors-bottom-blade,
+  .edit-film-left,
+  .edit-film-right,
+  .edit-spark-burst,
+  .measure-rotating-sector,
+  .countdown-num {
+    animation: none !important;
+  }
+
+  .countdown-num.num-3 {
+    opacity: 1 !important;
+  }
+}
+
