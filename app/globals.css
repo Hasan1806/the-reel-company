@@ -2087,7 +2087,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  animation: editorialMarquee 34s linear infinite;
+  animation: editorialMarquee 16s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
