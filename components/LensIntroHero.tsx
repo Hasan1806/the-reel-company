@@ -90,21 +90,21 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         );
 
         // One unified master timeline for the whole hero transition
-        // 2 distinct scroll stages: 1st scroll -> Stats, 2nd scroll -> Main Home section
+        // Balanced 2-scroll feel: 2 scrolls -> Stats, 2 scrolls -> Main Home section
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: "top top",
-            end: conditions.isMobile ? "+=600px" : "+=800px",
-            scrub: conditions.isMobile ? 0.25 : 0.35,
+            end: conditions.isMobile ? "+=1100px" : "+=1500px",
+            scrub: conditions.isMobile ? 0.4 : 0.55,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             snap: {
               snapTo: [0, 0.5, 1],
-              duration: { min: 0.2, max: 0.4 },
-              delay: 0.04,
-              ease: "power1.inOut",
+              duration: { min: 0.25, max: 0.5 },
+              delay: 0.08,
+              ease: "power2.inOut",
             },
           },
         });

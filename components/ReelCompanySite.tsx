@@ -1093,17 +1093,6 @@ export default function ReelCompanySite() {
                 <div className={`carousel-dot ${activeCarouselIndex === 3 ? 'active' : ''}`} />
               </div>
             </div>
-
-            {/* High-CRO Conversion Banner */}
-            <div className="comparison-cta-card">
-              <div className="comparison-cta-text">
-                <h3>Ready to upgrade your brand's ad performance?</h3>
-                <p>Traditional agencies move too slow. Freelancers lack scale. We deliver both in 48 hours.</p>
-              </div>
-              <button type="button" className="btn btn-red comparison-cta-btn" onClick={openDiscoveryModal}>
-                Book a Discovery Call
-              </button>
-            </div>
           </div>
         </section>
 
