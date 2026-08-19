@@ -875,6 +875,31 @@ export default function ReelCompanySite() {
           </div>
         </section>
 
+        {/* ═══════════════════════════════ COMPACT PRICING CALLOUT ═══════════════════════════ */}
+        <section className="pricing-callout-section" aria-label="Transparent Pricing">
+          <div className="pricing-callout-container">
+            <div className="pricing-callout-glow" aria-hidden="true"></div>
+            <div className="pricing-callout-card">
+              <div className="pricing-callout-badge">
+                <span className="badge-pulse-dot" aria-hidden="true"></span>
+                TRANSPARENT VALUE ✦
+              </div>
+              <h2 className="pricing-callout-headline">
+                Starting with as low as <span className="pricing-accent-price">₹3,000</span><span className="pricing-per-video">/video</span>
+              </h2>
+              <p className="pricing-callout-sub">
+                Studio-grade production engineered for ROI — scripting, creator casting, premium editing &amp; VFX included with zero friction.
+              </p>
+              <div className="pricing-pill-tags">
+                <span className="pricing-pill">✦ 48h Turnaround</span>
+                <span className="pricing-pill">✦ Unlimited Revisions</span>
+                <span className="pricing-pill">✦ Dedicated Creative Lead</span>
+                <span className="pricing-pill">✦ No Long-Term Lock-in</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ═══════════════════════════════ EDITORIAL SERVICES MARQUEE ═══════════════════════════ */}
         <EditorialMarqueeSection />
 

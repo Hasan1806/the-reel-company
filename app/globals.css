@@ -2035,6 +2035,151 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     width: 24px;
     border-radius: 4px;
   }
+/* ════════════════ COMPACT PRICING CALLOUT BANNER ════════════════ */
+.pricing-callout-section {
+  position: relative;
+  width: 100%;
+  padding: 3.5rem 1.5rem 2rem;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pricing-callout-container {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.pricing-callout-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 120px;
+  background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.22) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-callout-card {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(24, 24, 28, 0.75) 0%, rgba(13, 13, 16, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  padding: 2.75rem 2.25rem;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(229, 9, 20, 0.08);
+  transition: transform 0.4s var(--ease-out), border-color 0.4s ease;
+}
+
+.pricing-callout-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(229, 9, 20, 0.35);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8), 0 0 45px rgba(229, 9, 20, 0.15);
+}
+
+.pricing-callout-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(229, 9, 20, 0.12);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  color: #ff5c5c;
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+}
+
+.pricing-callout-headline {
+  font-family: var(--font-head);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 0.85rem;
+}
+
+.pricing-accent-price {
+  background: linear-gradient(135deg, #ffffff 0%, #ff4a4a 45%, #e50914 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: inline-block;
+  padding: 0 0.15em;
+}
+
+.pricing-per-video {
+  font-size: 0.65em;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: -0.01em;
+}
+
+.pricing-callout-sub {
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  color: #94a3b8;
+  max-width: 54ch;
+  margin: 0 auto 1.75rem;
+  line-height: 1.6;
+}
+
+.pricing-pill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.pricing-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: all 0.25s ease;
+}
+
+.pricing-pill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .pricing-callout-section {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+  .pricing-callout-card {
+    padding: 2rem 1.25rem;
+    border-radius: 20px;
+  }
+  .pricing-pill-tags {
+    gap: 0.5rem;
+  }
+  .pricing-pill {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.85rem;
+  }
 }
 
 /* ════════════════ EDITORIAL MARQUEE SECTION ════════════════ */
