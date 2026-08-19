@@ -3,16 +3,15 @@
    Premium scroll-driven experience
 ═══════════════════════════════════════════════════════ */
 
-// ─── Video data ───────────────────────────────────────
 const VIDEOS = [
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4', label: 'Brand Campaign #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-man-doing-sports-in-an-urban-environment-40463-large.mp4', label: 'UGC Ad #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-young-woman-using-her-smartphone-while-outside-42387-large.mp4', label: 'Social Content #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-with-shopping-bags-in-a-city-43227-large.mp4', label: 'Product Reel #1' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-overhead-shot-of-a-coffee-cup-being-filled-42813-large.mp4', label: 'Brand Campaign #2' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-coffee-shop-with-barista-working-23482-large.mp4', label: 'UGC Ad #2' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-woman-posing-with-a-camera-in-a-studio-42370-large.mp4', label: 'Social Content #2' },
-  { src: 'https://assets.mixkit.co/videos/preview/mixkit-smiling-woman-sitting-on-bed-using-her-smartphone-42234-large.mp4', label: 'Product Reel #2' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/9.mp4', label: 'E-Commerce UGC Ad' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/Hammer-Bash-.mp4', label: 'Performance Ad Creative' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/4.mp4', label: 'Brand Storytelling' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/15.mp4', label: 'Direct-Response Reel' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/43.mp4', label: 'Scroll-Stopping Hook' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0108-H1-IG.mp4', label: 'Lifestyle & Fitness Ad' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0121.mp4', label: 'Viral Creator Reel' },
+  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0203.mp4', label: 'High-ROI Paid Social' },
 ];
 
 // ─── State ────────────────────────────────────────────
