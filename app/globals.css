@@ -2235,11 +2235,11 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   width: 100%;
   overflow-x: hidden;
   overflow-y: visible;
-  min-height: 260px;
+  min-height: 320px;
   display: flex;
   align-items: center;
   background: var(--bg);
-  padding-block: 24px;
+  padding-block: 45px;
 }
 
 .editorial-marquee-viewport {
@@ -2309,7 +2309,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding-right: clamp(24px, 3vw, 50px);
+  padding-right: clamp(28px, 3.5vw, 60px);
   user-select: none;
 }
 
@@ -2318,14 +2318,14 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right: clamp(24px, 3vw, 50px);
+  margin-right: clamp(28px, 3.5vw, 60px);
 }
 
 .editorial-marquee-text {
   font-family: var(--font-head);
-  font-size: clamp(48px, 5.2vw, 84px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-size: clamp(48px, 5.5vw, 92px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
   line-height: 1;
   color: rgba(255, 255, 255, 0.28);
   white-space: nowrap;
@@ -2337,8 +2337,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 .editorial-service-item:hover .editorial-marquee-text,
 .editorial-service-item.is-active .editorial-marquee-text {
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
 }
 
 .editorial-marquee-dot {
@@ -2346,7 +2346,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   height: 14px;
   border-radius: 999px;
   background: radial-gradient(circle, #ff4145 0%, #e02020 100%);
-  box-shadow: 0 0 14px rgba(224, 32, 32, 0.7);
+  box-shadow: 0 0 16px rgba(224, 32, 32, 0.8);
   display: inline-block;
   flex-shrink: 0;
 }
@@ -2355,34 +2355,36 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: absolute;
   left: 50%;
   top: 50%;
-  z-index: 20;
-  border-radius: 14px;
+  z-index: 25;
+  border-radius: 20px;
   object-fit: cover;
   pointer-events: none;
-  filter: brightness(0.92) contrast(1.04);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  filter: brightness(0.96) contrast(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.95), 0 0 40px rgba(229, 9, 20, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12);
   
-  /* Hidden state - perfectly centered on text */
+  /* Hidden state - centered on text with soft spring zoom */
   opacity: 0;
   visibility: hidden;
-  transform: translate(-50%, -50%) scale(1.25) rotate(var(--image-rotation, 0deg));
-  transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 400ms cubic-bezier(0.16, 1, 0.3, 1), 
-              visibility 320ms;
+  transform: translate(-50%, -50%) scale(0.82) rotate(var(--image-rotation, 0deg));
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1), 
+              visibility 300ms;
   will-change: transform, opacity;
 }
 
 .editorial-service-item:hover .editorial-floating-image,
 .editorial-service-item.is-active .editorial-floating-image {
-  /* Active state - dead centered over the text */
+  /* Active state - large, centered, and crisp */
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, -50%) scale(1) rotate(var(--image-rotation, 0deg));
 }
 
 @media (max-width: 768px) {
-  .editorial-marquee-section { min-height: 200px; padding-block: 36px; }
-  .editorial-marquee-text { font-size: clamp(34px, 8vw, 46px); }
+  .editorial-marquee-section { min-height: 240px; padding-block: 36px; }
+  .editorial-marquee-text { font-size: clamp(36px, 8.5vw, 52px); }
   .editorial-marquee-dot { width: 10px; height: 10px; }
+  .editorial-floating-image { border-radius: 14px; }
 }
 

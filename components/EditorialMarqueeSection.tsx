@@ -7,8 +7,8 @@ const services = [
     text: 'Script Writing', 
     image: { 
       src: '/services/scriptwriting.jpg', 
-      width: '160px', 
-      height: '115px', 
+      width: 'clamp(220px, 20vw, 300px)', 
+      height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
     } 
   },
@@ -16,8 +16,8 @@ const services = [
     text: 'Sound Design', 
     image: { 
       src: '/services/sound-design.jpg', 
-      width: '165px', 
-      height: '115px', 
+      width: 'clamp(230px, 21vw, 310px)', 
+      height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
     } 
   },
@@ -25,8 +25,8 @@ const services = [
     text: 'Motion Graphics', 
     image: { 
       src: '/services/motion-graphics.jpg', 
-      width: '160px', 
-      height: '110px', 
+      width: 'clamp(220px, 20vw, 300px)', 
+      height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
     } 
   },
@@ -34,8 +34,8 @@ const services = [
     text: 'VFX', 
     image: { 
       src: '/services/vfx.png', 
-      width: '165px', 
-      height: '120px', 
+      width: 'clamp(230px, 21vw, 310px)', 
+      height: 'clamp(150px, 14vw, 200px)', 
       rotate: '0deg' 
     } 
   },
@@ -43,8 +43,8 @@ const services = [
     text: 'Filming', 
     image: { 
       src: '/services/filming.jpg', 
-      width: '160px', 
-      height: '115px', 
+      width: 'clamp(220px, 20vw, 300px)', 
+      height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
     } 
   }
