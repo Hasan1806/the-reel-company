@@ -428,7 +428,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           }}
         >
           <div className="hero-badge reveal-fade animated" style={{ marginBottom: "1.25rem" }}>
-            ✦ BUILT FOR FAST-GROWING INDIAN BRANDS ✦
+            ✦ BUILT FOR FAST-GROWING MODERN BRANDS ✦
           </div>
           <h1
             className="hero-headline"

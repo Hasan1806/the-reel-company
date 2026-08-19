@@ -578,7 +578,7 @@ export default function ReelCompanySite() {
             <div className="hero-content">
               <div className="hero-grid">
                 <div className="hero-text">
-                  <div className="hero-badge reveal-fade">✦ BUILT FOR FAST-GROWING INDIAN BRANDS ✦</div>
+                  <div className="hero-badge reveal-fade">✦ BUILT FOR FAST-GROWING MODERN BRANDS ✦</div>
                   <h1 className="hero-headline">
                     <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                   </h1>
@@ -673,7 +673,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ CLIENT MARQUEE ═══════════════════════════ */}
         <section id="clients" className="client-marquee-section" aria-label="Trusted Clients">
           <div className="client-marquee-header">
-            <p className="client-marquee-label">✦ TRUSTED BY GLOBAL BRANDS &amp; HIGH-GROWTH DTC CAMPAIGNS ✦</p>
+            <p className="client-marquee-label">✦ TRUSTED BY GLOBAL BRANDS &amp; HIGH-IMPACT CAMPAIGNS ✦</p>
           </div>
 
           <div className="client-marquee-container">
@@ -955,7 +955,7 @@ export default function ReelCompanySite() {
               <span className="headline-gradient-text">best case study.</span>
             </h2>
             <p className="client-cta-sub">
-              Join 50+ leading DTC brands that stopped struggling with content and started scaling it.
+              Join 50+ leading modern brands that stopped struggling with content and started scaling it.
             </p>
             <div className="client-cta-actions">
               <a href="#footer-cta" className="btn-cta-luxury" onClick={e => handleAnchorClick(e, '#footer-cta')}>
@@ -1028,7 +1028,7 @@ export default function ReelCompanySite() {
                     <th scope="col">Freelancers</th>
                     <th scope="col">Big Agencies</th>
                     <th scope="col" className="trc-col">
-                      <span className="trc-badge">✦ RECOMMENDED FOR D2C BRANDS</span>
+                      <span className="trc-badge">✦ RECOMMENDED FOR SCALING BRANDS</span>
                       <div className="trc-header-title">The Reel Company</div>
                     </th>
                   </tr>
@@ -1151,7 +1151,7 @@ export default function ReelCompanySite() {
                 {/* Card 4: The Reel Company */}
                 <div className="mobile-carousel-card mobile-carousel-card-trc">
                   <div className="mobile-carousel-header">
-                    <span className="trc-badge" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>✦ RECOMMENDED FOR D2C BRANDS</span>
+                    <span className="trc-badge" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>✦ RECOMMENDED FOR SCALING BRANDS</span>
                     <h3>The Reel Company</h3>
                   </div>
                   <ul className="mobile-carousel-list">
