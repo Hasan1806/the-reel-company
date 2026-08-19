@@ -917,16 +917,20 @@ export default function ReelCompanySite() {
               <span className="headline-gradient-text">best case study.</span>
             </h2>
             <p className="client-cta-sub">
-              Join 50+ leading modern brands that stopped struggling with content and started scaling it.
+              Join 250+ leading modern brands that stopped struggling with content and started scaling it.
             </p>
             <div className="client-cta-actions">
-              <a href="#footer-cta" className="btn-cta-luxury" onClick={e => handleAnchorClick(e, '#footer-cta')}>
+              <button 
+                type="button" 
+                className="btn-cta-luxury" 
+                onClick={openDiscoveryModal}
+              >
                 <span>Start a Conversation</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </section>
