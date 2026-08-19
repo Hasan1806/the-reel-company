@@ -772,20 +772,9 @@ export default function ReelCompanySite() {
                 onMouseLeave={e => pausePortfolioVideo(i, e.currentTarget)}
                 onClick={e => togglePortfolioVideo(i, e.currentTarget)}
               >
-                {/* Glassmorphic Top Badges */}
-                <div className="video-card-top-bar">
-                  <span className="video-badge-tag">{v.label}</span>
+                {/* Clean Index Badge */}
+                <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
                   <span className="video-index-tag">0{i + 1}</span>
-                </div>
-
-                {/* Center Play Pulse Trigger */}
-                <div className="center-play-trigger">
-                  <div className="center-play-pulse"></div>
-                  {portfolioPlayingState[i] ? (
-                    <svg width="14" height="16" viewBox="0 0 10 12" fill="currentColor"><rect x="0" y="0" width="3.5" height="12"/><rect x="6.5" y="0" width="3.5" height="12"/></svg>
-                  ) : (
-                    <svg width="14" height="16" viewBox="0 0 10 12" fill="currentColor" style={{ marginLeft: '2px' }}><path d="M0 0l10 6L0 12z"/></svg>
-                  )}
                 </div>
 
                 <video
@@ -820,17 +809,8 @@ export default function ReelCompanySite() {
                 data-index={i}
                 onClick={e => togglePortfolioVideo(i, e.currentTarget)}
               >
-                <div className="video-card-top-bar">
-                  <span className="video-badge-tag">{v.label}</span>
+                <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
                   <span className="video-index-tag">0{i + 1}</span>
-                </div>
-                <div className="center-play-trigger">
-                  <div className="center-play-pulse"></div>
-                  {portfolioPlayingState[i] ? (
-                    <svg width="14" height="16" viewBox="0 0 10 12" fill="currentColor"><rect x="0" y="0" width="3.5" height="12"/><rect x="6.5" y="0" width="3.5" height="12"/></svg>
-                  ) : (
-                    <svg width="14" height="16" viewBox="0 0 10 12" fill="currentColor" style={{ marginLeft: '2px' }}><path d="M0 0l10 6L0 12z"/></svg>
-                  )}
                 </div>
                 <video
                   muted

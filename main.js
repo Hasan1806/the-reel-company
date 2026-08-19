@@ -99,21 +99,33 @@ function createVideoCard(v, i) {
   video.setAttribute('aria-label', v.label);
   video.setAttribute('data-src', v.src);
 
-  const overlay = document.createElement('div');
-  overlay.className = 'video-card-overlay';
+  const topBar = document.createElement('div');
+  topBar.className = 'video-card-top-bar';
+  topBar.style.justifyContent = 'flex-end';
+  topBar.innerHTML = `<span class="video-index-tag">0${i + 1}</span>`;
 
-  const controls = document.createElement('div');
-  controls.className = 'video-card-controls';
+  const bottomBar = document.createElement('div');
+  bottomBar.className = 'video-card-bottom-bar';
+  bottomBar.innerHTML = `
+    <span class="video-card-title">${v.label}</span>
+    <div class="video-card-metrics">
+      <span class="metric-highlight">✦ High Converting</span>
+      <span>9:16 HD</span>
+    </div>
+  `;
 
-  const btn = document.createElement('button');
-  btn.className = 'play-pause-btn';
-  btn.setAttribute('aria-label', 'Play video');
-  btn.innerHTML = getPlayIcon();
-
-  controls.appendChild(btn);
+  card.appendChild(topBar);
   card.appendChild(video);
   card.appendChild(overlay);
-  card.appendChild(controls);
+  card.appendChild(bottomBar);
+
+  card.addEventListener('mouseenter', () => {
+    if (!video.src && video.dataset.src) video.src = video.dataset.src;
+    video.play().catch(() => {});
+  });
+  card.addEventListener('mouseleave', () => {
+    video.pause();
+  });
   return card;
 }
 
