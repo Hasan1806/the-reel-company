@@ -572,15 +572,15 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   box-shadow: 0 6px 20px rgba(224, 32, 32, 0.45);
 }
 
-.portfolio-grid{max-width:var(--max-w);margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative;z-index:2;}
+.portfolio-grid{max-width:var(--max-w);margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.35rem;position:relative;z-index:2;}
 .portfolio-mobile-carousel{display:none;}
 
 /* Shimmer Skeleton Placeholder & Vibrant Video Card */
 .video-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: 22px;
   overflow: hidden;
-  aspect-ratio: 9/16;
+  aspect-ratio: 3 / 4;
   background: linear-gradient(135deg, #121215 0%, #1a1a20 50%, #121215 100%);
   background-size: 200% 200%;
   animation: cardShimmer 4s ease-in-out infinite;
@@ -611,6 +611,70 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 .video-card:hover video {
   transform: scale(1.05);
+}
+
+/* Empty Video Slot (Row 3 placeholders) */
+.video-card.empty-slot {
+  background: linear-gradient(145deg, rgba(229, 9, 20, 0.05) 0%, #0d0d10 45%, #131318 100%);
+  border: 1px dashed rgba(229, 9, 20, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  animation: none;
+}
+
+.video-card.empty-slot:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(229, 9, 20, 0.7);
+  box-shadow: 0 20px 45px rgba(229, 9, 20, 0.25), 0 0 25px rgba(229, 9, 20, 0.1);
+}
+
+.empty-slot-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.empty-slot-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.1);
+  border: 1.5px solid rgba(229, 9, 20, 0.3);
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.15);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s;
+}
+
+.video-card.empty-slot:hover .empty-slot-icon-wrap {
+  transform: scale(1.1);
+  background: rgba(229, 9, 20, 0.2);
+  border-color: rgba(229, 9, 20, 0.6);
+}
+
+.empty-slot-label {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f0ede8;
+  letter-spacing: -0.01em;
+}
+
+.empty-slot-sub {
+  font-size: 0.75rem;
+  color: #73737b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 /* Glassmorphic Top Badges */

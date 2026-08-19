@@ -23,6 +23,10 @@ const VIDEOS: VideoItem[] = [
   { src: '/videos/portfolio/portfolio-6.mp4', label: 'Lifestyle & Fitness Ad' },
   { src: '/videos/portfolio/portfolio-7.mp4', label: 'Viral Creator Reel' },
   { src: '/videos/portfolio/portfolio-8.mp4', label: 'High-ROI Paid Social' },
+  { src: '', label: 'Creative in Production' },
+  { src: '', label: 'Brand Campaign in Production' },
+  { src: '', label: 'Performance Ad in Production' },
+  { src: '', label: 'Creator Story in Production' },
 ];
 
 export default function ReelCompanySite() {
@@ -725,32 +729,43 @@ export default function ReelCompanySite() {
           <div className="portfolio-header">
             <p className="section-label">Our Work</p>
             <h2 className="section-title">Content That <em>Converts</em></h2>
-            <p className="section-sub">Eight handpicked UGC and ad videos from our active client campaigns.</p>
+            <p className="section-sub">Handpicked UGC and performance ad videos from our active client campaigns.</p>
           </div>
-
-
 
           <div className="portfolio-grid" id="portfolio-grid">
             {VIDEOS.map((v, i) => (
               <div
                 key={`grid-${i}`}
-                className="video-card"
+                className={`video-card ${!v.src ? 'empty-slot' : ''}`}
                 data-index={i}
               >
                 {/* Clean Index Badge */}
                 <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
-                  <span className="video-index-tag">0{i + 1}</span>
+                  <span className="video-index-tag">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
                 </div>
 
-                <video
-                  autoPlay
-                  muted
-                  playsInline
-                  loop
-                  preload="auto"
-                  aria-label={v.label}
-                  src={v.src}
-                ></video>
+                {v.src ? (
+                  <video
+                    autoPlay
+                    muted
+                    playsInline
+                    loop
+                    preload="auto"
+                    aria-label={v.label}
+                    src={v.src}
+                  ></video>
+                ) : (
+                  <div className="empty-slot-content">
+                    <div className="empty-slot-icon-wrap">
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                      </svg>
+                    </div>
+                    <div className="empty-slot-label">{v.label}</div>
+                    <span className="empty-slot-sub">✦ Creative Slot Reserved</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -759,21 +774,35 @@ export default function ReelCompanySite() {
             {VIDEOS.map((v, i) => (
               <div
                 key={`mobile-${i}`}
-                className="video-card"
+                className={`video-card ${!v.src ? 'empty-slot' : ''}`}
                 data-index={i}
               >
                 <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
-                  <span className="video-index-tag">0{i + 1}</span>
+                  <span className="video-index-tag">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
                 </div>
-                <video
-                  autoPlay
-                  muted
-                  playsInline
-                  loop
-                  preload="auto"
-                  aria-label={v.label}
-                  src={v.src}
-                ></video>
+
+                {v.src ? (
+                  <video
+                    autoPlay
+                    muted
+                    playsInline
+                    loop
+                    preload="auto"
+                    aria-label={v.label}
+                    src={v.src}
+                  ></video>
+                ) : (
+                  <div className="empty-slot-content">
+                    <div className="empty-slot-icon-wrap">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                      </svg>
+                    </div>
+                    <div className="empty-slot-label">{v.label}</div>
+                    <span className="empty-slot-sub">✦ Slot Reserved</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
