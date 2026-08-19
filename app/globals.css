@@ -1524,11 +1524,12 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   width: 100%;
   max-width: var(--max-w);
   margin: 3.5rem auto 2.5rem;
-  padding: 1.5rem 0;
+  padding: 1.5rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
+  box-sizing: border-box;
   user-select: none;
 }
 
@@ -1549,15 +1550,16 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: relative;
   z-index: 1;
   font-family: var(--font-head);
-  font-size: clamp(3.2rem, 10.8vw, 11rem);
+  font-size: clamp(1.6rem, 6.7vw, 7.6rem);
   font-weight: 900;
-  letter-spacing: -0.045em;
-  line-height: 0.88;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
   text-align: center;
   white-space: nowrap;
   margin: 0;
-  padding: 0 0.5rem;
+  padding: 0;
   width: 100%;
+  max-width: 100%;
   
   /* Red and Black luxury gradient */
   background: linear-gradient(180deg, #ffffff 0%, #ff4d4d 28%, #e50914 55%, #600003 82%, #120203 100%);
@@ -1570,11 +1572,11 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 @media (max-width: 768px) {
   .footer-big-branding-wrap {
     margin: 2rem auto 1.5rem;
-    padding: 0.75rem 0;
+    padding: 0.75rem 0.5rem;
   }
   .footer-big-branding-text {
-    font-size: clamp(2.2rem, 11vw, 4.5rem);
-    letter-spacing: -0.035em;
+    font-size: clamp(1.5rem, 6.6vw, 3.2rem);
+    letter-spacing: -0.02em;
   }
 }
 
