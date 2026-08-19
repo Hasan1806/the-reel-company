@@ -1199,6 +1199,13 @@ export default function ReelCompanySite() {
             </div>
           </nav>
         </div>
+
+        {/* ════════════════ BIG FOOTER BRANDING ════════════════ */}
+        <div className="footer-big-branding-wrap" aria-hidden="true">
+          <div className="footer-big-branding-glow"></div>
+          <h2 className="footer-big-branding-text">THE REEL COMPANY</h2>
+        </div>
+
         <div className="footer-bottom">
           <div className="footer-copyright">
             <span className="copyright-text">&copy; 2026 The Reel Company Co.</span>
