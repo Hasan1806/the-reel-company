@@ -787,39 +787,30 @@ export default function ReelCompanySite() {
 
 
 
-        {/* ═══════════════════════════════ PROBLEM ═══════════════════════════ */}
+        {/* ═══════════════════════════════ PROBLEM / THE REALITY ═══════════════════════════ */}
         <section id="problems" className="problem-section" aria-label="Content Challenges">
           <div className="problem-inner">
-            <div className="problem-sticky">
+            <div className="problem-left-col">
               <p className="section-label">The Reality</p>
               <h2 className="section-title">Content Is The Biggest<br/>Growth Lever.<br/><em>And The Hardest To Scale.</em></h2>
               <p className="section-sub">Most brands hit the same wall when trying to scale content. Here&apos;s what&apos;s holding you back.</p>
             </div>
             <div className="problem-cards" id="problem-cards">
               <div className="problem-card" data-index="01">
-                <div className="problem-index">01</div>
-                <h3>Hiring in-house is too expensive</h3>
-                <p>Building a content team means salaries, benefits, equipment, software, and management overhead — before you&apos;ve filmed a single frame.</p>
+                <span className="problem-card-title">Hiring in-house is too expensive</span>
+                <span className="problem-index" aria-hidden="true">01</span>
               </div>
               <div className="problem-card" data-index="02">
-                <div className="problem-index">02</div>
-                <h3>Freelancers are inconsistent</h3>
-                <p>One great video, then silence. Freelancers deliver varying quality, miss deadlines, and disappear — leaving your pipeline dry when you need it most.</p>
+                <span className="problem-card-title">Freelancers are inconsistent</span>
+                <span className="problem-index" aria-hidden="true">02</span>
               </div>
               <div className="problem-card" data-index="03">
-                <div className="problem-index">03</div>
-                <h3>Agencies charge enterprise rates</h3>
-                <p>Traditional production agencies quote $5k–$25k per video. That&apos;s not a content strategy — that&apos;s a quarterly budget burned on one asset.</p>
+                <span className="problem-card-title">Agencies charge enterprise rates</span>
+                <span className="problem-index" aria-hidden="true">03</span>
               </div>
               <div className="problem-card" data-index="04">
-                <div className="problem-index">04</div>
-                <h3>Platforms demand constant volume</h3>
-                <p>Instagram, TikTok, YouTube Shorts, and Meta Ads all punish brands that post infrequently. The algorithm rewards volume AND quality — simultaneously.</p>
-              </div>
-              <div className="problem-card" data-index="05">
-                <div className="problem-index">05</div>
-                <h3>UGC is hard to produce at scale</h3>
-                <p>Authentic-feeling content requires the right creators, briefs, direction, and editing. Doing this consistently without a dedicated system is nearly impossible.</p>
+                <span className="problem-card-title">Platforms demand constant volume</span>
+                <span className="problem-index" aria-hidden="true">04</span>
               </div>
             </div>
           </div>
