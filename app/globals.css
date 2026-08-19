@@ -1523,13 +1523,12 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: relative;
   width: 100%;
   max-width: var(--max-w);
-  margin: 3.5rem auto 2.5rem;
-  padding: 1.5rem 1rem;
+  margin: 3.5rem auto 2rem;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: visible;
-  box-sizing: border-box;
   user-select: none;
 }
 
@@ -1538,45 +1537,26 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 85%;
-  height: 140px;
-  background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.32) 0%, rgba(229, 9, 20, 0.08) 55%, transparent 80%);
-  filter: blur(50px);
+  width: 90%;
+  height: 160px;
+  background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.35) 0%, rgba(229, 9, 20, 0.08) 55%, transparent 80%);
+  filter: blur(55px);
   pointer-events: none;
   z-index: 0;
 }
 
-.footer-big-branding-text {
+.footer-big-branding-svg {
   position: relative;
   z-index: 1;
-  font-family: var(--font-head);
-  font-size: clamp(1.6rem, 6.7vw, 7.6rem);
-  font-weight: 900;
-  letter-spacing: -0.025em;
-  line-height: 0.92;
-  text-align: center;
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
   width: 100%;
-  max-width: 100%;
-  
-  /* Red and Black luxury gradient */
-  background: linear-gradient(180deg, #ffffff 0%, #ff4d4d 28%, #e50914 55%, #600003 82%, #120203 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  
-  filter: drop-shadow(0 15px 35px rgba(229, 9, 20, 0.25));
+  height: auto;
+  display: block;
+  overflow: visible;
 }
 
 @media (max-width: 768px) {
   .footer-big-branding-wrap {
     margin: 2rem auto 1.5rem;
-    padding: 0.75rem 0.5rem;
-  }
-  .footer-big-branding-text {
-    font-size: clamp(1.5rem, 6.6vw, 3.2rem);
-    letter-spacing: -0.02em;
   }
 }
 

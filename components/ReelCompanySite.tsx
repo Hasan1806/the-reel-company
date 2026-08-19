@@ -1201,9 +1201,44 @@ export default function ReelCompanySite() {
         </div>
 
         {/* ════════════════ BIG FOOTER BRANDING ════════════════ */}
-        <div className="footer-big-branding-wrap" aria-hidden="true">
-          <div className="footer-big-branding-glow"></div>
-          <h2 className="footer-big-branding-text">THE REEL COMPANY</h2>
+        <div className="footer-big-branding-wrap" aria-label="The Reel Company">
+          <div className="footer-big-branding-glow" aria-hidden="true"></div>
+          <svg
+            viewBox="0 0 1440 160"
+            width="100%"
+            height="100%"
+            className="footer-big-branding-svg"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="footerBrandGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="25%" stopColor="#ff4d4d" />
+                <stop offset="52%" stopColor="#e50914" />
+                <stop offset="78%" stopColor="#660003" />
+                <stop offset="100%" stopColor="#100203" />
+              </linearGradient>
+              <filter id="footerGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="rgba(229, 9, 20, 0.4)" />
+              </filter>
+            </defs>
+            <text
+              x="50%"
+              y="58%"
+              textAnchor="middle"
+              dominantBaseline="central"
+              fill="url(#footerBrandGrad)"
+              filter="url(#footerGlow)"
+              style={{
+                fontFamily: "var(--font-head), 'Syne', sans-serif",
+                fontWeight: 900,
+                fontSize: "138px",
+                letterSpacing: "-2px",
+              }}
+            >
+              THE REEL COMPANY
+            </text>
+          </svg>
         </div>
 
         <div className="footer-bottom">

@@ -454,9 +454,39 @@
     </div>
 
     <!-- ════════════════ BIG FOOTER BRANDING ════════════════ -->
-    <div class="footer-big-branding-wrap" aria-hidden="true">
-      <div class="footer-big-branding-glow"></div>
-      <h2 class="footer-big-branding-text">THE REEL COMPANY</h2>
+    <div class="footer-big-branding-wrap" aria-label="The Reel Company">
+      <div class="footer-big-branding-glow" aria-hidden="true"></div>
+      <svg
+        viewBox="0 0 1440 160"
+        width="100%"
+        height="100%"
+        class="footer-big-branding-svg"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="footerBrandGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="25%" stop-color="#ff4d4d" />
+            <stop offset="52%" stop-color="#e50914" />
+            <stop offset="78%" stop-color="#660003" />
+            <stop offset="100%" stop-color="#100203" />
+          </linearGradient>
+          <filter id="footerGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="rgba(229, 9, 20, 0.4)" />
+          </filter>
+        </defs>
+        <text
+          x="50%"
+          y="58%"
+          text-anchor="middle"
+          dominant-baseline="central"
+          fill="url(#footerBrandGrad)"
+          filter="url(#footerGlow)"
+          style="font-family: var(--font-head), 'Syne', sans-serif; font-weight: 900; font-size: 138px; letter-spacing: -2px;"
+        >
+          THE REEL COMPANY
+        </text>
+      </svg>
     </div>
 
     <div class="footer-bottom">
