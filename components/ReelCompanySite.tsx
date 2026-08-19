@@ -573,7 +573,6 @@ export default function ReelCompanySite() {
             <div className="hero-content">
               <div className="hero-grid">
                 <div className="hero-text">
-                  <div className="hero-badge reveal-fade">✦ BUILT FOR FAST-GROWING MODERN BRANDS ✦</div>
                   <h1 className="hero-headline">
                     <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                   </h1>
