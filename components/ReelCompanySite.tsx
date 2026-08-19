@@ -1204,7 +1204,7 @@ export default function ReelCompanySite() {
         <div className="footer-big-branding-wrap" aria-label="The Reel Company">
           <div className="footer-big-branding-glow" aria-hidden="true"></div>
           <svg
-            viewBox="0 0 1440 160"
+            viewBox="0 0 1650 160"
             width="100%"
             height="100%"
             className="footer-big-branding-svg"
@@ -1224,7 +1224,7 @@ export default function ReelCompanySite() {
             </defs>
             <text
               x="50%"
-              y="58%"
+              y="56%"
               textAnchor="middle"
               dominantBaseline="central"
               fill="url(#footerBrandGrad)"
@@ -1232,8 +1232,8 @@ export default function ReelCompanySite() {
               style={{
                 fontFamily: "var(--font-head), 'Syne', sans-serif",
                 fontWeight: 900,
-                fontSize: "138px",
-                letterSpacing: "-2px",
+                fontSize: "122px",
+                letterSpacing: "-1px",
               }}
             >
               THE REEL COMPANY
