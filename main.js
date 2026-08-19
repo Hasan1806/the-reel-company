@@ -4,14 +4,14 @@
 ═══════════════════════════════════════════════════════ */
 
 const VIDEOS = [
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/9.mp4', label: 'E-Commerce UGC Ad' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/Hammer-Bash-.mp4', label: 'Performance Ad Creative' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/4.mp4', label: 'Brand Storytelling' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/15.mp4', label: 'Direct-Response Reel' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/43.mp4', label: 'Scroll-Stopping Hook' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0108-H1-IG.mp4', label: 'Lifestyle & Fitness Ad' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0121.mp4', label: 'Viral Creator Reel' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0203.mp4', label: 'High-ROI Paid Social' },
+  { src: '/videos/portfolio/portfolio-1.mp4', label: 'E-Commerce UGC Ad' },
+  { src: '/videos/portfolio/portfolio-2.mp4', label: 'Performance Ad Creative' },
+  { src: '/videos/portfolio/portfolio-3.mp4', label: 'Brand Storytelling' },
+  { src: '/videos/portfolio/portfolio-4.mp4', label: 'Direct-Response Reel' },
+  { src: '/videos/portfolio/portfolio-5.mp4', label: 'Scroll-Stopping Hook' },
+  { src: '/videos/portfolio/portfolio-6.mp4', label: 'Lifestyle & Fitness Ad' },
+  { src: '/videos/portfolio/portfolio-7.mp4', label: 'Viral Creator Reel' },
+  { src: '/videos/portfolio/portfolio-8.mp4', label: 'High-ROI Paid Social' },
 ];
 
 // ─── State ────────────────────────────────────────────

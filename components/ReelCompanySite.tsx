@@ -14,14 +14,14 @@ interface VideoItem {
 }
 
 const VIDEOS: VideoItem[] = [
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/9.mp4', label: 'E-Commerce UGC Ad' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/Hammer-Bash-.mp4', label: 'Performance Ad Creative' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/4.mp4', label: 'Brand Storytelling' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/15.mp4', label: 'Direct-Response Reel' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/43.mp4', label: 'Scroll-Stopping Hook' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0108-H1-IG.mp4', label: 'Lifestyle & Fitness Ad' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0121.mp4', label: 'Viral Creator Reel' },
-  { src: 'https://creatornavigator.in/wp-content/uploads/2025/05/CN0203.mp4', label: 'High-ROI Paid Social' },
+  { src: '/videos/portfolio/portfolio-1.mp4', label: 'E-Commerce UGC Ad' },
+  { src: '/videos/portfolio/portfolio-2.mp4', label: 'Performance Ad Creative' },
+  { src: '/videos/portfolio/portfolio-3.mp4', label: 'Brand Storytelling' },
+  { src: '/videos/portfolio/portfolio-4.mp4', label: 'Direct-Response Reel' },
+  { src: '/videos/portfolio/portfolio-5.mp4', label: 'Scroll-Stopping Hook' },
+  { src: '/videos/portfolio/portfolio-6.mp4', label: 'Lifestyle & Fitness Ad' },
+  { src: '/videos/portfolio/portfolio-7.mp4', label: 'Viral Creator Reel' },
+  { src: '/videos/portfolio/portfolio-8.mp4', label: 'High-ROI Paid Social' },
 ];
 
 export default function ReelCompanySite() {
@@ -359,7 +359,29 @@ export default function ReelCompanySite() {
     };
   }, []);
 
-  // Manual toggle for individual portfolio video card
+  // Hover & Manual toggle for individual portfolio video card
+  const playPortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
+    if (!cardEl) return;
+    const video = cardEl.querySelector<HTMLVideoElement>('video');
+    if (!video) return;
+
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
+    }
+
+    video.play().catch(() => {});
+    setPortfolioPlayingState(prev => ({ ...prev, [idx]: true }));
+  };
+
+  const pausePortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
+    if (!cardEl) return;
+    const video = cardEl.querySelector<HTMLVideoElement>('video');
+    if (!video) return;
+
+    video.pause();
+    setPortfolioPlayingState(prev => ({ ...prev, [idx]: false }));
+  };
+
   const togglePortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
     if (!cardEl) return;
     const video = cardEl.querySelector<HTMLVideoElement>('video');
@@ -367,7 +389,6 @@ export default function ReelCompanySite() {
 
     if (!video.src && video.dataset.src) {
       video.src = video.dataset.src;
-      video.load();
     }
 
     if (video.paused) {
@@ -747,6 +768,8 @@ export default function ReelCompanySite() {
                 key={`grid-${i}`}
                 className="video-card"
                 data-index={i}
+                onMouseEnter={e => playPortfolioVideo(i, e.currentTarget)}
+                onMouseLeave={e => pausePortfolioVideo(i, e.currentTarget)}
                 onClick={e => togglePortfolioVideo(i, e.currentTarget)}
               >
                 {/* Glassmorphic Top Badges */}
@@ -769,9 +792,10 @@ export default function ReelCompanySite() {
                   muted
                   playsInline
                   loop
-                  preload="none"
+                  preload="metadata"
                   aria-label={v.label}
                   data-src={v.src}
+                  src={v.src}
                 ></video>
 
                 <div className="video-card-overlay"></div>
@@ -812,9 +836,10 @@ export default function ReelCompanySite() {
                   muted
                   playsInline
                   loop
-                  preload="none"
+                  preload="metadata"
                   aria-label={v.label}
                   data-src={v.src}
+                  src={v.src}
                 ></video>
                 <div className="video-card-overlay"></div>
                 <div className="video-card-bottom-bar">
