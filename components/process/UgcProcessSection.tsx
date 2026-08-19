@@ -85,7 +85,7 @@ export default function UgcProcessSection() {
           </div>
 
           <h2 className="ugc-process-headline">
-            <span className="ugc-headline-white">TOP-NOTCH UGC VIDEO ADS</span>
+            <span className="ugc-headline-white">TOP-NOTCH UGC ADS</span>
             <span className="ugc-headline-red">IN JUST A FEW CLICKS</span>
           </h2>
 

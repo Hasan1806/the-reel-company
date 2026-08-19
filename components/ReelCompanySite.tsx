@@ -954,7 +954,10 @@ export default function ReelCompanySite() {
           <div className="comparison-inner">
             <div className="comparison-header">
               <div className="section-badge-pill reveal-fade">✦ COMPARISON MATRIX ✦</div>
-              <h2 className="section-title">Why High-Growth Brands<br/>Switch to Us.</h2>
+              <h2 className="section-title">
+                <span className="comparison-headline-line">Why High-Growth Brands</span>
+                <span className="comparison-headline-line">Switch to Us.</span>
+              </h2>
               <p className="section-sub">Traditional agencies move too slow. Freelancers lack scale. We deliver both.</p>
             </div>
             {/* Desktop Table View */}
