@@ -1193,9 +1193,26 @@ export default function ReelCompanySite() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <button type="button" style={{ color: 'inherit', font: 'inherit', padding: 0, textDecoration: 'none', cursor: 'pointer', textAlign: 'left' }} onClick={openDiscoveryModal}>Book a Call</button>
-              <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio Access</a>
-              <a href="mailto:hello@thereelcompany.com">Email Us</a>
+              <button 
+                type="button" 
+                className="footer-nav-link-btn" 
+                onClick={openDiscoveryModal}
+              >
+                Book a Call
+              </button>
+              <a 
+                href="#portfolio" 
+                onClick={e => handleAnchorClick(e, '#portfolio')}
+              >
+                Portfolio Access
+              </a>
+              <button 
+                type="button" 
+                className="footer-nav-link-btn" 
+                onClick={openDiscoveryModal}
+              >
+                Email Us
+              </button>
             </div>
           </nav>
         </div>
