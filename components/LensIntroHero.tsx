@@ -450,30 +450,13 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
               fontSize: "clamp(1.2rem, 2.8vw, 1.85rem)",
               color: "rgba(240, 237, 232, 0.95)",
               maxWidth: "52ch",
-              marginBottom: "1rem",
+              marginBottom: "2.25rem",
               lineHeight: 1.35,
               fontWeight: 600,
               letterSpacing: "-0.015em",
             }}
           >
             High-Performance Content at Scale
-          </p>
-          <p
-            className="hero-sub animated"
-            style={{
-              fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)",
-              color: "rgba(203, 213, 225, 0.9)",
-              maxWidth: "54ch",
-              marginBottom: "2.25rem",
-              lineHeight: 1.6,
-            }}
-          >
-            <span style={{ display: "block", color: "#ffffff", fontWeight: 500, marginBottom: "0.35rem" }}>
-              Trusted by Big Brands. Chosen by Shark Tank–Featured Companies.
-            </span>
-            <span>
-              Creating content that turns brand stories into attention, engagement, and measurable growth.
-            </span>
           </p>
           <div className="hero-ctas animated">
             <a href="#portfolio" className="btn btn-red" style={{ padding: "0.95rem 2.4rem", fontSize: "0.95rem" }}>
