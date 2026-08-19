@@ -1204,7 +1204,7 @@ export default function ReelCompanySite() {
         <div className="footer-big-branding-wrap" aria-label="The Reel Company">
           <div className="footer-big-branding-glow" aria-hidden="true"></div>
           <svg
-            viewBox="0 0 1650 160"
+            viewBox="0 0 1320 130"
             width="100%"
             height="100%"
             className="footer-big-branding-svg"
@@ -1219,21 +1219,21 @@ export default function ReelCompanySite() {
                 <stop offset="100%" stopColor="#100203" />
               </linearGradient>
               <filter id="footerGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="rgba(229, 9, 20, 0.4)" />
+                <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="rgba(229, 9, 20, 0.45)" />
               </filter>
             </defs>
             <text
               x="50%"
-              y="56%"
+              y="58%"
               textAnchor="middle"
               dominantBaseline="central"
               fill="url(#footerBrandGrad)"
               filter="url(#footerGlow)"
               style={{
-                fontFamily: "var(--font-head), 'Syne', sans-serif",
+                fontFamily: "var(--font-head), 'Plus Jakarta Sans', sans-serif",
                 fontWeight: 900,
-                fontSize: "122px",
-                letterSpacing: "-1px",
+                fontSize: "128px",
+                letterSpacing: "-2px",
               }}
             >
               THE REEL COMPANY
