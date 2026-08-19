@@ -447,16 +447,16 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           <p
             className="hero-tagline animated"
             style={{
-              fontSize: "clamp(1.15rem, 2.5vw, 1.75rem)",
+              fontSize: "clamp(1.2rem, 2.8vw, 1.85rem)",
               color: "rgba(240, 237, 232, 0.95)",
               maxWidth: "52ch",
               marginBottom: "2.25rem",
               lineHeight: 1.35,
-              fontWeight: 500,
-              letterSpacing: "-0.01em",
+              fontWeight: 600,
+              letterSpacing: "-0.015em",
             }}
           >
-            High-Converting UGC &amp; Meta Ad Reels for Indian D2C Brands.
+            High-Performance Content at Scale
           </p>
           <div className="hero-ctas animated">
             <a href="#portfolio" className="btn btn-red" style={{ padding: "0.95rem 2.4rem", fontSize: "0.95rem" }}>

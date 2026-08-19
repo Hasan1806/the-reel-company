@@ -582,7 +582,7 @@ export default function ReelCompanySite() {
                   <h1 className="hero-headline">
                     <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                   </h1>
-                  <h2 className="hero-tagline reveal-up">High-Converting UGC Ads for Indian D2C &amp; E-Commerce.</h2>
+                  <h2 className="hero-tagline reveal-up">High-Performance Content at Scale</h2>
                   <p className="hero-sub reveal-up">
                     We power video ad performance for 150+ Indian brands — strategy, pan-India creator sourcing in Hinglish, Hindi &amp; regional languages, editing, &amp; 48hr delivery for Meta Ads, Amazon India &amp; Quick Commerce.
                   </p>
