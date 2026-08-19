@@ -42,9 +42,11 @@ export default function ReelCompanySite() {
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const lastActiveCtaRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
 
-  const openDiscoveryModal = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    e.preventDefault();
-    lastActiveCtaRef.current = e.currentTarget;
+  const openDiscoveryModal = (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (e) {
+      e.preventDefault();
+      lastActiveCtaRef.current = e.currentTarget;
+    }
     setDiscoveryModalOpen(true);
   };
 
@@ -534,9 +536,9 @@ export default function ReelCompanySite() {
             <a href="#comparison" className={`nav-link ${activeSection === 'comparison' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
           </nav>
-          <a href="#portfolio" className="btn btn-outline header-cta" id="header-cta-btn" onClick={e => handleAnchorClick(e, '#portfolio')}>
-            Request Portfolio Access
-          </a>
+          <button type="button" className="btn btn-outline header-cta" id="header-cta-btn" onClick={openDiscoveryModal}>
+            Book a Call
+          </button>
           <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu}>
             <span></span><span></span><span></span>
           </button>
@@ -554,7 +556,7 @@ export default function ReelCompanySite() {
             <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
             <a href="#comparison" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
-            <a href="#portfolio" className="btn btn-red mobile-nav-cta" onClick={e => handleAnchorClick(e, '#portfolio')}>Request Portfolio Access</a>
+            <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }}>Book a Call</button>
           </div>
         </div>
       </header>
