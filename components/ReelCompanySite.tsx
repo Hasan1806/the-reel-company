@@ -888,13 +888,13 @@ export default function ReelCompanySite() {
                 Starting with as low as <span className="pricing-accent-price">₹3,000</span><span className="pricing-per-video">/video</span>
               </h2>
               <p className="pricing-callout-sub">
-                Studio-grade production engineered for ROI — scripting, creator casting, premium editing &amp; VFX included with zero friction.
+                Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
               <div className="pricing-pill-tags">
-                <span className="pricing-pill">✦ 48h Turnaround</span>
-                <span className="pricing-pill">✦ Unlimited Revisions</span>
-                <span className="pricing-pill">✦ Dedicated Creative Lead</span>
-                <span className="pricing-pill">✦ No Long-Term Lock-in</span>
+                <span className="pricing-pill">✦ Concept &amp; Scriptwriting</span>
+                <span className="pricing-pill">✦ Filming &amp; Direction</span>
+                <span className="pricing-pill">✦ Motion Graphics &amp; VFX</span>
+                <span className="pricing-pill">✦ Sound Design &amp; Color Grading</span>
               </div>
             </div>
           </div>
