@@ -8,64 +8,6 @@ import { StatsCard } from './StatsCard';
 import DiscoveryCallModal from './DiscoveryCallModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 
-interface TestimonialItem {
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
-  rating: number;
-  metric: string;
-  avatar: string;
-}
-
-const TESTIMONIALS: TestimonialItem[] = [
-  {
-    quote: "The Reel Company scaled our paid ad creatives from 2 videos a month to 20+ viral variations. Our Meta ROAS jumped from 2.1x to 4.3x within 30 days.",
-    author: "Aman Gupta",
-    role: "Founder & CMO",
-    company: "D2C Apparel Brand",
-    rating: 5,
-    metric: "+4.3x ROAS Scale",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
-  },
-  {
-    quote: "Their UGC creators don't feel like actors reciting a script — they genuinely connect with our target demographic. Our Customer Acquisition Cost dropped by 38%.",
-    author: "Rhea Singhania",
-    role: "Head of Growth",
-    company: "Glow Essentials",
-    rating: 5,
-    metric: "-38% Lower CAC",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80"
-  },
-  {
-    quote: "After our Shark Tank feature, we needed high volume video production without hiring an entire 6-person agency. The Reel Company delivered flawless reels on demand.",
-    author: "Karan Johar",
-    role: "Co-Founder",
-    company: "Snackible India",
-    rating: 5,
-    metric: "Shark Tank Scale",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
-  },
-  {
-    quote: "Fastest turnaround we've ever experienced in commercial video. Script, filming, motion graphics, and color grading delivered ready to run in under 48 hours.",
-    author: "Devika Patel",
-    role: "Brand Marketing Lead",
-    company: "FitPulse Nutrition",
-    rating: 5,
-    metric: "48h Turnaround",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
-  },
-  {
-    quote: "Starting with ₹3,000 / video was a no-brainer test for us. We've now produced over 80 videos with them. They are our permanent creative production arm.",
-    author: "Siddharth Roy",
-    role: "E-Commerce Director",
-    company: "Aura Home Living",
-    rating: 5,
-    metric: "80+ Videos Delivered",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80"
-  }
-];
-
 interface VideoItem {
   src: string;
   label: string;
@@ -947,28 +889,30 @@ export default function ReelCompanySite() {
           <div className="testimonials-inner">
             <div className="testimonials-header">
               <h2 className="testimonials-title">What Our Clients Say</h2>
-              <p className="testimonials-sub">Real reviews from founders and marketing leaders who scaled their brands with The Reel Company.</p>
+              <p className="testimonials-sub">Real video testimonials from brands who have worked with The Reel Company.</p>
             </div>
             
             <div className="testimonials-slider-container">
               {/* Single Row (Moving Left) */}
               <div className="testimonials-track track-left">
                 {[1, 2].map((groupIndex) => (
-                  <div key={`group1-${groupIndex}`} className="testimonial-marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
-                    {TESTIMONIALS.map((t, idx) => (
-                      <div key={`t-${groupIndex}-${idx}`} className="testimonial-review-card">
-                        <div className="testimonial-card-top">
-                          <div className="testimonial-stars" aria-label="5 stars">
-                            {'★'.repeat(t.rating)}
+                  <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
+                    {[1, 2, 3, 4, 5, 6].map((item, idx) => (
+                      <div key={`t1-${groupIndex}-${idx}`} className="testimonial-card">
+                        <div className="testimonial-video-wrap">
+                          <div className="testimonial-empty-placeholder">
+                            <div className="testimonial-center-icon">
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
                           </div>
-                          <span className="testimonial-metric-badge">{t.metric}</span>
-                        </div>
-                        <p className="testimonial-quote">&ldquo;{t.quote}&rdquo;</p>
-                        <div className="testimonial-author-row">
-                          <img src={t.avatar} alt={t.author} className="testimonial-author-avatar" loading="lazy" />
-                          <div className="testimonial-author-info">
-                            <span className="testimonial-author-name">{t.author}</span>
-                            <span className="testimonial-author-role">{t.role} · <strong className="testimonial-author-company">{t.company}</strong></span>
+                          <div className="testimonial-overlay"></div>
+                          <div className="testimonial-label">Client Review 0{idx + 1}</div>
+                          <div className="testimonial-play-indicator">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
                           </div>
                         </div>
                       </div>
