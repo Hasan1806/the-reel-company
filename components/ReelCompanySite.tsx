@@ -78,7 +78,7 @@ export default function ReelCompanySite() {
 
   // Scroll listener for header & nav active link
   useEffect(() => {
-    const sections = ['hero', 'portfolio', 'capabilities', 'comparison', 'footer-cta'];
+    const sections = ['hero', 'portfolio', 'services', 'comparison', 'footer-cta'];
     const handleScroll = () => {
       if (window.scrollY > 60) {
         setHeaderScrolled(true);
@@ -537,7 +537,7 @@ export default function ReelCompanySite() {
           <nav id="main-nav" aria-label="Main navigation">
             <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
             <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
-            <a href="#capabilities" className={`nav-link ${activeSection === 'capabilities' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#capabilities')}>Services</a>
+            <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')}>Services</a>
             <a href="#comparison" className={`nav-link ${activeSection === 'comparison' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
           </nav>
@@ -558,7 +558,7 @@ export default function ReelCompanySite() {
           <div className="mobile-nav-scroll-container">
             <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
             <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
-            <a href="#capabilities" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#capabilities')}>Services</a>
+            <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
             <a href="#comparison" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
             <a href="#portfolio" className="btn btn-red mobile-nav-cta" onClick={e => handleAnchorClick(e, '#portfolio')}>Request Portfolio Access</a>
@@ -875,70 +875,7 @@ export default function ReelCompanySite() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════ CAPABILITIES ═══════════════════════════ */}
-        <section id="capabilities" className="capabilities-section" aria-label="Content Capabilities">
-          <div className="capabilities-bg-text" aria-hidden="true">ONE TEAM</div>
-          <div className="capabilities-inner">
-            <div className="capabilities-header">
-              <p className="section-label">Full Service</p>
-              <h2 className="section-title">Your Entire Content Department.<br/>Under One Roof.</h2>
-              <p className="capabilities-desc">
-                We replace the cost and complexity of building an internal content team.
-                Strategy, production, editing, and distribution — handled by one dedicated studio
-                that knows your brand inside and out.
-              </p>
-              <p className="capabilities-desc">
-                No briefing multiple agencies. No chasing freelancers. No quality inconsistency.
-                One partner, one process, one standard of excellence — delivered on a schedule
-                that keeps your channels fed and your ads converting.
-              </p>
-            </div>
-            <div className="capabilities-grid" id="capabilities-grid">
-              <div className="cap-card" style={{ '--i': 0 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>UGC Video Production</h3>
-                <p>Authentic creator-style videos that feel native to every platform and drive real conversions.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 1 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Ad Creative Development</h3>
-                <p>Performance-focused video ads built specifically for Meta, TikTok, and YouTube paid campaigns.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 2 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Content Strategy</h3>
-                <p>A data-informed content calendar aligned to your brand goals, audience, and platform algorithms.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 3 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Professional Editing</h3>
-                <p>Studio-grade post-production including colour grading, motion graphics, captions, and sound design.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 4 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Creator Sourcing &amp; Management</h3>
-                <p>We recruit, brief, and manage vetted UGC creators on your behalf — you approve, we handle the rest.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 5 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Scriptwriting &amp; Briefing</h3>
-                <p>Conversion-optimised scripts and detailed creator briefs that eliminate guesswork and maintain brand voice.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 6 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Short-Form Social Content</h3>
-                <p>Reels, Shorts, and TikToks engineered for reach — with hooks, pacing, and formats proven to stop the scroll.</p>
-              </div>
-              <div className="cap-card" style={{ '--i': 7 } as React.CSSProperties}>
-                <div className="cap-check" aria-hidden="true">✓</div>
-                <h3>Revision &amp; Iteration</h3>
-                <p>Unlimited revisions until the content is right. We iterate based on performance data, not guesswork.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════ EDITORIAL MARQUEE ═══════════════════════════ */}
+        {/* ═══════════════════════════════ EDITORIAL SERVICES MARQUEE ═══════════════════════════ */}
         <EditorialMarqueeSection />
 
         {/* ═══════════════════════════════ CLIENT CTA ═══════════════════════════ */}
@@ -1225,7 +1162,7 @@ export default function ReelCompanySite() {
               <h4>Navigation</h4>
               <a href="#hero" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
               <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
-              <a href="#capabilities" onClick={e => handleAnchorClick(e, '#capabilities')}>Services</a>
+              <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
               <a href="#comparison" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
               <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
             </div>

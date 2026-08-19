@@ -94,7 +94,7 @@ export default function EditorialMarqueeSection() {
   );
 
   return (
-    <section className="editorial-marquee-section" aria-label="Production Capabilities">
+    <section id="services" className="editorial-marquee-section" aria-label="Production Capabilities">
       <div className="editorial-marquee-viewport">
         <div className="editorial-fade-left" aria-hidden="true"></div>
         <div className="editorial-fade-right" aria-hidden="true"></div>
