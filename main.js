@@ -104,20 +104,8 @@ function createVideoCard(v, i) {
   topBar.style.justifyContent = 'flex-end';
   topBar.innerHTML = `<span class="video-index-tag">0${i + 1}</span>`;
 
-  const bottomBar = document.createElement('div');
-  bottomBar.className = 'video-card-bottom-bar';
-  bottomBar.innerHTML = `
-    <span class="video-card-title">${v.label}</span>
-    <div class="video-card-metrics">
-      <span class="metric-highlight">✦ High Converting</span>
-      <span>9:16 HD</span>
-    </div>
-  `;
-
   card.appendChild(topBar);
   card.appendChild(video);
-  card.appendChild(overlay);
-  card.appendChild(bottomBar);
 
   card.addEventListener('mouseenter', () => {
     if (!video.src && video.dataset.src) video.src = video.dataset.src;

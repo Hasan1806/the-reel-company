@@ -786,17 +786,6 @@ export default function ReelCompanySite() {
                   data-src={v.src}
                   src={v.src}
                 ></video>
-
-                <div className="video-card-overlay"></div>
-
-                {/* Bottom Title & Conversion Metric */}
-                <div className="video-card-bottom-bar">
-                  <span className="video-card-title">{v.label}</span>
-                  <div className="video-card-metrics">
-                    <span className="metric-highlight">✦ High Converting</span>
-                    <span>9:16 HD</span>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
@@ -821,14 +810,6 @@ export default function ReelCompanySite() {
                   data-src={v.src}
                   src={v.src}
                 ></video>
-                <div className="video-card-overlay"></div>
-                <div className="video-card-bottom-bar">
-                  <span className="video-card-title">{v.label}</span>
-                  <div className="video-card-metrics">
-                    <span className="metric-highlight">✦ High Converting</span>
-                    <span>9:16 HD</span>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
