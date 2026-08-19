@@ -288,74 +288,41 @@ export default function ReelCompanySite() {
     };
   }, []);
 
-  // Video Observer for Portfolio Section (Play/Pause on scroll in and out)
+  // Always Autoplay Guarantee for All 8 Portfolio Videos
   useEffect(() => {
-    const section = document.getElementById('portfolio');
-    if (!section) return;
-
-    const loadAndPlayVisible = () => {
-      const cards = document.querySelectorAll<HTMLElement>('.video-card');
-      cards.forEach(card => {
-        const video = card.querySelector<HTMLVideoElement>('video');
-        if (!video) return;
-        const indexAttr = card.getAttribute('data-index');
-        const idx = indexAttr !== null ? parseInt(indexAttr, 10) : -1;
-        const rect = card.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-
-        // Lazy load src
-        if (inView && !video.src && video.dataset.src) {
-          video.src = video.dataset.src;
-          video.load();
-        }
-
-        if (inView && video.src && video.paused) {
-          video.play().catch(() => {});
-          if (idx !== -1) {
-            setPortfolioPlayingState(prev => ({ ...prev, [idx]: true }));
-          }
-        } else if (!inView && !video.paused) {
-          video.pause();
-          if (idx !== -1) {
-            setPortfolioPlayingState(prev => ({ ...prev, [idx]: false }));
-          }
+    const playAll = () => {
+      const videos = document.querySelectorAll<HTMLVideoElement>('.portfolio-grid video, .portfolio-mobile-carousel video');
+      videos.forEach(v => {
+        if (v.paused) {
+          v.play().catch(() => {});
         }
       });
     };
 
-    let scrollListenerAttached = false;
-    const handleScroll = () => {
-      loadAndPlayVisible();
-    };
+    playAll();
+
+    const section = document.getElementById('portfolio');
+    if (!section) return;
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          loadAndPlayVisible();
-          if (!scrollListenerAttached) {
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            scrollListenerAttached = true;
-          }
-        } else {
-          if (scrollListenerAttached) {
-            window.removeEventListener('scroll', handleScroll);
-            scrollListenerAttached = false;
-          }
-          document.querySelectorAll<HTMLVideoElement>('.video-card video').forEach(v => {
-            if (!v.paused) v.pause();
-          });
-          setPortfolioPlayingState({});
+          playAll();
         }
       });
     }, { threshold: 0.05 });
 
     sectionObserver.observe(section);
 
+    // Visibility change / window focus guarantee
+    const handleVisibilityChange = () => {
+      if (!document.hidden) playAll();
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
-      if (scrollListenerAttached) {
-        window.removeEventListener('scroll', handleScroll);
-      }
       sectionObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -768,9 +735,6 @@ export default function ReelCompanySite() {
                 key={`grid-${i}`}
                 className="video-card"
                 data-index={i}
-                onMouseEnter={e => playPortfolioVideo(i, e.currentTarget)}
-                onMouseLeave={e => pausePortfolioVideo(i, e.currentTarget)}
-                onClick={e => togglePortfolioVideo(i, e.currentTarget)}
               >
                 {/* Clean Index Badge */}
                 <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
@@ -778,12 +742,12 @@ export default function ReelCompanySite() {
                 </div>
 
                 <video
+                  autoPlay
                   muted
                   playsInline
                   loop
-                  preload="metadata"
+                  preload="auto"
                   aria-label={v.label}
-                  data-src={v.src}
                   src={v.src}
                 ></video>
               </div>
@@ -796,18 +760,17 @@ export default function ReelCompanySite() {
                 key={`mobile-${i}`}
                 className="video-card"
                 data-index={i}
-                onClick={e => togglePortfolioVideo(i, e.currentTarget)}
               >
                 <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
                   <span className="video-index-tag">0{i + 1}</span>
                 </div>
                 <video
+                  autoPlay
                   muted
                   playsInline
                   loop
-                  preload="metadata"
+                  preload="auto"
                   aria-label={v.label}
-                  data-src={v.src}
                   src={v.src}
                 ></video>
               </div>

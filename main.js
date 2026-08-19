@@ -92,12 +92,13 @@ function createVideoCard(v, i) {
   card.setAttribute('data-index', i);
 
   const video = document.createElement('video');
+  video.autoplay = true;
   video.muted = true;
   video.playsInline = true;
   video.loop = true;
-  video.preload = 'none';
+  video.preload = 'auto';
   video.setAttribute('aria-label', v.label);
-  video.setAttribute('data-src', v.src);
+  video.src = v.src;
 
   const topBar = document.createElement('div');
   topBar.className = 'video-card-top-bar';
@@ -107,13 +108,7 @@ function createVideoCard(v, i) {
   card.appendChild(topBar);
   card.appendChild(video);
 
-  card.addEventListener('mouseenter', () => {
-    if (!video.src && video.dataset.src) video.src = video.dataset.src;
-    video.play().catch(() => {});
-  });
-  card.addEventListener('mouseleave', () => {
-    video.pause();
-  });
+  video.play().catch(() => {});
   return card;
 }
 
