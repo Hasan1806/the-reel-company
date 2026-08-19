@@ -90,16 +90,22 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         );
 
         // One unified master timeline for the whole hero transition
-        // Controlled scroll distance of ~100% - 120% (1 natural smooth scroll gesture)
+        // 2 distinct scroll stages: 1st scroll -> Stats, 2nd scroll -> Main Home section
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: "top top",
-            end: conditions.isMobile ? "+=100%" : "+=120%",
-            scrub: conditions.isMobile ? 0.3 : 0.45,
+            end: conditions.isMobile ? "+=600px" : "+=800px",
+            scrub: conditions.isMobile ? 0.25 : 0.35,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            snap: {
+              snapTo: [0, 0.5, 1],
+              duration: { min: 0.2, max: 0.4 },
+              delay: 0.04,
+              ease: "power1.inOut",
+            },
           },
         });
 
@@ -113,7 +119,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         gsap.set(lensLayer, { opacity: 1 });
         gsap.set(readabilityOverlay, { opacity: 1 });
         gsap.set(tempStatsWrap, { opacity: 0, visibility: "hidden", pointerEvents: "none" });
-        gsap.set(tempStatsCard, { y: 35, opacity: 0 });
+        gsap.set(tempStatsCard, { y: 30, opacity: 0 });
         gsap.set(tempStatItems, { opacity: 0, y: 15 });
         gsap.set(mainHeroWrap, { opacity: 0, y: 20, pointerEvents: "none" });
 
@@ -129,13 +135,14 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         // MASTER SCROLL TIMELINE (0.0 -> 1.0)
         // ══════════════════════════════════════════════════════════
 
-        // 1. (0.00 -> 0.28): Initial Hero Intro text fades out and moves up smoothly
+        // ── STAGE 1 (0.00 -> 0.50): 1st Scroll -> Zoom into Lens & Reveal Stats ──
+        // A. Intro Text fades out quickly
         tl.to(
           introText,
           {
             opacity: 0,
             y: -20,
-            duration: 0.28,
+            duration: 0.20,
             ease: "power1.out",
           },
           0.0
@@ -146,37 +153,37 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             introText.style.pointerEvents = "none";
           },
           undefined,
-          0.28
+          0.20
         );
 
-        // 2. (0.05 -> 0.70): Camera Lens zooms smoothly into the black aperture center
+        // B. Camera Lens zooms in dynamically into the dark aperture center
         tl.to(
           lensImg,
           {
             scale: dynamicTargetScale,
-            duration: 0.65,
-            ease: "power2.inOut",
+            duration: 0.48,
+            ease: "power1.inOut",
           },
-          0.05
+          0.02
         );
 
-        // 3. (0.35 -> 0.52): Stats Card transitions into the black lens center
+        // C. Stats Card reveals centered in the dark aperture
         tl.call(
           () => {
             tempStatsWrap.style.visibility = "visible";
           },
           undefined,
-          0.35
+          0.22
         );
 
         tl.to(
           tempStatsWrap,
           {
             opacity: 1,
-            duration: 0.12,
+            duration: 0.16,
             ease: "power1.out",
           },
-          0.35
+          0.22
         );
 
         tl.to(
@@ -184,10 +191,10 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           {
             opacity: 1,
             y: 0,
-            duration: 0.17,
+            duration: 0.22,
             ease: "power2.out",
           },
-          0.35
+          0.22
         );
 
         tl.to(
@@ -195,35 +202,36 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           {
             opacity: 1,
             y: 0,
-            stagger: 0.02,
-            duration: 0.14,
+            stagger: 0.03,
+            duration: 0.18,
             ease: "power2.out",
           },
-          0.38
+          0.26
         );
 
-        // 4. (0.52 -> 0.63): Stats HOLD comfortably readable in the aperture center
+        // (0.46 -> 0.54 is the Stage 1 Snap Hold point for Stats)
 
-        // 5. (0.63 -> 0.75): Stats EXIT cleanly BEFORE Main Home Section enters
+        // ── STAGE 2 (0.50 -> 1.00): 2nd Scroll -> Stats Exit & Main Home Section Opens ──
+        // D. Stats Card exits cleanly
         tl.to(
           tempStatsCard,
           {
             opacity: 0,
             y: -25,
-            duration: 0.11,
+            duration: 0.16,
             ease: "power2.in",
           },
-          0.63
+          0.54
         );
 
         tl.to(
           tempStatsWrap,
           {
             opacity: 0,
-            duration: 0.09,
+            duration: 0.12,
             ease: "power1.in",
           },
-          0.66
+          0.58
         );
 
         tl.call(
@@ -232,29 +240,30 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             tempStatsWrap.style.pointerEvents = "none";
           },
           undefined,
-          0.75
+          0.70
         );
 
-        // 6. (0.75 -> 1.00): Lens/black background fades away as Main Home Section enters
+        // E. Lens Layer and black backdrop fade away
         tl.to(
           [blackBg, lensLayer, readabilityOverlay],
           {
             opacity: 0,
-            duration: 0.22,
+            duration: 0.26,
             ease: "power2.out",
           },
-          0.75
+          0.66
         );
 
+        // F. Main Home Section smoothly emerges and becomes active
         tl.to(
           mainHeroWrap,
           {
             opacity: 1,
             y: 0,
-            duration: 0.25,
+            duration: 0.28,
             ease: "power2.out",
           },
-          0.75
+          0.68
         );
 
         tl.call(
@@ -262,7 +271,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             mainHeroWrap.style.pointerEvents = "auto";
           },
           undefined,
-          0.95
+          0.90
         );
 
         // Release willChange after transition completion
