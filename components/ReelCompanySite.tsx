@@ -584,7 +584,12 @@ export default function ReelCompanySite() {
                   </h1>
                   <h2 className="hero-tagline reveal-up">High-Performance Content at Scale</h2>
                   <p className="hero-sub reveal-up">
-                    We power video ad performance for 150+ Indian brands — strategy, pan-India creator sourcing in Hinglish, Hindi &amp; regional languages, editing, &amp; 48hr delivery for Meta Ads, Amazon India &amp; Quick Commerce.
+                    <span style={{ display: 'block', color: 'rgba(255, 255, 255, 0.95)', fontWeight: 500, marginBottom: '0.45rem', letterSpacing: '-0.01em' }}>
+                      Trusted by Big Brands. Chosen by Shark Tank–Featured Companies.
+                    </span>
+                    <span style={{ color: '#cbd5e1', display: 'block' }}>
+                      Creating content that turns brand stories into attention, engagement, and measurable growth.
+                    </span>
                   </p>
                   <div className="hero-ctas reveal-up" style={{ '--delay': '0.2s' } as React.CSSProperties}>
                     <a href="#portfolio" className="btn btn-red" onClick={e => handleAnchorClick(e, '#portfolio')}>See Our Work</a>
