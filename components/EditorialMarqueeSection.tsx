@@ -4,28 +4,49 @@ import React, { useState } from 'react';
 
 const services = [
   { 
-    text: 'Filming', 
-    image: { src: 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=400&auto=format&fit=crop', width: '150px', height: '110px', rotate: '-4deg' } 
-  },
-  { 
-    text: 'Scriptwriting', 
-    image: { src: 'https://images.unsplash.com/photo-1455390582262-044cdead27d8?q=80&w=400&auto=format&fit=crop', width: '135px', height: '95px', rotate: '3deg' } 
+    text: 'Script Writing', 
+    image: { 
+      src: '/services/scriptwriting.jpg', 
+      width: '155px', 
+      height: '115px', 
+      rotate: '3deg' 
+    } 
   },
   { 
     text: 'Sound Design', 
-    image: { src: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=400&auto=format&fit=crop', width: '145px', height: '105px', rotate: '-2deg' } 
-  },
-  { 
-    text: 'Color Grading', 
-    image: { src: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=400&auto=format&fit=crop', width: '165px', height: '125px', rotate: '2.5deg' } 
+    image: { 
+      src: '/services/sound-design.jpg', 
+      width: '160px', 
+      height: '115px', 
+      rotate: '-2.5deg' 
+    } 
   },
   { 
     text: 'Motion Graphics', 
-    image: { src: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=400&auto=format&fit=crop', width: '140px', height: '110px', rotate: '-3deg' } 
+    image: { 
+      src: '/services/motion-graphics.jpg', 
+      width: '155px', 
+      height: '110px', 
+      rotate: '2.5deg' 
+    } 
   },
   { 
     text: 'VFX', 
-    image: { src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop', width: '155px', height: '135px', rotate: '2deg' } 
+    image: { 
+      src: '/services/vfx.png', 
+      width: '160px', 
+      height: '120px', 
+      rotate: '-3deg' 
+    } 
+  },
+  { 
+    text: 'Filming', 
+    image: { 
+      src: '/services/filming.jpg', 
+      width: '155px', 
+      height: '115px', 
+      rotate: '3.5deg' 
+    } 
   }
 ];
 
@@ -42,29 +63,29 @@ export default function EditorialMarqueeSection() {
         const isActive = activeHoverId === uniqueKey;
         
         return (
-          <React.Fragment key={uniqueKey}>
-            <div 
-              className={`editorial-service-item ${isActive ? 'is-active' : ''}`}
-              onMouseEnter={() => setActiveHoverId(uniqueKey)}
-              onMouseLeave={() => setActiveHoverId(null)}
-              onTouchStart={() => setActiveHoverId(uniqueKey)}
-              onTouchEnd={() => setTimeout(() => setActiveHoverId(null), 1200)}
-            >
-              <span className="editorial-marquee-text">{service.text}</span>
-              <img
-                src={service.image.src}
-                alt=""
-                className="editorial-floating-image"
-                loading="eager"
-                style={{
-                  width: service.image.width,
-                  height: service.image.height,
-                  '--image-rotation': service.image.rotate,
-                } as React.CSSProperties}
-              />
-              <span className="editorial-marquee-dot"></span>
-            </div>
-          </React.Fragment>
+          <div 
+            key={uniqueKey}
+            className={`editorial-service-item ${isActive ? 'is-active' : ''}`}
+            onMouseEnter={() => setActiveHoverId(uniqueKey)}
+            onMouseLeave={() => setActiveHoverId(null)}
+            onTouchStart={() => setActiveHoverId(uniqueKey)}
+            onTouchEnd={() => setTimeout(() => setActiveHoverId(null), 1200)}
+          >
+            <span className="editorial-marquee-text">{service.text}</span>
+            <img
+              src={service.image.src}
+              alt={service.text}
+              className="editorial-floating-image"
+              loading="eager"
+              decoding="async"
+              style={{
+                width: service.image.width,
+                height: service.image.height,
+                '--image-rotation': service.image.rotate,
+              } as React.CSSProperties}
+            />
+            <span className="editorial-marquee-dot" aria-hidden="true"></span>
+          </div>
         );
       })}
     </div>
@@ -73,15 +94,17 @@ export default function EditorialMarqueeSection() {
   return (
     <section className="editorial-marquee-section" aria-label="Production Capabilities">
       <div className="editorial-marquee-viewport">
-        <div className="editorial-fade-left"></div>
-        <div className="editorial-fade-right"></div>
+        <div className="editorial-fade-left" aria-hidden="true"></div>
+        <div className="editorial-fade-right" aria-hidden="true"></div>
         
         <div className="editorial-marquee-track">
           {renderGroup(1)}
           {renderGroup(2)}
           {renderGroup(3)}
+          {renderGroup(4)}
         </div>
       </div>
     </section>
   );
 }
+
