@@ -825,7 +825,6 @@ export default function ReelCompanySite() {
           <div className="portfolio-header">
             <p className="section-label">Our Work</p>
             <h2 className="section-title">Content That <em>Converts</em></h2>
-            <p className="section-sub">Handpicked UGC and performance ad videos from our active client campaigns.</p>
           </div>
 
           <div className="portfolio-grid" id="portfolio-grid">
