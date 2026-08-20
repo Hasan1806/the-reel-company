@@ -1037,7 +1037,7 @@ export default function ReelCompanySite() {
                     <td><span className="badge-tag">Varies</span></td>
                     <td><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Inconsistent</span></td>
                     <td><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> High</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>High</strong></span></td>
                   </tr>
                   <tr>
                     <td className="feature-name">Affordable Pricing</td>
@@ -1133,7 +1133,7 @@ export default function ReelCompanySite() {
                     <h3>The Reel Company</h3>
                   </div>
                   <ul className="mobile-carousel-list">
-                    <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Studio Grade</strong></span></span></li>
+                    <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>High</strong></span></span></li>
                     <li><span className="feature-name">Pricing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Flat Rate</strong></span></span></li>
                     <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></span></li>
                     <li><span className="feature-name">Specialisation</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span></span></li>
