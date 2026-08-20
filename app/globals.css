@@ -1423,7 +1423,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 @media (max-width: 640px) {
   .testimonials-section {
-    padding: 4.5rem 0;
+    padding: 2.25rem 0 1rem;
+  }
+  .testimonials-header {
+    margin-bottom: 1.5rem;
   }
   .testimonial-card {
     width: 240px;
@@ -1708,13 +1711,16 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* Phone View / Mobile Responsive Enhancements */
 @media (max-width: 768px) {
   .comparison-section {
-    padding: 3rem 0 1.5rem;
+    padding: 1.25rem 0 1.5rem;
   }
   .comparison-inner {
     padding: 0 1rem;
   }
   .comparison-header {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-badge-pill {
+    margin-bottom: 0.75rem;
   }
   .table-wrap {
     border-radius: 20px;
