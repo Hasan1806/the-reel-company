@@ -499,6 +499,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: relative;
   padding: 3.5rem 0 2.25rem;
   overflow: hidden;
+  scroll-margin-top: 80px;
 }
 
 .portfolio-ambient-glow-left {

@@ -487,7 +487,20 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             High-Performance Content at Scale
           </p>
           <div className="hero-ctas animated">
-            <a href="#portfolio" className="btn btn-red" style={{ padding: "0.95rem 2.4rem", fontSize: "0.95rem" }}>
+            <a
+              href="#portfolio"
+              className="btn btn-red"
+              style={{ padding: "0.95rem 2.4rem", fontSize: "0.95rem", cursor: "pointer" }}
+              onClick={(e) => {
+                e.preventDefault();
+                const portfolioEl = document.getElementById("portfolio");
+                if (portfolioEl) {
+                  portfolioEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                } else {
+                  window.location.hash = "#portfolio";
+                }
+              }}
+            >
               Explore Studio Work
             </a>
           </div>
