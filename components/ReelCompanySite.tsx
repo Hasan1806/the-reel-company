@@ -554,7 +554,7 @@ export default function ReelCompanySite() {
             <a href="#comparison" className={`nav-link ${activeSection === 'comparison' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
           </nav>
-          <button type="button" className="btn btn-outline header-cta" id="header-cta-btn" onClick={openDiscoveryModal}>
+          <button type="button" className="btn btn-red header-cta" id="header-cta-btn" onClick={openDiscoveryModal}>
             Book a Call
           </button>
           <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu}>
