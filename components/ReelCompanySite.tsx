@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import LensIntroHero from './LensIntroHero';
@@ -662,6 +663,7 @@ export default function ReelCompanySite() {
             <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
             <a href="#comparison" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
+            <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu}>Privacy Policy</Link>
             <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }}>Book a Call</button>
           </div>
         </div>
@@ -1198,6 +1200,7 @@ export default function ReelCompanySite() {
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
               <a href="#comparison" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
               <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
+              <Link href="/privacy-policy">Privacy Policy</Link>
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
