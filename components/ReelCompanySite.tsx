@@ -762,7 +762,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ CLIENT MARQUEE ═══════════════════════════ */}
         <section id="clients" className="client-marquee-section" aria-label="Trusted Clients">
           <div className="client-marquee-header">
-            <p className="client-marquee-label">✦ TRUSTED BY GLOBAL BRANDS &amp; HIGH-IMPACT CAMPAIGNS ✦</p>
+            <p className="client-marquee-label">✦ TRUSTED BY TOP INDIAN BRANDS ✦</p>
           </div>
 
           <div className="client-marquee-container">
