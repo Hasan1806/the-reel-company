@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initVideoObserver();
   initCapMouseEffect();
   initBackToTop();
+  initFAQAccordion();
   waitForGSAP();
 });
 
@@ -529,3 +530,34 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+// ─── Single-Open FAQ Accordion ────────────────────────
+function initFAQAccordion() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  if (!faqItems.length) return;
+
+  faqItems.forEach((item, index) => {
+    const btn = item.querySelector('.faq-trigger-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('is-open');
+
+      // Close all items
+      faqItems.forEach(otherItem => {
+        otherItem.classList.remove('is-open');
+        otherItem.classList.add('is-closed');
+        const otherBtn = otherItem.querySelector('.faq-trigger-btn');
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      });
+
+      // If clicked item was closed, open it
+      if (!isOpen) {
+        item.classList.remove('is-closed');
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+}
+

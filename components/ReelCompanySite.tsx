@@ -8,6 +8,7 @@ import { StatsCard } from './StatsCard';
 import DiscoveryCallModal from './DiscoveryCallModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
+import FAQSection from './FAQSection';
 
 interface VideoItem {
   src: string;
@@ -1162,6 +1163,9 @@ export default function ReelCompanySite() {
             </button>
           </div>
         </section>
+
+        {/* ═══════════════════════════════ FAQ SECTION ═══════════════════════════ */}
+        <FAQSection />
       </main>
 
       {/* ═══════════════════════════════ FOOTER ═══════════════════════════ */}
