@@ -700,14 +700,17 @@ export default function ReelCompanySite() {
                     <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                   </h1>
                   <h2 className="hero-tagline reveal-up">High-Performance Content at Scale</h2>
-                  <p className="hero-sub reveal-up">
-                    <span style={{ display: 'block', color: 'rgba(255, 255, 255, 0.95)', fontWeight: 500, marginBottom: '0.45rem', letterSpacing: '-0.01em' }}>
-                      Trusted by Big Brands. Chosen by Shark Tank–Featured Companies.
-                    </span>
-                    <span style={{ color: '#cbd5e1', display: 'block' }}>
-                      Creating content that turns brand stories into attention, engagement, and measurable growth.
-                    </span>
-                  </p>
+                  <div className="hero-sub reveal-up">
+                    <p className="hero-sub-lead">
+                      From content that stops the scroll to ads that drive performance, TRC does it all.
+                    </p>
+                    <p className="hero-sub-body">
+                      Organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries—and everything in between.
+                    </p>
+                    <p className="hero-sub-value">
+                      One team, one seamless workflow, <span className="hero-val-highlight">2x faster execution</span>, and <span className="hero-val-highlight">up to 50% lower costs</span> than traditional agencies.
+                    </p>
+                  </div>
                   <div className="hero-ctas reveal-up" style={{ '--delay': '0.2s' } as React.CSSProperties}>
                     <a href="#portfolio" className="btn btn-red" onClick={e => handleAnchorClick(e, '#portfolio')}>See Our Work</a>
                     <button type="button" className="btn btn-outline" onClick={openDiscoveryModal}>Book a Discovery Call</button>

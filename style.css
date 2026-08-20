@@ -173,6 +173,37 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .icon-btn{background:rgba(255,255,255,0.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.25);border-radius:50%;width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;transition:background .2s,transform .2s;}
 .icon-btn:hover{background:rgba(255,255,255,0.32);transform:scale(1.08);}
 
+.hero-sub {
+  margin-bottom: 1.85rem;
+  max-width: 560px;
+}
+
+.hero-sub-lead {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.48;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.55rem;
+}
+
+.hero-sub-body {
+  font-size: 0.94rem;
+  color: #cbd5e1;
+  line-height: 1.62;
+  margin-bottom: 0.65rem;
+}
+
+.hero-sub-value {
+  font-size: 0.92rem;
+  color: #a1a1aa;
+  line-height: 1.55;
+}
+
+.hero-val-highlight {
+  color: #ffffff;
+  font-weight: 600;
+}
 
 /* ═══════════════════ CLIENT MARQUEE ═══════════════════ */
 .client-marquee-section{padding:5rem 0 4rem;background:linear-gradient(180deg, rgba(8,8,8,0) 0%, rgba(18,18,18,0.7) 50%, rgba(8,8,8,0) 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
