@@ -11,23 +11,98 @@ import UgcProcessSection from './process/UgcProcessSection';
 
 interface VideoItem {
   src: string;
+  poster?: string;
   label: string;
 }
 
 const VIDEOS: VideoItem[] = [
-  { src: '/videos/portfolio/portfolio-1.mp4', label: 'E-Commerce UGC Ad' },
-  { src: '/videos/portfolio/portfolio-2.mp4', label: 'Performance Ad Creative' },
-  { src: '/videos/portfolio/portfolio-3.mp4', label: 'Brand Storytelling' },
-  { src: '/videos/portfolio/portfolio-4.mp4', label: 'Direct-Response Reel' },
-  { src: '/videos/portfolio/portfolio-5.mp4', label: 'Scroll-Stopping Hook' },
-  { src: '/videos/portfolio/portfolio-6.mp4', label: 'Lifestyle & Fitness Ad' },
-  { src: '/videos/portfolio/portfolio-7.mp4', label: 'Viral Creator Reel' },
-  { src: '/videos/portfolio/portfolio-8.mp4', label: 'High-ROI Paid Social' },
+  { src: '/videos/portfolio/portfolio-1.mp4', poster: '/videos/portfolio/portfolio-1-poster.webp', label: 'E-Commerce UGC Ad' },
+  { src: '/videos/portfolio/portfolio-2.mp4', poster: '/videos/portfolio/portfolio-2-poster.webp', label: 'Performance Ad Creative' },
+  { src: '/videos/portfolio/portfolio-3.mp4', poster: '/videos/portfolio/portfolio-3-poster.webp', label: 'Brand Storytelling' },
+  { src: '/videos/portfolio/portfolio-4.mp4', poster: '/videos/portfolio/portfolio-4-poster.webp', label: 'Direct-Response Reel' },
+  { src: '/videos/portfolio/portfolio-5.mp4', poster: '/videos/portfolio/portfolio-5-poster.webp', label: 'Scroll-Stopping Hook' },
+  { src: '/videos/portfolio/portfolio-6.mp4', poster: '/videos/portfolio/portfolio-6-poster.webp', label: 'Lifestyle & Fitness Ad' },
+  { src: '/videos/portfolio/portfolio-7.mp4', poster: '/videos/portfolio/portfolio-7-poster.webp', label: 'Viral Creator Reel' },
+  { src: '/videos/portfolio/portfolio-8.mp4', poster: '/videos/portfolio/portfolio-8-poster.webp', label: 'High-ROI Paid Social' },
   { src: '', label: 'Creative in Production' },
   { src: '', label: 'Brand Campaign in Production' },
   { src: '', label: 'Performance Ad in Production' },
   { src: '', label: 'Creator Story in Production' },
 ];
+
+interface LazyPortfolioCardProps {
+  video: VideoItem;
+  index: number;
+  isMobile?: boolean;
+}
+
+function LazyPortfolioCard({ video, index, isMobile }: LazyPortfolioCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+        if (videoRef.current) {
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch(() => {});
+          } else {
+            videoRef.current.pause();
+          }
+        }
+      },
+      {
+        rootMargin: '250px 0px',
+        threshold: 0.05,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={`video-card ${!video.src ? 'empty-slot' : ''}`}
+      data-index={index}
+    >
+      <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
+        <span className="video-index-tag">{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
+      </div>
+
+      {video.src ? (
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          loop
+          preload={isInView ? "metadata" : "none"}
+          poster={video.poster}
+          aria-label={video.label}
+          src={isInView ? video.src : undefined}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      ) : (
+        <div className="empty-slot-content">
+          <div className="empty-slot-icon-wrap">
+            <svg width={isMobile ? "24" : "26"} height={isMobile ? "24" : "26"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+          </div>
+          <div className="empty-slot-label">{video.label}</div>
+          <span className="empty-slot-sub">{isMobile ? '✦ Slot Reserved' : '✦ Creative Slot Reserved'}</span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ReelCompanySite() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -658,6 +733,7 @@ export default function ReelCompanySite() {
                         loop
                         playsInline
                         preload="auto"
+                        poster="/videos/hero-video-poster.webp"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         onError={(e) => {
                           const target = e.currentTarget;
@@ -754,76 +830,23 @@ export default function ReelCompanySite() {
 
           <div className="portfolio-grid" id="portfolio-grid">
             {VIDEOS.map((v, i) => (
-              <div
+              <LazyPortfolioCard
                 key={`grid-${i}`}
-                className={`video-card ${!v.src ? 'empty-slot' : ''}`}
-                data-index={i}
-              >
-                {/* Clean Index Badge */}
-                <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
-                  <span className="video-index-tag">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
-                </div>
-
-                {v.src ? (
-                  <video
-                    autoPlay
-                    muted
-                    playsInline
-                    loop
-                    preload="auto"
-                    aria-label={v.label}
-                    src={v.src}
-                  ></video>
-                ) : (
-                  <div className="empty-slot-content">
-                    <div className="empty-slot-icon-wrap">
-                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7" />
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                      </svg>
-                    </div>
-                    <div className="empty-slot-label">{v.label}</div>
-                    <span className="empty-slot-sub">✦ Creative Slot Reserved</span>
-                  </div>
-                )}
-              </div>
+                video={v}
+                index={i}
+                isMobile={false}
+              />
             ))}
           </div>
 
           <div className="portfolio-mobile-carousel" id="portfolio-carousel">
             {VIDEOS.map((v, i) => (
-              <div
+              <LazyPortfolioCard
                 key={`mobile-${i}`}
-                className={`video-card ${!v.src ? 'empty-slot' : ''}`}
-                data-index={i}
-              >
-                <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
-                  <span className="video-index-tag">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
-                </div>
-
-                {v.src ? (
-                  <video
-                    autoPlay
-                    muted
-                    playsInline
-                    loop
-                    preload="auto"
-                    aria-label={v.label}
-                    src={v.src}
-                  ></video>
-                ) : (
-                  <div className="empty-slot-content">
-                    <div className="empty-slot-icon-wrap">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7" />
-                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                      </svg>
-                    </div>
-                    <div className="empty-slot-label">{v.label}</div>
-                    <span className="empty-slot-sub">✦ Slot Reserved</span>
-                  </div>
-                )}
-              </div>
+                video={v}
+                index={i}
+                isMobile={true}
+              />
             ))}
           </div>
 

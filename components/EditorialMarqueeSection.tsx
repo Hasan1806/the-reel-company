@@ -6,7 +6,7 @@ const services = [
   { 
     text: 'Script Writing', 
     image: { 
-      src: '/services/scriptwriting.jpg', 
+      src: '/services/scriptwriting.webp', 
       width: 'clamp(220px, 20vw, 300px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
@@ -15,7 +15,7 @@ const services = [
   { 
     text: 'Sound Design', 
     image: { 
-      src: '/services/sound-design.jpg', 
+      src: '/services/sound-design.webp', 
       width: 'clamp(230px, 21vw, 310px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
@@ -24,7 +24,7 @@ const services = [
   { 
     text: 'Motion Graphics', 
     image: { 
-      src: '/services/motion-graphics.jpg', 
+      src: '/services/motion-graphics.webp', 
       width: 'clamp(220px, 20vw, 300px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
@@ -33,7 +33,7 @@ const services = [
   { 
     text: 'VFX', 
     image: { 
-      src: '/services/vfx.png', 
+      src: '/services/vfx.webp', 
       width: 'clamp(230px, 21vw, 310px)', 
       height: 'clamp(150px, 14vw, 200px)', 
       rotate: '0deg' 
@@ -42,7 +42,7 @@ const services = [
   { 
     text: 'Filming', 
     image: { 
-      src: '/services/filming.jpg', 
+      src: '/services/filming.webp', 
       width: 'clamp(220px, 20vw, 300px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
