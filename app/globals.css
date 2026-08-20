@@ -1764,6 +1764,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .footer-nav-col a:hover{color:var(--text);}
 .footer-nav-col .footer-nav-link-btn{display:block;font-size:.87rem;color:var(--text-muted);margin-bottom:.5rem;background:none;border:none;padding:0;cursor:pointer;text-align:left;font-family:inherit;transition:color .2s;}
 .footer-nav-col .footer-nav-link-btn:hover{color:var(--text);}
+.footer-contact-col{max-width:300px;}
+.footer-contact-line{font-size:.85rem;color:var(--text-muted);line-height:1.6;margin-bottom:.65rem;}
+.footer-contact-line:last-child{margin-bottom:0;}
+.footer-contact-label{color:var(--text);font-weight:600;}
 
 /* ═══════════════════ BIG FOOTER BRANDING ═══════════════════ */
 .footer-big-branding-wrap {

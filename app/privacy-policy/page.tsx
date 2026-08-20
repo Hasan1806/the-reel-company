@@ -201,23 +201,13 @@ export default function PrivacyPolicyPage() {
                 </div>
 
                 <div className="privacy-contact-item">
-                  <span className="privacy-contact-label">Email</span>
-                  <a
-                    href="mailto:creatornavigator@gmail.com"
-                    className="privacy-contact-link"
-                  >
-                    creatornavigator@gmail.com
-                  </a>
+                  <span className="privacy-contact-label">E-mail</span>
+                  <span className="privacy-contact-val">shubham@creator-navigator.in</span>
                 </div>
 
                 <div className="privacy-contact-item">
                   <span className="privacy-contact-label">Phone</span>
-                  <a
-                    href="tel:+919109522210"
-                    className="privacy-contact-link"
-                  >
-                    +91-9109522210
-                  </a>
+                  <span className="privacy-contact-val">+91 8109214834</span>
                 </div>
 
                 <div className="privacy-contact-item full-width">
@@ -271,6 +261,18 @@ export default function PrivacyPolicyPage() {
               >
                 Email Us
               </button>
+            </div>
+            <div className="footer-nav-col footer-contact-col">
+              <h4>Contact</h4>
+              <p className="footer-contact-line">
+                <span className="footer-contact-label">Address:</span> Ground Floor, Kohinoor Tower, Kohka Junwani, Bhilai, 490023, Chhattisgarh
+              </p>
+              <p className="footer-contact-line">
+                <span className="footer-contact-label">Phone -</span> +91 8109214834
+              </p>
+              <p className="footer-contact-line">
+                <span className="footer-contact-label">E-mail :</span> shubham@creator-navigator.in
+              </p>
             </div>
           </nav>
         </div>
