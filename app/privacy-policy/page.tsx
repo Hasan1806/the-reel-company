@@ -3,13 +3,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import DiscoveryCallModal from "@/components/DiscoveryCallModal";
+import PortfolioAccessModal from "@/components/PortfolioAccessModal";
 
 export default function PrivacyPolicyPage() {
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
+  const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const openDiscoveryModal = () => setDiscoveryModalOpen(true);
   const closeDiscoveryModal = () => setDiscoveryModalOpen(false);
+  const openPortfolioModal = () => setPortfolioModalOpen(true);
+  const closePortfolioModal = () => setPortfolioModalOpen(false);
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
@@ -251,9 +255,13 @@ export default function PrivacyPolicyPage() {
               >
                 Book a Call
               </button>
-              <Link href="/#portfolio">
+              <button 
+                type="button" 
+                className="footer-nav-link-btn" 
+                onClick={openPortfolioModal}
+              >
                 Portfolio Access
-              </Link>
+              </button>
               <button 
                 type="button" 
                 className="footer-nav-link-btn" 
@@ -343,6 +351,12 @@ export default function PrivacyPolicyPage() {
       <DiscoveryCallModal
         isOpen={discoveryModalOpen}
         onClose={closeDiscoveryModal}
+      />
+
+      {/* Portfolio Access Lead Capture Modal */}
+      <PortfolioAccessModal
+        isOpen={portfolioModalOpen}
+        onClose={closePortfolioModal}
       />
     </div>
   );

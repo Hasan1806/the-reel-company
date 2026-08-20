@@ -7,6 +7,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import LensIntroHero from './LensIntroHero';
 import { StatsCard } from './StatsCard';
 import DiscoveryCallModal from './DiscoveryCallModal';
+import PortfolioAccessModal from './PortfolioAccessModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
@@ -129,6 +130,20 @@ export default function ReelCompanySite() {
 
   const closeDiscoveryModal = () => {
     setDiscoveryModalOpen(false);
+  };
+
+  // Portfolio Access Modal state
+  const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
+
+  const openPortfolioModal = (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setPortfolioModalOpen(true);
+  };
+
+  const closePortfolioModal = () => {
+    setPortfolioModalOpen(false);
   };
 
   // States to keep track of portfolio video playback icons per video index
@@ -865,9 +880,9 @@ export default function ReelCompanySite() {
           </div>
 
           <div className="portfolio-cta">
-            <a href="https://drive.google.com/drive/folders/your-portfolio-link" target="_blank" rel="noopener" className="btn btn-outline">
+            <button type="button" className="btn btn-outline" onClick={openPortfolioModal}>
               View Full Portfolio
-            </a>
+            </button>
           </div>
         </section>
 
@@ -1211,12 +1226,13 @@ export default function ReelCompanySite() {
               >
                 Book a Call
               </button>
-              <a 
-                href="#portfolio" 
-                onClick={e => handleAnchorClick(e, '#portfolio')}
+              <button 
+                type="button" 
+                className="footer-nav-link-btn" 
+                onClick={openPortfolioModal}
               >
                 Portfolio Access
-              </a>
+              </button>
               <button 
                 type="button" 
                 className="footer-nav-link-btn" 
@@ -1306,6 +1322,12 @@ export default function ReelCompanySite() {
         isOpen={discoveryModalOpen}
         onClose={closeDiscoveryModal}
         triggerRef={lastActiveCtaRef}
+      />
+
+      {/* Portfolio Access Lead Capture Modal */}
+      <PortfolioAccessModal
+        isOpen={portfolioModalOpen}
+        onClose={closePortfolioModal}
       />
     </>
   );
