@@ -40,8 +40,10 @@ const PROCESS_STEPS = [
 
 export default function UgcProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -65,6 +67,42 @@ export default function UgcProcessSection() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Track active slide on mobile horizontal scroll
+  const handleGridScroll = () => {
+    if (!gridRef.current) return;
+    const { scrollLeft, clientWidth } = gridRef.current;
+    const cards = gridRef.current.children;
+    if (!cards.length) return;
+
+    const firstCard = cards[0] as HTMLElement;
+    const cardWidth = firstCard.offsetWidth + 16; // width + gap
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    setActiveCardIndex(Math.max(0, Math.min(PROCESS_STEPS.length - 1, newIndex)));
+  };
+
+  const scrollToCard = (index: number) => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.children;
+    if (cards[index]) {
+      (cards[index] as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+    setActiveCardIndex(index);
+  };
+
+  const handlePrev = () => {
+    const nextIdx = Math.max(0, activeCardIndex - 1);
+    scrollToCard(nextIdx);
+  };
+
+  const handleNext = () => {
+    const nextIdx = Math.min(PROCESS_STEPS.length - 1, activeCardIndex + 1);
+    scrollToCard(nextIdx);
+  };
 
   return (
     <section
@@ -94,22 +132,66 @@ export default function UgcProcessSection() {
           </p>
         </div>
 
-        {/* ── 4-Card Process Grid ── */}
-        <div className="ugc-process-grid">
-          {PROCESS_STEPS.map((step, idx) => {
-            const AnimationComp = step.Component;
-            return (
-              <ProcessCard
-                key={step.title}
-                stepNumber={step.stepNumber}
-                title={step.title}
-                description={step.description}
-                delayIndex={idx}
-              >
-                <AnimationComp />
-              </ProcessCard>
-            );
-          })}
+        {/* ── 4-Card Process Grid (Slideable on Mobile, Grid on Desktop) ── */}
+        <div className="ugc-process-grid-wrapper">
+          <div 
+            className="ugc-process-grid" 
+            ref={gridRef}
+            onScroll={handleGridScroll}
+          >
+            {PROCESS_STEPS.map((step, idx) => {
+              const AnimationComp = step.Component;
+              return (
+                <ProcessCard
+                  key={step.title}
+                  stepNumber={step.stepNumber}
+                  title={step.title}
+                  description={step.description}
+                  delayIndex={idx}
+                >
+                  <AnimationComp />
+                </ProcessCard>
+              );
+            })}
+          </div>
+
+          {/* ── Mobile Swipe & Pagination Controls ── */}
+          <div className="ugc-process-mobile-controls" aria-label="Process steps navigation">
+            <button
+              className="ugc-slider-btn prev"
+              onClick={handlePrev}
+              disabled={activeCardIndex === 0}
+              aria-label="Previous step"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            <div className="ugc-slider-dots">
+              {PROCESS_STEPS.map((step, idx) => (
+                <button
+                  key={step.stepNumber}
+                  className={`ugc-slider-dot ${activeCardIndex === idx ? "is-active" : ""}`}
+                  onClick={() => scrollToCard(idx)}
+                  aria-label={`Go to step ${step.stepNumber}: ${step.title}`}
+                >
+                  <span className="dot-bar" />
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="ugc-slider-btn next"
+              onClick={handleNext}
+              disabled={activeCardIndex === PROCESS_STEPS.length - 1}
+              aria-label="Next step"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>
