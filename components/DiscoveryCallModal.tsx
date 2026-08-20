@@ -17,19 +17,21 @@ export default function DiscoveryCallModal({
 }: DiscoveryCallModalProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [hasMountedOnce, setHasMountedOnce] = useState(false);
+  const [isPreloadReady, setIsPreloadReady] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Lazy initialize iframe when opened first time
+  // Eager background preload immediately after component mounts
   useEffect(() => {
-    if (isOpen) {
-      setHasMountedOnce(true);
-    }
-  }, [isOpen]);
+    // Start preloading FormRobin immediately in background
+    const timer = setTimeout(() => {
+      setIsPreloadReady(true);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // Handle body scroll lock & keyboard accessibility
+  // Handle body scroll lock & keyboard accessibility when modal is open
   useEffect(() => {
     if (isOpen) {
       const originalOverflow = document.body.style.overflow;
@@ -88,7 +90,7 @@ export default function DiscoveryCallModal({
 
   // Fallback safety: If iframe doesn't load after 12s, show fallback button
   useEffect(() => {
-    if (isOpen && isLoading) {
+    if (isLoading) {
       const timeoutTimer = setTimeout(() => {
         if (isLoading) {
           setHasError(true);
@@ -97,24 +99,34 @@ export default function DiscoveryCallModal({
       }, 12000);
       return () => clearTimeout(timeoutTimer);
     }
-  }, [isOpen, isLoading]);
+  }, [isLoading]);
 
   const handleOpenExternal = () => {
     window.open(FORM_URL, "_blank", "noopener,noreferrer");
   };
 
-  if (!isOpen && !hasMountedOnce) return null;
-
   return (
     <div
       className={`discovery-modal-backdrop ${isOpen ? "open" : "closed"}`}
-      style={{ display: isOpen ? "flex" : "none" }}
+      style={{
+        display: "flex",
+        opacity: isOpen ? 1 : 0,
+        visibility: isOpen ? "visible" : "hidden",
+        pointerEvents: isOpen ? "auto" : "none",
+        transition: "opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s cubic-bezier(0.16, 1, 0.3, 1)",
+      }}
       onClick={onClose}
       role="presentation"
+      aria-hidden={!isOpen}
     >
       <div
         ref={modalRef}
         className="discovery-modal-card"
+        style={{
+          transform: isOpen ? "translateY(0) scale(1)" : "translateY(14px) scale(0.98)",
+          opacity: isOpen ? 1 : 0,
+          transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
         role="dialog"
         aria-modal="true"
         aria-label="Book a Discovery Call"
@@ -204,12 +216,12 @@ export default function DiscoveryCallModal({
               </button>
             </div>
           ) : (
-            hasMountedOnce && (
+            isPreloadReady && (
               <iframe
                 ref={iframeRef}
                 src={FORM_URL}
                 title="Book a Discovery Call"
-                loading="lazy"
+                loading="eager"
                 className={`discovery-modal-iframe ${!isLoading ? "is-ready" : ""}`}
                 onLoad={() => setIsLoading(false)}
                 onError={() => {

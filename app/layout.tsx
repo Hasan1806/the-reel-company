@@ -16,6 +16,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://formrobin.com" />
+        <link rel="dns-prefetch" href="https://formrobin.com" />
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
         <link rel="preload" as="image" href="/camera-lens-transparent-cutout-480.avif" type="image/avif" media="(max-width: 480px)" />
         <link rel="preload" as="image" href="/camera-lens-transparent-cutout-768.avif" type="image/avif" media="(min-width: 481px) and (max-width: 768px)" />
