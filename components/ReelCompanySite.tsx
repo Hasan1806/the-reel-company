@@ -958,7 +958,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ EDITORIAL SERVICES MARQUEE ═══════════════════════════ */}
         <EditorialMarqueeSection />
 
-        {/* ═══════════════════════════════ CLIENT CTA ═══════════════════════════ */}
+        {/* ═══════════════════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════════════ */}
         <section id="client-cta" className="client-cta-section" aria-label="Work With Us">
           <div className="client-cta-ambient-glow" aria-hidden="true"></div>
           <div className="client-cta-mesh" aria-hidden="true"></div>
@@ -974,58 +974,35 @@ export default function ReelCompanySite() {
             <p className="client-cta-sub">
               Join 250+ leading modern brands that stopped struggling with content and started scaling it.
             </p>
-            <div className="client-cta-actions">
-              <button 
-                type="button" 
-                className="btn-cta-luxury" 
-                onClick={openDiscoveryModal}
-              >
-                <span>Start a Conversation</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
-            </div>
           </div>
-        </section>
 
-        {/* ═══════════════════════════════ CLIENT TESTIMONIALS ═══════════════════════════ */}
-        <section id="testimonials" className="testimonials-section" aria-label="Client Testimonials">
-          <div className="testimonials-inner">
-            <div className="testimonials-header">
-              <h2 className="testimonials-title">What Our Clients Say</h2>
-              <p className="testimonials-sub">Real video testimonials from brands who have worked with The Reel Company.</p>
-            </div>
-            
-            <div className="testimonials-slider-container">
-              {/* Single Row (Moving Left) */}
-              <div className="testimonials-track track-left">
-                {[1, 2].map((groupIndex) => (
-                  <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
-                    {[1, 2, 3, 4, 5, 6].map((item, idx) => (
-                      <div key={`t1-${groupIndex}-${idx}`} className="testimonial-card">
-                        <div className="testimonial-video-wrap">
-                          <div className="testimonial-empty-placeholder">
-                            <div className="testimonial-center-icon">
-                              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                          <div className="testimonial-overlay"></div>
-                          <div className="testimonial-label">Client Review 0{idx + 1}</div>
-                          <div className="testimonial-play-indicator">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <div className="testimonials-slider-container">
+            {/* Single Row (Moving Left) */}
+            <div className="testimonials-track track-left">
+              {[1, 2].map((groupIndex) => (
+                <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
+                  {[1, 2, 3, 4, 5, 6].map((item, idx) => (
+                    <div key={`t1-${groupIndex}-${idx}`} className="testimonial-card">
+                      <div className="testimonial-video-wrap">
+                        <div className="testimonial-empty-placeholder">
+                          <div className="testimonial-center-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M8 5v14l11-7z" />
                             </svg>
                           </div>
                         </div>
+                        <div className="testimonial-overlay"></div>
+                        <div className="testimonial-label">Client Review 0{idx + 1}</div>
+                        <div className="testimonial-play-indicator">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
