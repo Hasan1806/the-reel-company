@@ -1047,11 +1047,11 @@ export default function ReelCompanySite() {
                     <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Affordable Rates</strong></span></td>
                   </tr>
                   <tr>
-                    <td className="feature-name">Fast Turnaround (48hr)</td>
+                    <td className="feature-name">Fast Turnaround</td>
                     <td><span className="badge-tag">Weeks</span></td>
                     <td><span className="badge-tag">Slow</span></td>
                     <td><span className="badge-tag">3-4 Weeks</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></td>
+                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>7 to 10 Days</strong></span></td>
                   </tr>
                   <tr>
                     <td className="feature-name">UGC &amp; Ad Specialisation</td>
@@ -1135,7 +1135,7 @@ export default function ReelCompanySite() {
                   <ul className="mobile-carousel-list">
                     <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>High</strong></span></span></li>
                     <li><span className="feature-name">Pricing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Affordable Rates</strong></span></span></li>
-                    <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>48 Hours</strong></span></span></li>
+                    <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>7 to 10 Days</strong></span></span></li>
                     <li><span className="feature-name">Specialisation</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>100% Dedicated</strong></span></span></li>
                     <li><span className="feature-name">Ad Strategy</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Full Strategy</strong></span></span></li>
                     <li><span className="feature-name">Contracts</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Cancel Anytime</strong></span></span></li>
