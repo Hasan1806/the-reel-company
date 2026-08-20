@@ -701,14 +701,11 @@ export default function ReelCompanySite() {
                   </h1>
                   <h2 className="hero-tagline reveal-up">High-Performance Content at Scale</h2>
                   <div className="hero-sub reveal-up">
-                    <p className="hero-sub-lead">
-                      From content that stops the scroll to ads that drive performance, TRC does it all.
+                    <p>
+                      From content that stops the scroll to ads that drive performance, TRC does it all—organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries, and everything in between.
                     </p>
-                    <p className="hero-sub-body">
-                      Organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries—and everything in between.
-                    </p>
-                    <p className="hero-sub-value">
-                      One team, one seamless workflow, <span className="hero-val-highlight">2x faster execution</span>, and <span className="hero-val-highlight">up to 50% lower costs</span> than traditional agencies.
+                    <p>
+                      One team, one seamless workflow, 2x faster execution, and up to 50% lower costs than traditional agencies.
                     </p>
                   </div>
                   <div className="hero-ctas reveal-up" style={{ '--delay': '0.2s' } as React.CSSProperties}>
