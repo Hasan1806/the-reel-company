@@ -805,43 +805,53 @@ export default function ReelCompanySite() {
                 <span className="client-item">OZIVA</span><span className="item-dot">✦</span>
                 <span className="client-item">FRIDO</span><span className="item-dot">✦</span>
                 <span className="client-item">JUICY CHEMISTRY</span><span className="item-dot">✦</span>
-                <span className="client-item">TRAVALATE</span><span className="item-dot">✦</span>
+                <span className="client-item">CHEQ</span><span className="item-dot">✦</span>
                 <span className="client-item">SLEEPYCAT</span><span className="item-dot">✦</span>
                 <span className="client-item">ICON</span><span className="item-dot">✦</span>
                 <span className="client-item">SONIC LAMB</span><span className="item-dot">✦</span>
                 <span className="client-item">WELME</span><span className="item-dot">✦</span>
+                <span className="client-item">BEARDO</span><span className="item-dot">✦</span>
+                <span className="client-item">KAPIVA</span><span className="item-dot">✦</span>
               </div>
               <div className="client-marquee-track" aria-hidden="true">
                 <span className="client-item">OZIVA</span><span className="item-dot">✦</span>
                 <span className="client-item">FRIDO</span><span className="item-dot">✦</span>
                 <span className="client-item">JUICY CHEMISTRY</span><span className="item-dot">✦</span>
-                <span className="client-item">TRAVALATE</span><span className="item-dot">✦</span>
+                <span className="client-item">CHEQ</span><span className="item-dot">✦</span>
                 <span className="client-item">SLEEPYCAT</span><span className="item-dot">✦</span>
                 <span className="client-item">ICON</span><span className="item-dot">✦</span>
                 <span className="client-item">SONIC LAMB</span><span className="item-dot">✦</span>
                 <span className="client-item">WELME</span><span className="item-dot">✦</span>
+                <span className="client-item">BEARDO</span><span className="item-dot">✦</span>
+                <span className="client-item">KAPIVA</span><span className="item-dot">✦</span>
               </div>
             </div>
 
             {/* Row 2 (Lower): Right to Left */}
             <div className="client-marquee-row row-left">
               <div className="client-marquee-track">
-                <span className="client-item">BROWN LIVING</span><span className="item-dot">✦</span>
+                <span className="client-item">SHRIRAM FINANCE</span><span className="item-dot">✦</span>
                 <span className="client-item">HAMMER</span><span className="item-dot">✦</span>
-                <span className="client-item">HOMESTRAP</span><span className="item-dot">✦</span>
-                <span className="client-item">SÜKHAM</span><span className="item-dot">✦</span>
-                <span className="client-item">PLUM STORIES</span><span className="item-dot">✦</span>
+                <span className="client-item">SAMCO</span><span className="item-dot">✦</span>
+                <span className="client-item">PHYSICS WALLAH</span><span className="item-dot">✦</span>
+                <span className="client-item">JUSTDIAL</span><span className="item-dot">✦</span>
                 <span className="client-item">TABBSZ</span><span className="item-dot">✦</span>
-                <span className="client-item">A BIG INDIAN STORY</span><span className="item-dot">✦</span>
+                <span className="client-item">PHILIP CAPITAL</span><span className="item-dot">✦</span>
+                <span className="client-item">OZONE</span><span className="item-dot">✦</span>
+                <span className="client-item">PAGARBOOK</span><span className="item-dot">✦</span>
+                <span className="client-item">ALLEN</span><span className="item-dot">✦</span>
               </div>
               <div className="client-marquee-track" aria-hidden="true">
-                <span className="client-item">BROWN LIVING</span><span className="item-dot">✦</span>
+                <span className="client-item">SHRIRAM FINANCE</span><span className="item-dot">✦</span>
                 <span className="client-item">HAMMER</span><span className="item-dot">✦</span>
-                <span className="client-item">HOMESTRAP</span><span className="item-dot">✦</span>
-                <span className="client-item">SÜKHAM</span><span className="item-dot">✦</span>
-                <span className="client-item">PLUM STORIES</span><span className="item-dot">✦</span>
+                <span className="client-item">SAMCO</span><span className="item-dot">✦</span>
+                <span className="client-item">PHYSICS WALLAH</span><span className="item-dot">✦</span>
+                <span className="client-item">JUSTDIAL</span><span className="item-dot">✦</span>
                 <span className="client-item">TABBSZ</span><span className="item-dot">✦</span>
-                <span className="client-item">A BIG INDIAN STORY</span><span className="item-dot">✦</span>
+                <span className="client-item">PHILIP CAPITAL</span><span className="item-dot">✦</span>
+                <span className="client-item">OZONE</span><span className="item-dot">✦</span>
+                <span className="client-item">PAGARBOOK</span><span className="item-dot">✦</span>
+                <span className="client-item">ALLEN</span><span className="item-dot">✦</span>
               </div>
             </div>
           </div>
