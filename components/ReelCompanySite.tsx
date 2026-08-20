@@ -168,7 +168,25 @@ export default function ReelCompanySite() {
   // Hero Reveal Animation & Video Auto-play Guarantee
   useEffect(() => {
     if (heroVideoRef.current) {
-      heroVideoRef.current.play().catch(() => {});
+      heroVideoRef.current.defaultMuted = true;
+      heroVideoRef.current.muted = true;
+      const playPromise = heroVideoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay retry on first interaction if blocked
+          const onUserAction = () => {
+            if (heroVideoRef.current) {
+              heroVideoRef.current.play().catch(() => {});
+            }
+            window.removeEventListener('click', onUserAction);
+            window.removeEventListener('scroll', onUserAction);
+            window.removeEventListener('touchstart', onUserAction);
+          };
+          window.addEventListener('click', onUserAction, { once: true });
+          window.addEventListener('scroll', onUserAction, { once: true });
+          window.addEventListener('touchstart', onUserAction, { once: true });
+        });
+      }
     }
   }, []);
 
@@ -640,20 +658,21 @@ export default function ReelCompanySite() {
                         loop
                         playsInline
                         preload="auto"
-                        poster="https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         onError={(e) => {
                           const target = e.currentTarget;
-                          const fallbackSrc = 'https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4';
-                          if (target.src !== fallbackSrc) {
+                          const fallbackSrc = '/videos/portfolio/portfolio-1.mp4';
+                          if (target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
                             target.src = fallbackSrc;
                             target.load();
                             target.play().catch(() => {});
                           }
                         }}
                       >
-                        <source src="http://creatornavigator.in/wp-content/uploads/2024/12/CN-Outro-Animation.mp4" type="video/mp4" />
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-the-camera-on-a-running-track-32807-large.mp4" type="video/mp4" />
+                        <source src="/videos/hero-video.mp4" type="video/mp4" />
+                        <source src="/cn-outro-hero-video.mp4" type="video/mp4" />
+                        <source src="https://creatornavigator.in/wp-content/uploads/2024/12/CN-Outro-Animation.mp4" type="video/mp4" />
+                        <source src="/videos/portfolio/portfolio-1.mp4" type="video/mp4" />
                       </video>
 
                     </div>
