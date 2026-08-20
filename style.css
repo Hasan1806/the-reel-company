@@ -707,7 +707,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* ═══════════════════ FAQ SECTION (PREMIUM SAAS & CREATIVE) ═══════════════════ */
 .faq-section {
   position: relative;
-  padding: 6.5rem 2rem 5.5rem;
+  padding: 2.25rem 2rem 5rem;
   background: #070707;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -928,7 +928,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* ── FAQ Mobile Responsiveness (< 768px) ── */
 @media (max-width: 768px) {
   .faq-section {
-    padding: 4.5rem 1.25rem 4rem;
+    padding: 1.25rem 1.25rem 3.5rem;
   }
 
   .faq-container {

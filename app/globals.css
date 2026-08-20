@@ -1742,7 +1742,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 
 /* ═══════════════════ FOOTER CTA ═══════════════════ */
-.footer-cta-section{padding:1.75rem 2rem 3.5rem;position:relative;}
+.footer-cta-section{padding:1.75rem 2rem 1.25rem;position:relative;}
 .footer-cta-glow{position:absolute;bottom:0;right:0;width:50%;height:50%;background:radial-gradient(ellipse at 80% 80%,rgba(224,32,32,0.15) 0%,transparent 65%);pointer-events:none;}
 .footer-cta-container{max-width:var(--max-w);margin:0 auto;border:1px solid var(--border);border-radius:36px;padding:5rem 4rem;background:var(--bg-2);position:relative;overflow:hidden;}
 .footer-cta-container::before{content:'';position:absolute;bottom:-30%;right:-10%;width:60%;height:80%;background:radial-gradient(ellipse,rgba(224,32,32,0.1) 0%,transparent 70%);pointer-events:none;}
@@ -1918,6 +1918,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .stats-strip{flex-wrap:wrap;gap:2rem;}
   .stat-divider{display:none;}
   .stat-item{flex:0 0 45%;}
+  .footer-cta-section{padding:1rem 1.25rem 0.75rem;}
   .footer-cta-container{padding:2.75rem 1.35rem;border-radius:24px;}
   .footer-cta-headline{font-size:clamp(1.65rem, 6.8vw, 2.5rem);line-height:1.15;letter-spacing:-.035em;}
   .footer-cta-line{display:block;white-space:nowrap;}
@@ -3171,7 +3172,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* ═══════════════════ FAQ SECTION (PREMIUM SAAS & CREATIVE) ═══════════════════ */
 .faq-section {
   position: relative;
-  padding: 6.5rem 2rem 5.5rem;
+  padding: 2.25rem 2rem 5rem;
   background: #070707;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -3392,7 +3393,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* ── FAQ Mobile Responsiveness (< 768px) ── */
 @media (max-width: 768px) {
   .faq-section {
-    padding: 4.5rem 1.25rem 4rem;
+    padding: 1.25rem 1.25rem 3.5rem;
   }
 
   .faq-container {
