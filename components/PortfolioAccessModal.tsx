@@ -90,19 +90,31 @@ export default function PortfolioAccessModal({
     setErrorMessage("");
 
     try {
-      // Forward to database endpoint
-      await fetch("/api/portfolio-access", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          phone: phone.trim(),
-          email: email.trim(),
-          source: "View Full Portfolio CTA",
-        }),
-      });
+      const payload = {
+        secret: "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm",
+        name: name.trim(),
+        fullName: name.trim(),
+        phone: phone.trim(),
+        contactNumber: phone.trim(),
+        email: email.trim(),
+        source: "View Full Portfolio CTA",
+        timestamp: new Date().toISOString(),
+      };
+
+      // Post to Google Sheet webhook directly (works in both static Hostinger and full-stack)
+      try {
+        fetch(
+          "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec",
+          {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+            body: JSON.stringify(payload),
+          }
+        ).catch(() => {});
+      } catch {}
 
       // Open Playbook in new tab
       window.open(PLAYBOOK_PORTFOLIO_URL, "_blank", "noopener,noreferrer");
