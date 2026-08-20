@@ -1143,7 +1143,11 @@ export default function ReelCompanySite() {
           <div className="footer-cta-container">
             <div className="footer-cta-content">
               <p className="section-label light">Let&apos;s Work Together</p>
-              <h2 className="footer-cta-headline">Need More Content<br/>Without Building A<br/>Bigger Team?</h2>
+              <h2 className="footer-cta-headline">
+                <span className="footer-cta-line">Need More Content</span>
+                <span className="footer-cta-line">Without Building A</span>
+                <span className="footer-cta-line">Bigger Team?</span>
+              </h2>
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
               <div className="footer-cta-buttons">
                 <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>

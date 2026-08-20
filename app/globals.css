@@ -1741,6 +1741,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .footer-cta-container{max-width:var(--max-w);margin:0 auto;border:1px solid var(--border);border-radius:36px;padding:5rem 4rem;background:var(--bg-2);position:relative;overflow:hidden;}
 .footer-cta-container::before{content:'';position:absolute;bottom:-30%;right:-10%;width:60%;height:80%;background:radial-gradient(ellipse,rgba(224,32,32,0.1) 0%,transparent 70%);pointer-events:none;}
 .footer-cta-headline{font-family:var(--font-head);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1.25rem;}
+.footer-cta-line{display:block;}
 .footer-cta-sub{font-size:1.05rem;color:var(--text-muted);max-width:52ch;line-height:1.7;margin-bottom:2.5rem;}
 .footer-cta-buttons{display:flex;flex-wrap:wrap;gap:1rem;}
 .back-to-top{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-top:3rem;padding:.6rem 1.2rem;border:1px solid var(--border);border-radius:var(--radius-pill);transition:color .2s,border-color .2s;}
@@ -1911,7 +1912,9 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .stats-strip{flex-wrap:wrap;gap:2rem;}
   .stat-divider{display:none;}
   .stat-item{flex:0 0 45%;}
-  .footer-cta-container{padding:3rem 2rem;}
+  .footer-cta-container{padding:2.75rem 1.35rem;border-radius:24px;}
+  .footer-cta-headline{font-size:clamp(1.65rem, 6.8vw, 2.5rem);line-height:1.15;letter-spacing:-.035em;}
+  .footer-cta-line{display:block;white-space:nowrap;}
   .footer-inner{flex-direction:column;}
   .footer-nav{gap:2rem;}
   .footer-bottom{flex-direction:column;gap:.5rem;}
@@ -1926,6 +1929,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .capabilities-grid{grid-template-columns:1fr;}
   .stat-item{flex:0 0 100%;}
   .footer-cta-buttons{flex-direction:column;}
+  .footer-cta-headline{font-size:clamp(1.42rem, 6.4vw, 1.85rem);line-height:1.16;}
   .hero-ctas{flex-direction:column;}
   .comparison-table th,.comparison-table td{padding:.9rem 1rem;font-size:.8rem;}
 }
