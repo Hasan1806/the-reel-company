@@ -1013,10 +1013,8 @@ export default function ReelCompanySite() {
             <div className="comparison-header">
               <div className="section-badge-pill reveal-fade">✦ COMPARISON MATRIX ✦</div>
               <h2 className="section-title">
-                <span className="comparison-headline-line">Why High-Growth Brands</span>
-                <span className="comparison-headline-line">Switch to Us.</span>
+                Why Brands are switching to TRC
               </h2>
-              <p className="section-sub">Traditional agencies move too slow. Freelancers lack scale. We deliver both.</p>
             </div>
             {/* Desktop Table View */}
             <div className="table-wrap desktop-table-view">
