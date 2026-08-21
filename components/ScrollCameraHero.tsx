@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { ASSETS } from "@/config/assets";
 
 interface ScrollCameraHeroProps {
   children: React.ReactNode;
@@ -164,7 +165,7 @@ export default function ScrollCameraHero({ children }: ScrollCameraHeroProps) {
         >
           <img
             ref={cameraImgRef}
-            src="/camera-hero.png"
+            src={ASSETS.images.hero.cutouts.cameraHeroPng}
             alt="Professional Cinema Camera"
             className="camera-hero-img"
             style={{

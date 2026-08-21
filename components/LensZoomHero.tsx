@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { ASSETS } from "@/config/assets";
 
 interface LensZoomHeroProps {
   children: React.ReactNode;
@@ -142,7 +143,7 @@ export default function LensZoomHero({ children }: LensZoomHeroProps) {
         >
           <img
             ref={lensImgRef}
-            src="/lens-eye-bg.png"
+            src={ASSETS.images.hero.cutouts.lensEyeBgPng}
             alt="Camera Lens Eye"
             style={{
               width: "min(550px, 80vw)",

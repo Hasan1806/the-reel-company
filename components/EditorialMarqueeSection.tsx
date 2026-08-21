@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ASSETS } from '@/config/assets';
 
 const services = [
   { 
     text: 'Script Writing', 
     image: { 
-      src: '/services/scriptwriting.webp', 
+      src: ASSETS.images.services.scriptwriting.webp, 
       width: 'clamp(220px, 20vw, 300px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
@@ -15,7 +16,7 @@ const services = [
   { 
     text: 'Sound Design', 
     image: { 
-      src: '/services/sound-design.webp', 
+      src: ASSETS.images.services.soundDesign.webp, 
       width: 'clamp(230px, 21vw, 310px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
@@ -24,7 +25,7 @@ const services = [
   { 
     text: 'Motion Graphics', 
     image: { 
-      src: '/services/motion-graphics.webp', 
+      src: ASSETS.images.services.motionGraphics.webp, 
       width: 'clamp(220px, 20vw, 300px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 
@@ -33,7 +34,7 @@ const services = [
   { 
     text: 'VFX', 
     image: { 
-      src: '/services/vfx.webp', 
+      src: ASSETS.images.services.vfx.webp, 
       width: 'clamp(230px, 21vw, 310px)', 
       height: 'clamp(150px, 14vw, 200px)', 
       rotate: '0deg' 
@@ -42,7 +43,7 @@ const services = [
   { 
     text: 'Filming', 
     image: { 
-      src: '/services/filming.webp', 
+      src: ASSETS.images.services.filming.webp, 
       width: 'clamp(220px, 20vw, 300px)', 
       height: 'clamp(145px, 13.5vw, 195px)', 
       rotate: '0deg' 

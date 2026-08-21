@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import DiscoveryCallModal from "@/components/DiscoveryCallModal";
 import PortfolioAccessModal from "@/components/PortfolioAccessModal";
+import { ASSETS } from "@/config/assets";
 
 export default function PrivacyPolicyPage() {
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
@@ -24,8 +25,8 @@ export default function PrivacyPolicyPage() {
         <div className="header-inner">
           <Link href="/" className="logo" aria-label="The Reel Company Home">
             <img
-              src="/trc-logo.png"
-              alt="The Reel Company"
+              src={ASSETS.brand.logo.primary}
+              alt={ASSETS.brand.logo.alt}
               className="brand-logo-img"
               width={140}
               height={40}

@@ -20,7 +20,7 @@ interface VideoItem {
 }
 
 const VIDEOS: VideoItem[] = [
-  ...ASSETS.portfolio.map(item => ({ src: item.src, poster: item.poster, label: item.label })),
+  ...ASSETS.videos.portfolio.map(item => ({ src: item.src, poster: item.poster, label: item.label })),
   { src: '', label: 'Creative in Production' },
   { src: '', label: 'Brand Campaign in Production' },
   { src: '', label: 'Performance Ad in Production' },
@@ -642,8 +642,8 @@ export default function ReelCompanySite() {
         <div className="header-inner">
           <a href="#hero" className="logo" aria-label="The Reel Company Home" onClick={e => handleAnchorClick(e, '#hero')}>
             <img
-              src="/trc-logo.png"
-              alt="The Reel Company"
+              src={ASSETS.brand.logo.primary}
+              alt={ASSETS.brand.logo.alt}
               className="brand-logo-img"
               width={140}
               height={40}
@@ -756,16 +756,16 @@ export default function ReelCompanySite() {
                       <video
                         ref={heroVideoRef}
                         id="hero-preview-video"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="auto"
-                        poster="/videos/hero-video-poster.webp"
+                        autoPlay={ASSETS.videoConfig.hero.autoPlay}
+                        muted={ASSETS.videoConfig.hero.muted}
+                        loop={ASSETS.videoConfig.hero.loop}
+                        playsInline={ASSETS.videoConfig.hero.playsInline}
+                        preload={ASSETS.videoConfig.hero.preload}
+                        poster={ASSETS.videos.hero.poster}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         onError={(e) => {
                           const target = e.currentTarget;
-                          const fallbackSrc = '/videos/portfolio/portfolio-1.mp4';
+                          const fallbackSrc = ASSETS.videos.hero.fallback;
                           if (target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
                             target.src = fallbackSrc;
                             target.load();
@@ -773,10 +773,10 @@ export default function ReelCompanySite() {
                           }
                         }}
                       >
-                        <source src="/videos/hero-video.mp4" type="video/mp4" />
+                        <source src={ASSETS.videos.hero.src} type="video/mp4" />
                         <source src="/cn-outro-hero-video.mp4" type="video/mp4" />
                         <source src="https://creatornavigator.in/wp-content/uploads/2024/12/CN-Outro-Animation.mp4" type="video/mp4" />
-                        <source src="/videos/portfolio/portfolio-1.mp4" type="video/mp4" />
+                        <source src={ASSETS.videos.hero.fallback} type="video/mp4" />
                       </video>
 
                     </div>
@@ -1186,8 +1186,8 @@ export default function ReelCompanySite() {
           <div className="footer-brand">
             <a href="#hero" className="logo footer-logo" aria-label="The Reel Company" onClick={e => handleAnchorClick(e, '#hero')}>
               <img
-                src="/trc-logo.png"
-                alt="The Reel Company"
+                src={ASSETS.brand.logo.primary}
+                alt={ASSETS.brand.logo.alt}
                 className="footer-logo-img"
                 width={160}
                 height={48}

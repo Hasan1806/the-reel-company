@@ -398,17 +398,17 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           <picture style={{ width: "100%", height: "100%", display: "block" }}>
             <source
               type="image/avif"
-              srcSet={ASSETS.hero.cameraLens.avifSrcSet}
+              srcSet={ASSETS.images.hero.cameraLens.avifSrcSet}
               sizes="100vw"
             />
             <source
               type="image/webp"
-              srcSet={ASSETS.hero.cameraLens.webpSrcSet}
+              srcSet={ASSETS.images.hero.cameraLens.webpSrcSet}
               sizes="100vw"
             />
             <img
               ref={lensImgRef}
-              src={ASSETS.hero.cameraLens.fallbackJpg}
+              src={ASSETS.images.hero.cameraLens.fallbackJpg}
               alt="Camera Lens Hero"
               width="1920"
               height="1920"
