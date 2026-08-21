@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { StatsCard } from "./StatsCard";
+import { ASSETS } from "@/config/assets";
 
 interface LensIntroHeroProps {
   children: React.ReactNode;
@@ -397,17 +398,17 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           <picture style={{ width: "100%", height: "100%", display: "block" }}>
             <source
               type="image/avif"
-              srcSet="/camera-lens-black-center-hero-480.avif 480w, /camera-lens-black-center-hero-768.avif 768w, /camera-lens-black-center-hero-1280.avif 1280w, /camera-lens-black-center-hero-1920.avif 1920w"
+              srcSet={ASSETS.hero.cameraLens.avifSrcSet}
               sizes="100vw"
             />
             <source
               type="image/webp"
-              srcSet="/camera-lens-black-center-hero-480.webp 480w, /camera-lens-black-center-hero-768.webp 768w, /camera-lens-black-center-hero-1280.webp 1280w, /camera-lens-black-center-hero-1920.webp 1920w"
+              srcSet={ASSETS.hero.cameraLens.webpSrcSet}
               sizes="100vw"
             />
             <img
               ref={lensImgRef}
-              src="/camera-lens-black-center-hero.jpg"
+              src={ASSETS.hero.cameraLens.fallbackJpg}
               alt="Camera Lens Hero"
               width="1920"
               height="1920"

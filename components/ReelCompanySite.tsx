@@ -11,6 +11,7 @@ import PortfolioAccessModal from './PortfolioAccessModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
+import { ASSETS } from '@/config/assets';
 
 interface VideoItem {
   src: string;
@@ -19,14 +20,7 @@ interface VideoItem {
 }
 
 const VIDEOS: VideoItem[] = [
-  { src: '/videos/portfolio/portfolio-1.mp4', poster: '/videos/portfolio/portfolio-1-poster.webp', label: 'E-Commerce UGC Ad' },
-  { src: '/videos/portfolio/portfolio-2.mp4', poster: '/videos/portfolio/portfolio-2-poster.webp', label: 'Performance Ad Creative' },
-  { src: '/videos/portfolio/portfolio-3.mp4', poster: '/videos/portfolio/portfolio-3-poster.webp', label: 'Brand Storytelling' },
-  { src: '/videos/portfolio/portfolio-4.mp4', poster: '/videos/portfolio/portfolio-4-poster.webp', label: 'Direct-Response Reel' },
-  { src: '/videos/portfolio/portfolio-5.mp4', poster: '/videos/portfolio/portfolio-5-poster.webp', label: 'Scroll-Stopping Hook' },
-  { src: '/videos/portfolio/portfolio-6.mp4', poster: '/videos/portfolio/portfolio-6-poster.webp', label: 'Lifestyle & Fitness Ad' },
-  { src: '/videos/portfolio/portfolio-7.mp4', poster: '/videos/portfolio/portfolio-7-poster.webp', label: 'Viral Creator Reel' },
-  { src: '/videos/portfolio/portfolio-8.mp4', poster: '/videos/portfolio/portfolio-8-poster.webp', label: 'High-ROI Paid Social' },
+  ...ASSETS.portfolio.map(item => ({ src: item.src, poster: item.poster, label: item.label })),
   { src: '', label: 'Creative in Production' },
   { src: '', label: 'Brand Campaign in Production' },
   { src: '', label: 'Performance Ad in Production' },
