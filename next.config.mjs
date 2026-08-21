@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  output: 'export',
-  distDir: 'dist',
+  reactStrictMode: false,
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -19,3 +17,4 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
