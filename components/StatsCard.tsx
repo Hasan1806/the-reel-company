@@ -73,7 +73,7 @@ function StatCounter({ targetValue, displayString }: { targetValue: number, disp
     ? displayString 
     : count.toLocaleString("en-US");
 
-  return <span ref={ref}>{formattedCount}</span>;
+  return <span ref={ref} suppressHydrationWarning>{formattedCount}</span>;
 }
 
 interface StatsCardProps {

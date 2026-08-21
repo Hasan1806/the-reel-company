@@ -413,8 +413,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
               width="1920"
               height="1920"
               loading="eager"
-              // @ts-ignore
-              fetchpriority="high"
+              fetchPriority="high"
               style={{
                 width: "100%",
                 height: "100%",

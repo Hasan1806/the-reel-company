@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -22,7 +22,7 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-768.avif" type="image/avif" media="(min-width: 481px) and (max-width: 768px)" />
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-1920.avif" type="image/avif" media="(min-width: 769px)" />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
       </body>
     </html>

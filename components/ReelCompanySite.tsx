@@ -5,7 +5,6 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import LensIntroHero from './LensIntroHero';
-import { StatsCard } from './StatsCard';
 import DiscoveryCallModal from './DiscoveryCallModal';
 import PortfolioAccessModal from './PortfolioAccessModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
