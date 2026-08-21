@@ -95,16 +95,16 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           scrollTrigger: {
             trigger: container,
             start: "top top",
-            end: conditions.isMobile ? "+=1100px" : "+=1500px",
-            scrub: conditions.isMobile ? 0.35 : 0.5,
+            end: conditions.isMobile ? "+=1100px" : "+=1400px",
+            scrub: conditions.isMobile ? 0.6 : 0.7,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             snap: {
               snapTo: [0, 0.5, 1],
               duration: { min: 0.25, max: 0.5 },
-              delay: 0.08,
-              ease: "power2.inOut",
+              delay: 0.15,
+              ease: "power2.out",
             },
           },
         });
@@ -120,9 +120,9 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         gsap.set(lensLayer, { opacity: 1, scale: 1, transformOrigin: "50% 50%" });
         gsap.set(readabilityOverlay, { opacity: 1 });
         gsap.set(tempStatsWrap, { opacity: 0, visibility: "hidden", pointerEvents: "none" });
-        gsap.set(tempStatsCard, { y: 30, scale: 0.9, opacity: 0, force3D: true });
-        gsap.set(tempStatItems, { opacity: 0, y: 15 });
-        gsap.set(mainHeroWrap, { opacity: 0, scale: 0.96, y: 15, pointerEvents: "none", force3D: true });
+        gsap.set(tempStatsCard, { y: 24, scale: 0.92, opacity: 0, force3D: true });
+        gsap.set(tempStatItems, { opacity: 0, y: 12 });
+        gsap.set(mainHeroWrap, { opacity: 0, scale: 0.97, y: 12, pointerEvents: "none", force3D: true });
 
         // Performance will-change optimization
         tl.call(() => {
@@ -137,13 +137,13 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         // ══════════════════════════════════════════════════════════
 
         // ── STAGE 1 (0.00 -> 0.50): 1st Scroll Movement -> Zoom into Lens & Reveal Stats ──
-        // A. Intro Text fades out and scales down
+        // A. Intro Text fades out and scales down smoothly
         tl.to(
           introText,
           {
             opacity: 0,
-            scale: 0.86,
-            y: -25,
+            scale: 0.90,
+            y: -18,
             duration: 0.20,
             ease: "power1.out",
           },
@@ -155,18 +155,18 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             introText.style.pointerEvents = "none";
           },
           undefined,
-          0.20
+          0.18
         );
 
         // B. Camera Lens zooms in dynamically into the dark aperture center (Stage 1 zoom)
         tl.to(
           lensImg,
           {
-            scale: dynamicTargetScale * 1.12,
-            duration: 0.48,
-            ease: "power1.inOut",
+            scale: dynamicTargetScale * 1.15,
+            duration: 0.50,
+            ease: "sine.inOut",
           },
-          0.02
+          0.0
         );
 
         // C. Stats Card zooms & reveals centered in the dark aperture
@@ -175,17 +175,17 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             tempStatsWrap.style.visibility = "visible";
           },
           undefined,
-          0.20
+          0.18
         );
 
         tl.to(
           tempStatsWrap,
           {
             opacity: 1,
-            duration: 0.16,
+            duration: 0.18,
             ease: "power1.out",
           },
-          0.20
+          0.18
         );
 
         tl.to(
@@ -197,7 +197,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             duration: 0.24,
             ease: "power2.out",
           },
-          0.20
+          0.18
         );
 
         tl.to(
@@ -209,10 +209,10 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             duration: 0.18,
             ease: "power2.out",
           },
-          0.24
+          0.22
         );
 
-        // (0.46 -> 0.54 is the Stage 1 Snap Hold point for Stats)
+        // (0.45 -> 0.54 is the Stage 1 Snap Hold point for Stats)
 
         // ── STAGE 2 (0.50 -> 1.00): 2nd Scroll Movement -> Stats Exit & Main Home Section Emerges ──
         // D. Stats Card zooms up slightly and exits cleanly
@@ -220,22 +220,22 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           tempStatsCard,
           {
             opacity: 0,
-            scale: 1.08,
-            y: -25,
+            scale: 1.06,
+            y: -18,
             duration: 0.16,
-            ease: "power2.in",
+            ease: "power1.in",
           },
-          0.54
+          0.52
         );
 
         tl.to(
           tempStatsWrap,
           {
             opacity: 0,
-            duration: 0.12,
+            duration: 0.14,
             ease: "power1.in",
           },
-          0.58
+          0.54
         );
 
         tl.call(
@@ -244,18 +244,18 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             tempStatsWrap.style.pointerEvents = "none";
           },
           undefined,
-          0.70
+          0.68
         );
 
         // E. Lens continues zooming in even deeper through the aperture during Stage 2
         tl.to(
           lensImg,
           {
-            scale: dynamicTargetScale * 1.85,
-            duration: 0.40,
-            ease: "power1.inOut",
+            scale: dynamicTargetScale * 2.0,
+            duration: 0.45,
+            ease: "sine.inOut",
           },
-          0.54
+          0.50
         );
 
         // F. Lens Layer and black backdrop fade away as we cross through the aperture
@@ -264,9 +264,9 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           {
             opacity: 0,
             duration: 0.28,
-            ease: "power2.out",
+            ease: "power1.out",
           },
-          0.66
+          0.62
         );
 
         // G. Main Home Section smoothly scales up and emerges
@@ -276,10 +276,10 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             opacity: 1,
             scale: 1,
             y: 0,
-            duration: 0.30,
+            duration: 0.35,
             ease: "power2.out",
           },
-          0.68
+          0.65
         );
 
         tl.call(
@@ -287,7 +287,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             mainHeroWrap.style.pointerEvents = "auto";
           },
           undefined,
-          0.90
+          0.85
         );
 
         // Release willChange after transition completion

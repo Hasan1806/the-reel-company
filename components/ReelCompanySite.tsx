@@ -699,8 +699,8 @@ export default function ReelCompanySite() {
                   <h1 className="hero-headline">
                     <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                   </h1>
-                  <h2 className="hero-tagline reveal-up">High-Performance Content at Scale</h2>
-                  <div className="hero-sub reveal-up">
+                  <h2 className="hero-tagline">High-Performance Content at Scale</h2>
+                  <div className="hero-sub">
                     <p>
                       From content that stops the scroll, to ads that drive performance, TRC does it all—organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries, and everything in between.
                     </p>
@@ -708,13 +708,13 @@ export default function ReelCompanySite() {
                       One team, one seamless workflow, 2x faster execution, and up to 50% lower costs than traditional agencies.
                     </p>
                   </div>
-                  <div className="hero-ctas reveal-up" style={{ '--delay': '0.2s' } as React.CSSProperties}>
+                  <div className="hero-ctas">
                     <a href="#portfolio" className="btn btn-red" onClick={e => handleAnchorClick(e, '#portfolio')}>See Our Work</a>
                     <button type="button" className="btn btn-outline" onClick={openDiscoveryModal}>Book a Discovery Call</button>
                   </div>
                 </div>
 
-                <div className="hero-video-wrap reveal-up" style={{ '--delay': '0.3s' } as React.CSSProperties}>
+                <div className="hero-video-wrap">
                   <div className="hero-ambient-orb-left"></div>
                   <div className="hero-ambient-orb-right"></div>
 
