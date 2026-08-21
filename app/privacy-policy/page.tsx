@@ -23,8 +23,13 @@ export default function PrivacyPolicyPage() {
       <header id="site-header" role="banner" className="scrolled">
         <div className="header-inner">
           <Link href="/" className="logo" aria-label="The Reel Company Home">
-            <span className="logo-mark">TRC</span>
-            <span className="logo-text">The Reel Company</span>
+            <img
+              src="/trc-logo.png"
+              alt="The Reel Company"
+              className="brand-logo-img"
+              width={140}
+              height={40}
+            />
           </Link>
           <nav id="main-nav" aria-label="Main navigation">
             <Link href="/#hero" className="nav-link">Home</Link>

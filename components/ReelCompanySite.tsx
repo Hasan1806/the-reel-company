@@ -644,12 +644,16 @@ export default function ReelCompanySite() {
 
   return (
     <>
-      {/* ═══════════════════════════════ HEADER ═══════════════════════════════ */}
       <header id="site-header" role="banner" className={headerScrolled ? 'scrolled' : ''}>
         <div className="header-inner">
           <a href="#hero" className="logo" aria-label="The Reel Company Home" onClick={e => handleAnchorClick(e, '#hero')}>
-            <span className="logo-mark">TRC</span>
-            <span className="logo-text">The Reel Company</span>
+            <img
+              src="/trc-logo.png"
+              alt="The Reel Company"
+              className="brand-logo-img"
+              width={140}
+              height={40}
+            />
           </a>
           <nav id="main-nav" aria-label="Main navigation">
             <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
@@ -1187,8 +1191,13 @@ export default function ReelCompanySite() {
         <div className="footer-inner">
           <div className="footer-brand">
             <a href="#hero" className="logo footer-logo" aria-label="The Reel Company" onClick={e => handleAnchorClick(e, '#hero')}>
-              <span className="logo-mark">TRC</span>
-              <span className="logo-text">The Reel Company</span>
+              <img
+                src="/trc-logo.png"
+                alt="The Reel Company"
+                className="footer-logo-img"
+                width={160}
+                height={48}
+              />
             </a>
             <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br/>On-demand. Affordable. Fast.</p>
           </div>
