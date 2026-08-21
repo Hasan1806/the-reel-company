@@ -1,6 +1,7 @@
 /**
  * Centralized Asset Configuration Dictionary & Manifest
- * Single Source of Truth for all media assets, logos, videos, images, and external endpoints.
+ * Single Source of Truth for all media assets, logos, videos, images, animations, and external endpoints.
+ * Production-ready for Hostinger deployment.
  */
 
 export interface FrameSequenceOptions {
@@ -147,6 +148,49 @@ export const ASSETS = {
         label: 'High-ROI Paid Social',
       },
     ],
+  },
+
+  animations: {
+    hero: {
+      scrollCameraZoom: {
+        name: 'GSAP ScrollTrigger 3D Camera Zoom',
+        component: 'LensIntroHero',
+      },
+      cameraPerspective3D: {
+        name: 'GSAP ScrollTrigger 3D Camera Perspective Tilt',
+        component: 'ScrollCameraHero',
+      },
+      lensEyeZoom: {
+        name: 'GSAP ScrollTrigger Lens Eye Intro Zoom',
+        component: 'LensZoomHero',
+      },
+      editorialMarquee: {
+        name: 'Infinite Multi-Row Editorial Service Marquee',
+        component: 'EditorialMarqueeSection',
+      },
+    },
+    process: {
+      script: {
+        id: 'script',
+        name: 'Script & Hook Architecture Interactive Canvas Animation',
+        step: '01',
+      },
+      film: {
+        id: 'film',
+        name: 'Pan-India Creator Network Film Studio Animation',
+        step: '02',
+      },
+      edit: {
+        id: 'edit',
+        name: 'Fast-Paced Motion Graphics & Waveform Jump-Cut Animation',
+        step: '03',
+      },
+      measure: {
+        id: 'measure',
+        name: 'Real-time Performance Ad Analytics & ROI Chart Animation',
+        step: '04',
+      },
+    },
   },
 
   services: [

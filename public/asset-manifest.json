@@ -1,0 +1,165 @@
+{
+  "brand": {
+    "logo": {
+      "primary": "/trc-logo.png",
+      "mark": "/trc-logo-mark.png",
+      "dark": "/trc-logo-dark.png",
+      "full": "/trc-logo-full.jpg",
+      "alt": "The Reel Company"
+    }
+  },
+  "images": {
+    "hero": {
+      "cameraLens": {
+        "fallbackJpg": "/camera-lens-black-center-hero.jpg",
+        "avifSrcSet": "/camera-lens-black-center-hero-480.avif 480w, /camera-lens-black-center-hero-768.avif 768w, /camera-lens-black-center-hero-1280.avif 1280w, /camera-lens-black-center-hero-1920.avif 1920w",
+        "webpSrcSet": "/camera-lens-black-center-hero-480.webp 480w, /camera-lens-black-center-hero-768.webp 768w, /camera-lens-black-center-hero-1280.webp 1280w, /camera-lens-black-center-hero-1920.webp 1920w",
+        "preloads": {
+          "mobileAvif": "/camera-lens-black-center-hero-480.avif",
+          "tabletAvif": "/camera-lens-black-center-hero-768.avif",
+          "desktopAvif": "/camera-lens-black-center-hero-1920.avif"
+        }
+      },
+      "cutouts": {
+        "transparentCutoutPng": "/camera-lens-transparent-cutout.png",
+        "transparentCutoutAvif": "/camera-lens-transparent-cutout.avif",
+        "transparentCutoutWebp": "/camera-lens-transparent-cutout.webp",
+        "cameraHeroPng": "/camera-hero.png",
+        "cameraHeroWebp": "/camera-hero.webp",
+        "cameraHeroAvif": "/camera-hero.avif",
+        "lensEyeBgPng": "/lens-eye-bg.png",
+        "lensEyeBgWebp": "/lens-eye-bg.webp",
+        "lensEyeBgAvif": "/lens-eye-bg.avif"
+      }
+    },
+    "services": {
+      "scriptwriting": {
+        "webp": "/services/scriptwriting.webp",
+        "jpg": "/services/scriptwriting.jpg"
+      },
+      "filming": {
+        "webp": "/services/filming.webp",
+        "jpg": "/services/filming.jpg"
+      },
+      "motionGraphics": {
+        "webp": "/services/motion-graphics.webp",
+        "jpg": "/services/motion-graphics.jpg"
+      },
+      "soundDesign": {
+        "webp": "/services/sound-design.webp",
+        "jpg": "/services/sound-design.jpg"
+      },
+      "vfx": {
+        "webp": "/services/vfx.webp",
+        "png": "/services/vfx.png"
+      }
+    }
+  },
+  "videos": {
+    "hero": {
+      "src": "/videos/hero-video.mp4",
+      "poster": "/videos/hero-video-poster.webp",
+      "fallback": "/videos/portfolio/portfolio-1.mp4",
+      "name": "CN-Outro-Animation.mp4"
+    },
+    "portfolio": [
+      {
+        "id": "p1",
+        "src": "/videos/portfolio/portfolio-1.mp4",
+        "poster": "/videos/portfolio/portfolio-1-poster.webp",
+        "label": "E-Commerce UGC Ad"
+      },
+      {
+        "id": "p2",
+        "src": "/videos/portfolio/portfolio-2.mp4",
+        "poster": "/videos/portfolio/portfolio-2-poster.webp",
+        "label": "Performance Ad Creative"
+      },
+      {
+        "id": "p3",
+        "src": "/videos/portfolio/portfolio-3.mp4",
+        "poster": "/videos/portfolio/portfolio-3-poster.webp",
+        "label": "Brand Storytelling"
+      },
+      {
+        "id": "p4",
+        "src": "/videos/portfolio/portfolio-4.mp4",
+        "poster": "/videos/portfolio/portfolio-4-poster.webp",
+        "label": "Direct-Response Reel"
+      },
+      {
+        "id": "p5",
+        "src": "/videos/portfolio/portfolio-5.mp4",
+        "poster": "/videos/portfolio/portfolio-5-poster.webp",
+        "label": "Scroll-Stopping Hook"
+      },
+      {
+        "id": "p6",
+        "src": "/videos/portfolio/portfolio-6.mp4",
+        "poster": "/videos/portfolio/portfolio-6-poster.webp",
+        "label": "Lifestyle & Fitness Ad"
+      },
+      {
+        "id": "p7",
+        "src": "/videos/portfolio/portfolio-7.mp4",
+        "poster": "/videos/portfolio/portfolio-7-poster.webp",
+        "label": "Viral Creator Reel"
+      },
+      {
+        "id": "p8",
+        "src": "/videos/portfolio/portfolio-8.mp4",
+        "poster": "/videos/portfolio/portfolio-8-poster.webp",
+        "label": "High-ROI Paid Social"
+      }
+    ]
+  },
+  "animations": {
+    "hero": {
+      "scrollCameraZoom": {
+        "name": "GSAP ScrollTrigger 3D Camera Zoom",
+        "component": "LensIntroHero"
+      },
+      "cameraPerspective3D": {
+        "name": "GSAP ScrollTrigger 3D Camera Perspective Tilt",
+        "component": "ScrollCameraHero"
+      },
+      "lensEyeZoom": {
+        "name": "GSAP ScrollTrigger Lens Eye Intro Zoom",
+        "component": "LensZoomHero"
+      },
+      "editorialMarquee": {
+        "name": "Infinite Multi-Row Editorial Service Marquee",
+        "component": "EditorialMarqueeSection"
+      }
+    },
+    "process": {
+      "script": {
+        "id": "script",
+        "name": "Script & Hook Architecture Interactive Canvas Animation",
+        "step": "01"
+      },
+      "film": {
+        "id": "film",
+        "name": "Pan-India Creator Network Film Studio Animation",
+        "step": "02"
+      },
+      "edit": {
+        "id": "edit",
+        "name": "Fast-Paced Motion Graphics & Waveform Jump-Cut Animation",
+        "step": "03"
+      },
+      "measure": {
+        "id": "measure",
+        "name": "Real-time Performance Ad Analytics & ROI Chart Animation",
+        "step": "04"
+      }
+    }
+  },
+  "fonts": {
+    "primary": {
+      "family": "Plus Jakarta Sans",
+      "weights": "300..800",
+      "googleUrl": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    }
+  }
+}
