@@ -1477,6 +1477,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     margin-bottom: 2rem;
     padding: 0 1.25rem;
   }
+  .testimonials-slider-container {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
   .testimonial-card {
     width: 220px;
     height: 380px;
