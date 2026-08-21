@@ -1012,7 +1012,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     display: none !important;
   }
   .hero-content{
-    padding-top: clamp(4rem, 7.5vh, 4.75rem);
+    padding-top: clamp(3.75rem, 6.5vh, 4.25rem);
     padding-bottom: 1rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
@@ -1027,8 +1027,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.65rem;
-    max-width: 460px;
+    gap: 0.5rem;
+    max-width: 480px;
     width: 100%;
     height: 100%;
     justify-content: flex-start;
@@ -1042,12 +1042,12 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     flex-shrink: 0;
   }
   .hero-sub{
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.5rem;
     font-size: clamp(0.78rem, 2.4vw, 0.86rem);
-    line-height: 1.48;
+    line-height: 1.45;
     color: rgba(240, 237, 232, 0.9);
     text-align: center;
-    max-width: 420px;
+    max-width: 440px;
   }
   .hero-sub p{
     margin-bottom: 0.25rem;
@@ -1065,7 +1065,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     width: 100%;
   }
   .hero-ctas .btn{
-    padding: 0.6rem 1.25rem;
+    padding: 0.58rem 1.2rem;
     font-size: 0.82rem;
     font-weight: 600;
   }
@@ -1079,11 +1079,12 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     margin-top: 0.25rem;
   }
   .hero-phone-card{
-    width: clamp(190px, 54vw, 250px);
-    aspect-ratio: 9/16;
-    max-height: clamp(300px, 44vh, 390px);
-    border-radius: 26px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    height: clamp(350px, 52vh, 460px);
+    aspect-ratio: 9 / 16;
+    width: auto;
+    max-width: 82vw;
+    border-radius: 28px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75), 0 0 35px rgba(224, 32, 32, 0.2);
   }
   .portfolio-grid{display:none;}
   .portfolio-mobile-carousel{display:flex;gap:1rem;overflow-x:auto;padding:0 2rem 1rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
@@ -1108,26 +1109,27 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 @media(max-width:480px){
   .hero-content{
-    padding-top: clamp(3.85rem, 7vh, 4.5rem);
+    padding-top: clamp(3.6rem, 6vh, 4rem);
     padding-bottom: 0.75rem;
     padding-left: 0.85rem;
     padding-right: 0.85rem;
   }
-  .hero-grid{gap: 0.5rem;}
+  .hero-grid{gap: 0.4rem;}
   .hero-sub{
     font-size: 0.76rem;
-    line-height: 1.42;
-    margin-bottom: 0.4rem;
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
     max-width: 360px;
   }
   .hero-sub p{
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.15rem;
   }
   .hero-phone-card{
-    width: clamp(180px, 56vw, 235px);
-    aspect-ratio: 9/16;
-    max-height: clamp(285px, 43vh, 370px);
-    border-radius: 22px;
+    height: clamp(320px, 50vh, 440px);
+    aspect-ratio: 9 / 16;
+    width: auto;
+    max-width: 84vw;
+    border-radius: 24px;
   }
   .capabilities-grid{grid-template-columns:1fr;}
   .stat-item{flex:0 0 100%;}
@@ -1135,7 +1137,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .footer-cta-buttons .btn{width:100%;text-align:center;justify-content:center;}
   .footer-cta-headline{font-size:clamp(1.42rem, 6.4vw, 1.85rem);line-height:1.16;}
   .hero-ctas{gap: 0.4rem; margin-bottom: 0.25rem;}
-  .hero-ctas .btn{padding: 0.55rem 1.1rem; font-size: 0.78rem;}
+  .hero-ctas .btn{padding: 0.52rem 1.05rem; font-size: 0.78rem;}
   .comparison-table th,.comparison-table td{padding:.9rem 1rem;font-size:.8rem;}
 }
 
