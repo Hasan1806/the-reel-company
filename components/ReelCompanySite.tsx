@@ -611,25 +611,40 @@ export default function ReelCompanySite() {
     };
   }, []);
 
+  const comparisonCarouselRef = useRef<HTMLDivElement | null>(null);
+
+  const handleDotClick = (index: number) => {
+    if (comparisonCarouselRef.current) {
+      const cards = comparisonCarouselRef.current.querySelectorAll('.mobile-carousel-card');
+      if (cards[index]) {
+        (cards[index] as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center',
+          block: 'nearest'
+        });
+        setActiveCarouselIndex(index);
+      }
+    }
+  };
+
   const handleCarouselScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
     const scrollLeft = container.scrollLeft;
     const centerPoint = scrollLeft + container.clientWidth / 2;
     
-    const cards = container.children;
+    const cards = container.querySelectorAll('.mobile-carousel-card');
     let closestIndex = 0;
     let minDistance = Infinity;
 
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i] as HTMLElement;
-      if (!card) continue;
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2 - container.offsetLeft;
+    cards.forEach((card, i) => {
+      const el = card as HTMLElement;
+      const cardCenter = el.offsetLeft + el.offsetWidth / 2;
       const distance = Math.abs(centerPoint - cardCenter);
       if (distance < minDistance) {
         minDistance = distance;
         closestIndex = i;
       }
-    }
+    });
     
     if (activeCarouselIndex !== closestIndex) {
       setActiveCarouselIndex(closestIndex);
@@ -1078,7 +1093,7 @@ export default function ReelCompanySite() {
 
             {/* Mobile Switcher View - Horizontal Carousel */}
             <div className="mobile-comp-view">
-              <div className="mobile-carousel" onScroll={handleCarouselScroll}>
+              <div ref={comparisonCarouselRef} className="mobile-carousel" onScroll={handleCarouselScroll}>
                 {/* Card 1: In-House Team */}
                 <div className="mobile-carousel-card">
                   <div className="mobile-carousel-header">
@@ -1141,10 +1156,15 @@ export default function ReelCompanySite() {
                 </div>
               </div>
               <div className="mobile-carousel-indicator">
-                <div className={`carousel-dot ${activeCarouselIndex === 0 ? 'active' : ''}`} />
-                <div className={`carousel-dot ${activeCarouselIndex === 1 ? 'active' : ''}`} />
-                <div className={`carousel-dot ${activeCarouselIndex === 2 ? 'active' : ''}`} />
-                <div className={`carousel-dot ${activeCarouselIndex === 3 ? 'active' : ''}`} />
+                {[0, 1, 2, 3].map((i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`carousel-dot ${activeCarouselIndex === i ? 'active' : ''}`}
+                    onClick={() => handleDotClick(i)}
+                    aria-label={`Go to comparison slide ${i + 1}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
