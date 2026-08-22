@@ -1008,10 +1008,6 @@ export default function ReelCompanySite() {
           <div className="client-cta-ambient-glow" aria-hidden="true"></div>
           <div className="client-cta-mesh" aria-hidden="true"></div>
           <div className="client-cta-inner">
-            <div className="client-cta-badge">
-              <span className="badge-pulse-dot" aria-hidden="true"></span>
-              PARTNER WITH US ✦
-            </div>
             <h2 className="client-cta-headline">
               Happy clients are our<br/>
               <span className="headline-gradient-text">best case study.</span>
