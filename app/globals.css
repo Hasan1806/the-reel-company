@@ -1082,16 +1082,31 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   pointer-events: none;
 }
 
-.problem-card-title {
-  font-family: var(--font-head);
-  font-size: clamp(17px, 1.3vw, 21px);
-  font-weight: 700;
-  color: #F4F4F4;
-  line-height: 1.25;
-  letter-spacing: -0.015em;
+.problem-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   position: relative;
   z-index: 2;
   padding-right: 3.5rem;
+}
+
+.problem-card-title {
+  font-family: var(--font-head);
+  font-size: clamp(16px, 1.15vw, 19px);
+  font-weight: 700;
+  color: #F4F4F4;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.problem-card-desc {
+  font-size: clamp(13px, 0.9vw, 14.5px);
+  color: rgba(240, 237, 232, 0.70);
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 400;
 }
 
 .problem-index {

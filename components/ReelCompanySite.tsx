@@ -950,19 +950,31 @@ export default function ReelCompanySite() {
             </div>
             <div className="problem-cards" id="problem-cards">
               <div className="problem-card" data-index="01">
-                <span className="problem-card-title">Hiring In-house team looks good on paper until you try to scale.</span>
+                <div className="problem-card-content">
+                  <h3 className="problem-card-title">Hiring in-house is too expensive</h3>
+                  <p className="problem-card-desc">Hiring In-house team looks good on paper until you try to scale.</p>
+                </div>
                 <span className="problem-index" aria-hidden="true">01</span>
               </div>
               <div className="problem-card" data-index="02">
-                <span className="problem-card-title">Freelancers are inconsistent in delivery and pricing.</span>
+                <div className="problem-card-content">
+                  <h3 className="problem-card-title">Freelancers are inconsistent</h3>
+                  <p className="problem-card-desc">Freelancers are inconsistent in delivery and pricing.</p>
+                </div>
                 <span className="problem-index" aria-hidden="true">02</span>
               </div>
               <div className="problem-card" data-index="03">
-                <span className="problem-card-title">Traditional agencies charge 10-15k/video that might not even perform.</span>
+                <div className="problem-card-content">
+                  <h3 className="problem-card-title">Agencies charge enterprise rates</h3>
+                  <p className="problem-card-desc">Traditional agencies charge 10-15k/video that might not even perform.</p>
+                </div>
                 <span className="problem-index" aria-hidden="true">03</span>
               </div>
               <div className="problem-card" data-index="04">
-                <span className="problem-card-title">Video apps and platforms are more complex and usually waste of time.</span>
+                <div className="problem-card-content">
+                  <h3 className="problem-card-title">Platforms demand constant volume</h3>
+                  <p className="problem-card-desc">Video apps and platforms are more complex and usually waste of time.</p>
+                </div>
                 <span className="problem-index" aria-hidden="true">04</span>
               </div>
             </div>
