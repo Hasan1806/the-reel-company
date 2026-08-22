@@ -331,15 +331,6 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
         zIndex: 10,
       }}
     >
-      <noscript>
-        <style>{`
-          .intro-lens-scroll-section { height: auto !important; }
-          .intro-lens-sticky-viewport { position: relative !important; height: auto !important; }
-          .intro-black-bg, .intro-lens-layer, .intro-readability-overlay, .intro-text-cta-layer, .temp-transition-stats-wrap { display: none !important; }
-          .main-hero-preview-layer { position: relative !important; pointer-events: auto !important; opacity: 1 !important; }
-        `}</style>
-      </noscript>
-
       <div
         ref={stickyRef}
         className="intro-lens-sticky-viewport"

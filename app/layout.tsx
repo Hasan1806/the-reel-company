@@ -21,6 +21,14 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-480.avif" type="image/avif" media="(max-width: 480px)" />
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-768.avif" type="image/avif" media="(min-width: 481px) and (max-width: 768px)" />
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-1920.avif" type="image/avif" media="(min-width: 769px)" />
+        <noscript>
+          <style>{`
+            .intro-lens-scroll-section { height: auto !important; }
+            .intro-lens-sticky-viewport { position: relative !important; height: auto !important; }
+            .intro-black-bg, .intro-lens-layer, .intro-readability-overlay, .intro-text-cta-layer, .temp-transition-stats-wrap { display: none !important; }
+            .main-hero-preview-layer { position: relative !important; pointer-events: auto !important; opacity: 1 !important; }
+          `}</style>
+        </noscript>
       </head>
       <body suppressHydrationWarning>
         {children}
