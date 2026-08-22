@@ -3788,6 +3788,19 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   transition: opacity 300ms ease 60ms, transform 300ms ease 60ms;
 }
 
+.faq-answer-content p {
+  margin: 0;
+}
+
+.faq-answer-content p + p {
+  margin-top: 0.65rem;
+}
+
+.faq-answer-content strong {
+  color: #F4F2EF;
+  font-weight: 600;
+}
+
 .faq-item.is-open .faq-answer-content {
   opacity: 1;
   transform: translateY(0);

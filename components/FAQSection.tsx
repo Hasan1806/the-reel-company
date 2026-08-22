@@ -5,39 +5,59 @@ import React, { useState } from "react";
 interface FAQItem {
   num: string;
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
 
 const FAQ_ITEMS: FAQItem[] = [
   {
     num: "01",
     question: "Why should brands choose The Reel Company?",
-    answer:
-      "Brands choose The Reel Company for authentic, high-quality UGC that feels natural and performs across digital platforms. We combine creative strategy, the right creators and professional production to deliver content that connects with audiences and supports brand growth.",
+    answer: (
+      <>
+        <p>
+          Because with The Reel Company, you don’t need to manage multiple agencies or vendors. From organic content and UGC to performance ads, AI videos, YouTube, and brand films—we handle it all under one roof.
+        </p>
+        <p>
+          Whether you’re a growing startup or an established brand, you get one seamless team, faster turnaround times, and high-quality content at up to 50% lower costs than traditional agencies.
+        </p>
+      </>
+    ),
   },
   {
     num: "02",
     question: "Do you handle the complete video production process?",
-    answer:
-      "Yes. We manage everything from concept development, scripting and creator selection to shooting, editing and final delivery. Brands get a smooth, end-to-end production experience without having to coordinate with multiple teams.",
+    answer: (
+      <p>
+        Yes. We manage everything from concept development, scripting and creator selection to shooting, editing and final delivery. Brands get a smooth, end-to-end production experience without having to coordinate with multiple teams.
+      </p>
+    ),
   },
   {
     num: "03",
     question: "What makes The Reel Company’s UGC content different?",
-    answer:
-      "Our UGC is designed to feel real, relatable and native to social media rather than overly scripted. We combine strong hooks, natural storytelling and engaging visuals while keeping every video aligned with your brand identity.",
+    answer: (
+      <p>
+        Our UGC is designed to feel real, relatable and native to social media rather than overly scripted. We combine strong hooks, natural storytelling and engaging visuals while keeping every video aligned with your brand identity.
+      </p>
+    ),
   },
   {
     num: "04",
     question: "How long does it take to receive the final videos?",
-    answer:
-      "Timelines depend on the number of videos, creators and production requirements. Once the brief is finalized, we provide a clear production and delivery timeline upfront so you always know what to expect.",
+    answer: (
+      <p>
+        Timelines depend on the number of videos, creators and production requirements. Once the brief is finalized, we provide a clear production and delivery timeline upfront so you always know what to expect.
+      </p>
+    ),
   },
   {
     num: "05",
     question: "What if I need changes after receiving the videos?",
-    answer:
-      "We follow a structured revision process to make sure the final videos match the approved brief and creative direction. Our team works closely with you to address necessary changes and deliver content that meets your brand expectations.",
+    answer: (
+      <p>
+        We follow a structured revision process to make sure the final videos match the approved brief and creative direction. Our team works closely with you to address necessary changes and deliver content that meets your brand expectations.
+      </p>
+    ),
   },
 ];
 
@@ -119,7 +139,7 @@ export default function FAQSection() {
                     className="faq-answer-wrapper"
                   >
                     <div className="faq-answer-inner">
-                      <p className="faq-answer-content">{item.answer}</p>
+                      <div className="faq-answer-content">{item.answer}</div>
                     </div>
                   </div>
                 </div>
