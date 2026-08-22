@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface DiscoveryCallModalProps {
   isOpen: boolean;
@@ -15,19 +15,8 @@ export default function DiscoveryCallModal({
   onClose,
   triggerRef,
 }: DiscoveryCallModalProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-  const [isPreloadReady, setIsPreloadReady] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  // Mount FormRobin iframe on-demand when the modal is opened
-  useEffect(() => {
-    if (isOpen && !isPreloadReady) {
-      setIsPreloadReady(true);
-    }
-  }, [isOpen, isPreloadReady]);
 
   // Handle body scroll lock & keyboard accessibility when modal is open
   useEffect(() => {
@@ -85,19 +74,6 @@ export default function DiscoveryCallModal({
       }
     }
   }, [isOpen, onClose, triggerRef]);
-
-  // Fallback safety: If iframe doesn't load after 12s, show fallback button
-  useEffect(() => {
-    if (isLoading) {
-      const timeoutTimer = setTimeout(() => {
-        if (isLoading) {
-          setHasError(true);
-          setIsLoading(false);
-        }
-      }, 12000);
-      return () => clearTimeout(timeoutTimer);
-    }
-  }, [isLoading]);
 
   const handleOpenExternal = () => {
     window.open(FORM_URL, "_blank", "noopener,noreferrer");
@@ -187,49 +163,15 @@ export default function DiscoveryCallModal({
           </div>
         </div>
 
-        {/* Modal Body / Embedded Content */}
+        {/* Modal Body / Embedded FormRobin Form */}
         <div className="discovery-modal-content">
-          {/* Subtle loading spinner overlay */}
-          {isLoading && !hasError && (
-            <div className="discovery-loader-wrap" aria-live="polite">
-              <div className="discovery-loader-spinner" />
-              <span className="discovery-loader-text">Loading form…</span>
-            </div>
-          )}
-
-          {/* Fallback Error State if embedding blocked */}
-          {hasError ? (
-            <div className="discovery-error-state">
-              <h3 className="discovery-error-title">Book Your Discovery Call</h3>
-              <p className="discovery-error-sub">
-                Click below to open our secure booking form directly in a new window.
-              </p>
-              <button
-                type="button"
-                className="btn btn-red"
-                onClick={handleOpenExternal}
-                style={{ padding: "0.85rem 1.8rem", fontSize: "0.95rem" }}
-              >
-                Open FormRobin Form
-              </button>
-            </div>
-          ) : (
-            isPreloadReady && (
-              <iframe
-                ref={iframeRef}
-                src={FORM_URL}
-                title="Book a Discovery Call"
-                loading="eager"
-                className={`discovery-modal-iframe ${!isLoading ? "is-ready" : ""}`}
-                onLoad={() => setIsLoading(false)}
-                onError={() => {
-                  setIsLoading(false);
-                  setHasError(true);
-                }}
-                allow="camera; microphone; autoplay; encrypted-media; fullscreen"
-              />
-            )
-          )}
+          <iframe
+            src={FORM_URL}
+            title="Book a Discovery Call"
+            loading="eager"
+            className="discovery-modal-iframe is-ready"
+            allow="camera; microphone; autoplay; encrypted-media; fullscreen"
+          />
         </div>
       </div>
     </div>

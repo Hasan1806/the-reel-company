@@ -1663,12 +1663,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   height: 100%;
   border: none;
   display: block;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.discovery-modal-iframe.is-ready {
   opacity: 1;
+  background: #0d0d0d;
 }
 
 /* ════════════════ PORTFOLIO ACCESS MODAL ════════════════ */
