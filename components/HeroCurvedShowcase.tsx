@@ -42,19 +42,29 @@ export default function HeroCurvedShowcase() {
 
     // Track geometry parameters
     let containerWidth = container.clientWidth || window.innerWidth;
-    let isMobile = window.innerWidth < 768;
-    let isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+    let isMobile = containerWidth < 768;
+    let isTablet = containerWidth >= 768 && containerWidth < 1024;
 
-    let cardWidth = isMobile ? 120 : isTablet ? 140 : 160;
-    let curveDepth = isMobile ? 80 : isTablet ? 110 : 140;
+    let cardWidth = isMobile
+      ? Math.min(145, Math.max(130, Math.round(containerWidth * 0.36)))
+      : isTablet
+      ? 145
+      : 160;
+    let curveDepth = isMobile ? 55 : isTablet ? 85 : 120;
+    let cardSpacing = isMobile ? cardWidth * 0.95 : isTablet ? 155 : 185;
 
     const updateDimensions = () => {
       if (!container) return;
       containerWidth = container.clientWidth || window.innerWidth;
-      isMobile = window.innerWidth < 768;
-      isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-      cardWidth = isMobile ? 120 : isTablet ? 140 : 160;
-      curveDepth = isMobile ? 80 : isTablet ? 110 : 140;
+      isMobile = containerWidth < 768;
+      isTablet = containerWidth >= 768 && containerWidth < 1024;
+      cardWidth = isMobile
+        ? Math.min(145, Math.max(130, Math.round(containerWidth * 0.36)))
+        : isTablet
+        ? 145
+        : 160;
+      curveDepth = isMobile ? 55 : isTablet ? 85 : 120;
+      cardSpacing = isMobile ? cardWidth * 0.95 : isTablet ? 155 : 185;
     };
 
     window.addEventListener("resize", updateDimensions, { passive: true });
@@ -65,14 +75,12 @@ export default function HeroCurvedShowcase() {
         isVisible = entry.isIntersecting;
         if (isVisible) {
           lastTime = performance.now();
-          // Ensure videos play smoothly
           videoRefs.current.forEach((vid) => {
             if (vid && vid.paused) {
               vid.play().catch(() => {});
             }
           });
         } else {
-          // Pause videos when not visible
           videoRefs.current.forEach((vid) => {
             if (vid && !vid.paused) {
               vid.pause();
@@ -93,39 +101,54 @@ export default function HeroCurvedShowcase() {
         globalProgress = (globalProgress + dt * SPEED) % 1;
 
         const totalItems = CURVED_HERO_VIDEOS.length;
-        const xMin = -cardWidth * 1.8;
-        const xMax = containerWidth + cardWidth * 0.8;
-        const span = xMax - xMin;
+        const span = totalItems * cardSpacing;
         const wCenter = containerWidth / 2 - cardWidth / 2;
-        const uSpan = containerWidth / 2 + cardWidth;
+        const xMin = wCenter - span / 2;
+        const visibleHalfWidth = (containerWidth + cardWidth * 0.8) / 2;
+        const maxRotation = isMobile ? 7.5 : 5.0;
 
         for (let i = 0; i < totalItems; i++) {
           const card = cardRefs.current[i];
           if (!card) continue;
 
-          // Card's normalized loop progress (0 to 1) moving LEFT -> RIGHT
+          // Card loop progress (0 to 1) moving continuously LEFT -> RIGHT
           const p = (globalProgress + i / totalItems) % 1;
           const x = xMin + p * span;
 
           // Normalized offset from center: -1 (far left) to 0 (center) to +1 (far right)
-          const u = (x - wCenter) / uSpan;
-          const clampedU = Math.max(-1, Math.min(1, u));
+          const u = (x - wCenter) / visibleHalfWidth;
+          const clampedU = Math.max(-1.15, Math.min(1.15, u));
 
-          // Broad, smooth, rounded U-shaped curve formula (p = 2.6 for broad flat bottom)
-          const y = curveDepth * (1 - Math.pow(Math.abs(clampedU), 2.6));
+          // Broad U-curve: p = 2.4 gives a smooth, organic arc with rounded base
+          const y = curveDepth * (1 - Math.pow(Math.min(1, Math.abs(clampedU)), 2.4));
 
-          // Edge fade attenuation for seamless entry/exit
+          // Center focus factor (1.0 at center, drops to 0.0 at outer wings)
+          const centerFactor = Math.max(0, 1 - Math.pow(Math.min(1, Math.abs(clampedU)), 1.5));
+
+          // Prominent center scale: center card is enlarged and focused
+          const scale = isMobile
+            ? 0.86 + 0.24 * centerFactor
+            : 0.90 + 0.14 * centerFactor;
+
+          // Dynamic curve tangent tilt: left cards tilt CCW, right cards tilt CW, center upright
+          const rotation = clampedU * maxRotation;
+
+          // Edge fade attenuation for seamless infinite entry/exit
           let opacity = 1;
-          if (p < 0.06) {
-            opacity = p / 0.06;
-          } else if (p > 0.94) {
-            opacity = (1 - p) / 0.06;
+          if (p < 0.05) {
+            opacity = p / 0.05;
+          } else if (p > 0.95) {
+            opacity = (1 - p) / 0.05;
           }
 
-          // Dynamic transform update (strictly upright, zero rotation)
-          card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+          // Subtle brightness focus for the active center card
+          const brightness = 0.82 + 0.18 * centerFactor;
+
+          // Dynamic transform update with GPU hardware acceleration
+          card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
           card.style.opacity = opacity.toFixed(3);
-          card.style.zIndex = String(Math.floor(10 + (1 - Math.abs(clampedU)) * 20));
+          card.style.filter = `brightness(${brightness.toFixed(3)})`;
+          card.style.zIndex = String(Math.floor(10 + centerFactor * 30));
         }
       }
 
