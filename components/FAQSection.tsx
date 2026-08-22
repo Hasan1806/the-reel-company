@@ -46,7 +46,7 @@ const FAQ_ITEMS: FAQItem[] = [
     question: "How long does it take to receive the final videos?",
     answer: (
       <p>
-        Timelines depend on the number of videos, creators and production requirements. Once the brief is finalized, we provide a clear production and delivery timeline upfront so you always know what to expect.
+        Our usual turnaround time is around 2 weeks. Depending on the project size and production requirements, timelines may vary—but we always share a clear delivery schedule upfront so you know exactly what to expect.
       </p>
     ),
   },
