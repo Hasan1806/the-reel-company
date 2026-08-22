@@ -295,7 +295,7 @@ export default function PrivacyPolicyPage() {
         <div className="footer-big-branding-wrap" aria-label="The Reel Company">
           <div className="footer-big-branding-glow" aria-hidden="true"></div>
           <svg
-            viewBox="0 0 1320 130"
+            viewBox="0 0 1380 130"
             width="100%"
             height="100%"
             className="footer-big-branding-svg"
@@ -306,29 +306,30 @@ export default function PrivacyPolicyPage() {
                 <stop offset="0%" stopColor="#ffffff" />
                 <stop offset="25%" stopColor="#ff4d4d" />
                 <stop offset="52%" stopColor="#e50914" />
-                <stop offset="78%" stopColor="#80050b" />
-                <stop offset="100%" stopColor="#300003" />
+                <stop offset="78%" stopColor="#660003" />
+                <stop offset="100%" stopColor="#100203" />
               </linearGradient>
               <filter id="footerGlowPrivacy" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="6" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="rgba(229, 9, 20, 0.45)" />
               </filter>
             </defs>
             <text
               x="50%"
               y="58%"
-              text-anchor="middle"
-              dominant-baseline="central"
+              textAnchor="middle"
+              dominantBaseline="central"
               fill="url(#footerBrandGradPrivacy)"
               filter="url(#footerGlowPrivacy)"
               style={{
                 fontFamily: "var(--font-head), 'Plus Jakarta Sans', sans-serif",
                 fontWeight: 900,
-                fontSize: "128px",
-                letterSpacing: "-2px",
+                fontSize: "122px",
+                letterSpacing: "-0.015em",
               }}
             >
-              THE REEL COMPANY
+              <tspan>THE</tspan>
+              <tspan dx="36">REEL</tspan>
+              <tspan dx="36">COMPANY</tspan>
             </text>
           </svg>
         </div>
