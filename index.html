@@ -54,64 +54,62 @@
   <main>
 
     <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
-    <section id="hero" class="hero-section" aria-label="Hero">
-      <div class="hero-bg">
-        <div class="hero-bg-image" id="hero-bg-image"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-red-glow"></div>
-      </div>
-      <div class="hero-content">
-        <div class="hero-grid">
-          <div class="hero-text">
-            <div class="hero-badge reveal-fade">UGC &amp; Content Production Studio</div>
-            <h1 class="hero-headline">
-              <span class="line-mask"><span class="line-inner">The Reel Company</span></span>
-            </h1>
-            <h2 class="hero-tagline reveal-up">All Your Content Needs. Under One Roof.</h2>
-            <div class="hero-sub reveal-up">
-              <p>
-                From content that stops the scroll, to ads that drive performance, TRC does it all—organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries, and everything in between.
-              </p>
-              <p>
-                One team, one seamless workflow, 2x faster execution, and up to 50% lower costs than traditional agencies.
-              </p>
-            </div>
-            <div class="hero-ctas reveal-up" style="--delay:0.2s">
-              <a href="#portfolio" class="btn btn-red">See Our Work</a>
-              <a href="#footer-cta" class="btn btn-outline">Book a Discovery Call</a>
-            </div>
-          </div>
+    <section id="hero" class="hero-redesign-section" aria-label="The Reel Company Hero">
+      <div class="hero-ambient-glow" aria-hidden="true"></div>
+      <div class="hero-radial-mesh" aria-hidden="true"></div>
 
-          <div class="hero-video-wrap reveal-up" style="--delay:0.3s">
-            <div class="hero-phone-card">
-              <div class="phone-glow"></div>
-              <div class="phone-frame">
-                <video id="hero-preview-video" autoplay muted loop playsinline src="/videos/hero-video.mp4"></video>
-                <div class="phone-header">
-                  <span class="phone-badge">9:16 Reel Preview</span>
-                  <label for="hero-video-input" class="upload-btn" title="Upload custom 9:16 video">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <span>Upload Video</span>
-                  </label>
-                  <input type="file" id="hero-video-input" accept="video/*" style="display:none;" />
-                </div>
-                <div class="phone-overlay">
-                  <div class="phone-info">
-                    <span class="video-filename" id="hero-video-name">Sample_Reel_9x16.mp4</span>
-                    <span class="video-hint">Click Upload to test your video</span>
-                  </div>
-                  <div class="phone-actions">
-                    <button class="icon-btn" id="hero-play-toggle" aria-label="Toggle Play/Pause">
-                      <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                      <svg class="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                    </button>
-                    <button class="icon-btn" id="hero-mute-toggle" aria-label="Toggle Mute">
-                      <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v6a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/></svg>
-                      <svg class="icon-sound" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
+      <div class="hero-header-block">
+        <h1 class="hero-brand-headline">The Reel Company</h1>
+        <div class="hero-brand-subheading">
+          <p class="hero-sub-p1">
+            From scroll-stopping organic content to high-performing ads, AI videos, UGC, YouTube, and brand films—we do it all.
+          </p>
+          <p class="hero-sub-p2">
+            One team. One seamless workflow. 2× faster execution, at up to 50% lower costs.
+          </p>
+        </div>
+        <div class="hero-action-buttons">
+          <a href="#portfolio" class="btn btn-outline hero-cta-btn">View Portfolio</a>
+          <button type="button" class="btn btn-red hero-cta-btn" id="hero-book-btn">Book a Call</button>
+        </div>
+      </div>
+
+      <div class="hero-curved-stream-wrapper">
+        <div class="hero-curved-track-container">
+          <div class="hero-curved-mask-left" aria-hidden="true"></div>
+          <div class="hero-curved-mask-right" aria-hidden="true"></div>
+          <div class="hero-curved-stage">
+            <div class="hero-curved-card" style="position:absolute; top:0; left:0;"><div class="hero-curved-card-inner"><video src="/videos/portfolio/portfolio-1.mp4" autoplay muted loop playsinline class="hero-curved-video"></video></div></div>
+            <div class="hero-curved-card" style="position:absolute; top:0; left:0;"><div class="hero-curved-card-inner"><video src="/videos/portfolio/portfolio-2.mp4" autoplay muted loop playsinline class="hero-curved-video"></video></div></div>
+            <div class="hero-curved-card" style="position:absolute; top:0; left:0;"><div class="hero-curved-card-inner"><video src="/videos/portfolio/portfolio-3.mp4" autoplay muted loop playsinline class="hero-curved-video"></video></div></div>
+            <div class="hero-curved-card" style="position:absolute; top:0; left:0;"><div class="hero-curved-card-inner"><video src="/videos/portfolio/portfolio-4.mp4" autoplay muted loop playsinline class="hero-curved-video"></video></div></div>
+            <div class="hero-curved-card" style="position:absolute; top:0; left:0;"><div class="hero-curved-card-inner"><video src="/videos/portfolio/portfolio-5.mp4" autoplay muted loop playsinline class="hero-curved-video"></video></div></div>
+            <div class="hero-curved-card" style="position:absolute; top:0; left:0;"><div class="hero-curved-card-inner"><video src="/videos/portfolio/portfolio-6.mp4" autoplay muted loop playsinline class="hero-curved-video"></video></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats-wrapper">
+        <div class="hero-stats-panel-container">
+          <div class="hero-stats-panel">
+            <div class="hero-stat-cell">
+              <div class="hero-stat-num">250<span class="hero-stat-plus">+</span></div>
+              <div class="hero-stat-label">BRANDS SERVED</div>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat-cell">
+              <div class="hero-stat-num">15,000<span class="hero-stat-plus">+</span></div>
+              <div class="hero-stat-label">VIDEOS CREATED</div>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat-cell">
+              <div class="hero-stat-num">150<span class="hero-stat-plus">+</span></div>
+              <div class="hero-stat-label">IN-HOUSE CREATORS</div>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat-cell">
+              <div class="hero-stat-num">60<span class="hero-stat-plus">+</span></div>
+              <div class="hero-stat-label">PROFESSIONAL TEAM</div>
             </div>
           </div>
         </div>
