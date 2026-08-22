@@ -411,6 +411,47 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   padding-bottom: clamp(4.5rem, 8vh, 7rem);
   background: #080808;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  clear: both;
+  overflow: hidden;
+}
+
+/* ═══════════════════ SECTION ISOLATION & GPU ACCELERATION ═══════════════════ */
+.hero-redesign-section,
+.studio-overview-section,
+.client-marquee-section,
+.showreel-section,
+.services-section,
+.editorial-marquee-section,
+.why-us-section,
+.process-section,
+.reviews-section,
+.faq-section,
+.footer-cta-section {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  clear: both;
+  contain: paint layout;
+}
+
+.client-marquee-track,
+.editorial-marquee-track,
+.hero-curved-card,
+.hero-phone-card,
+.hero-floating-card,
+.video-card {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.why-us-section,
+.process-section,
+.reviews-section,
+.faq-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
 }
 
 .hero-section{

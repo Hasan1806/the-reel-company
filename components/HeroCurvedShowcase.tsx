@@ -149,6 +149,21 @@ export default function HeroCurvedShowcase() {
           card.style.opacity = opacity.toFixed(3);
           card.style.filter = `brightness(${brightness.toFixed(3)})`;
           card.style.zIndex = String(Math.floor(10 + centerFactor * 30));
+
+          // Smart video decode throttling: only decode active onscreen videos
+          const vid = videoRefs.current[i];
+          if (vid) {
+            const isCardInViewport = Math.abs(u) <= 1.2 && opacity > 0.05;
+            if (isCardInViewport) {
+              if (vid.paused) {
+                vid.play().catch(() => {});
+              }
+            } else {
+              if (!vid.paused) {
+                vid.pause();
+              }
+            }
+          }
         }
       }
 
