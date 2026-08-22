@@ -1293,11 +1293,18 @@ export default function ReelCompanySite() {
           </nav>
         </div>
 
-        {/* ════════════════ BIG FOOTER BRANDING ════════════════ */}
+        <div className="footer-bottom">
+          <div className="footer-copyright">
+            <span className="copyright-text">&copy; 2026 The Reel Company Co.</span>
+          </div>
+          <p className="footer-studio-tag">UGC &amp; Content Production Studio</p>
+        </div>
+
+        {/* ════════════════ BIG FOOTER BRANDING (FINAL TERMINATING ELEMENT) ════════════════ */}
         <div className="footer-big-branding-wrap" aria-label="The Reel Company">
           <div className="footer-big-branding-glow" aria-hidden="true"></div>
           <svg
-            viewBox="0 0 1380 130"
+            viewBox="0 0 1700 160"
             width="100%"
             height="100%"
             className="footer-big-branding-svg"
@@ -1306,18 +1313,18 @@ export default function ReelCompanySite() {
             <defs>
               <linearGradient id="footerBrandGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#ffffff" />
-                <stop offset="25%" stopColor="#ff4d4d" />
-                <stop offset="52%" stopColor="#e50914" />
+                <stop offset="22%" stopColor="#ff4d4d" />
+                <stop offset="50%" stopColor="#e50914" />
                 <stop offset="78%" stopColor="#660003" />
                 <stop offset="100%" stopColor="#100203" />
               </linearGradient>
               <filter id="footerGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="rgba(229, 9, 20, 0.45)" />
+                <feDropShadow dx="0" dy="8" stdDeviation="16" floodColor="rgba(229, 9, 20, 0.55)" />
               </filter>
             </defs>
             <text
               x="50%"
-              y="58%"
+              y="60%"
               textAnchor="middle"
               dominantBaseline="central"
               fill="url(#footerBrandGrad)"
@@ -1325,22 +1332,15 @@ export default function ReelCompanySite() {
               style={{
                 fontFamily: "var(--font-head), 'Plus Jakarta Sans', sans-serif",
                 fontWeight: 900,
-                fontSize: "122px",
+                fontSize: "148px",
                 letterSpacing: "-0.015em",
               }}
             >
               <tspan>THE</tspan>
-              <tspan dx="36">REEL</tspan>
-              <tspan dx="36">COMPANY</tspan>
+              <tspan dx="42">REEL</tspan>
+              <tspan dx="42">COMPANY</tspan>
             </text>
           </svg>
-        </div>
-
-        <div className="footer-bottom">
-          <div className="footer-copyright">
-            <span className="copyright-text">&copy; 2026 The Reel Company Co.</span>
-          </div>
-          <p className="footer-studio-tag">UGC &amp; Content Production Studio</p>
         </div>
       </footer>
 
