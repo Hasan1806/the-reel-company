@@ -231,34 +231,43 @@ export default function ReelCompanySite() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Smooth scroll for anchor links
-  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  // Robust, professional smooth scroll engine for all section anchors
+  const scrollToSection = (targetId: string) => {
+    closeMobileMenu();
+    const id = targetId.replace(/^#/, '');
+
+    if (id === 'hero' || id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const targetEl = document.getElementById(id);
+    if (targetEl) {
+      const siteHeader = document.getElementById('site-header');
+      const headerHeight = siteHeader ? siteHeader.offsetHeight : 70;
+      const targetTop = targetEl.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
+      const scrollToPosition = Math.max(0, targetTop - headerHeight - 12);
+
+      window.scrollTo({
+        top: scrollToPosition,
+        behavior: 'smooth'
+      });
+
+      if (typeof window !== 'undefined' && window.history && window.history.pushState) {
+        window.history.pushState(null, '', `#${id}`);
+      }
+    } else {
+      const fallbackEl = document.querySelector(`#${id}`);
+      if (fallbackEl) {
+        fallbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     if (href && href.startsWith('#')) {
       e.preventDefault();
-      closeMobileMenu();
-      const id = href.slice(1);
-      
-      if (id === 'hero' || id === 'home') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-
-      const target = document.getElementById(id);
-      if (target) {
-        const headerOffset = 80;
-        const rect = target.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
-        const targetTop = rect.top + scrollTop - headerOffset;
-        window.scrollTo({
-          top: Math.max(0, targetTop),
-          behavior: 'smooth'
-        });
-      } else {
-        const fallback = document.querySelector(href);
-        if (fallback) {
-          fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
+      scrollToSection(href);
     }
   };
 
