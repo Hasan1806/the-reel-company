@@ -107,8 +107,6 @@ export default function ReelCompanySite() {
   const [heroVideoName, setHeroVideoName] = useState('CN-Outro-Animation.mp4');
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
-  const [activeMobileTab, setActiveMobileTab] = useState<'inhouse' | 'freelancers' | 'agencies'>('inhouse');
-  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
   // Discovery Call Modal state
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const lastActiveCtaRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
@@ -141,19 +139,17 @@ export default function ReelCompanySite() {
 
   // States to keep track of portfolio video playback icons per video index
   const [portfolioPlayingState, setPortfolioPlayingState] = useState<Record<number, boolean>>({});
-
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  // Toggle mobile menu
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(prev => !prev);
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
 
-  // Body scroll lock hook when mobile menu is open
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -170,7 +166,7 @@ export default function ReelCompanySite() {
 
   // Scroll listener for header & nav active link (RAF-throttled, cached offsets, zero duplicate re-renders)
   useEffect(() => {
-    const sections = ['hero', 'portfolio', 'services', 'comparison', 'footer-cta'];
+    const sections = ['hero', 'portfolio', 'services', 'footer-cta'];
     let sectionOffsets: { id: string; top: number }[] = [];
 
     const updateOffsets = () => {
@@ -614,71 +610,12 @@ export default function ReelCompanySite() {
         onEnterBack: () => gsap.to('body', { '--body-tint': 1, duration: .6 }),
         onLeaveBack: () => gsap.to('body', { '--body-tint': 0, duration: .6 }),
       });
-
-      // Comparison table rows stagger
-      const rows = document.querySelectorAll('.comparison-table tbody tr');
-      if (rows.length) {
-        gsap.fromTo(rows,
-          { opacity: 0, x: -12 },
-          {
-            opacity: 1, x: 0,
-            stagger: 0.06,
-            duration: .5,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: '.comparison-table',
-              start: 'top 80%',
-              toggleActions: 'play none none none',
-            }
-          }
-        );
-      }
     });
 
     return () => {
       ctx.revert();
     };
   }, []);
-
-  const comparisonCarouselRef = useRef<HTMLDivElement | null>(null);
-
-  const handleDotClick = (index: number) => {
-    if (comparisonCarouselRef.current) {
-      const cards = comparisonCarouselRef.current.querySelectorAll('.mobile-carousel-card');
-      if (cards[index]) {
-        (cards[index] as HTMLElement).scrollIntoView({
-          behavior: 'smooth',
-          inline: 'center',
-          block: 'nearest'
-        });
-        setActiveCarouselIndex(index);
-      }
-    }
-  };
-
-  const handleCarouselScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const container = e.currentTarget;
-    const scrollLeft = container.scrollLeft;
-    const centerPoint = scrollLeft + container.clientWidth / 2;
-    
-    const cards = container.querySelectorAll('.mobile-carousel-card');
-    let closestIndex = 0;
-    let minDistance = Infinity;
-
-    cards.forEach((card, i) => {
-      const el = card as HTMLElement;
-      const cardCenter = el.offsetLeft + el.offsetWidth / 2;
-      const distance = Math.abs(centerPoint - cardCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = i;
-      }
-    });
-    
-    if (activeCarouselIndex !== closestIndex) {
-      setActiveCarouselIndex(closestIndex);
-    }
-  };
 
   return (
     <>
@@ -697,7 +634,6 @@ export default function ReelCompanySite() {
             <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
             <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
             <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-            <a href="#comparison" className={`nav-link ${activeSection === 'comparison' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
           </nav>
           <button type="button" className="btn btn-red header-cta" id="header-cta-btn" onClick={openDiscoveryModal}>
@@ -718,7 +654,6 @@ export default function ReelCompanySite() {
             <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
             <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
             <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-            <a href="#comparison" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
             <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu}>Privacy Policy</Link>
             <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }}>Book a Call</button>
@@ -1060,156 +995,6 @@ export default function ReelCompanySite() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════ COMPARISON ═══════════════════════════ */}
-        <section id="comparison" className="comparison-section" aria-label="Vendor Comparison">
-          <div className="comparison-inner">
-            <div className="comparison-header">
-              <div className="section-badge-pill reveal-fade">✦ COMPARISON MATRIX ✦</div>
-              <h2 className="section-title">
-                Why Brands are switching to TRC
-              </h2>
-            </div>
-            {/* Desktop Table View */}
-            <div className="table-wrap desktop-table-view">
-              <table className="comparison-table" role="table" aria-label="Vendor comparison table">
-                <thead>
-                  <tr>
-                    <th scope="col" className="feature-col">Feature / Requirement</th>
-                    <th scope="col">In-House Team</th>
-                    <th scope="col">Freelancers</th>
-                    <th scope="col">Big Agencies</th>
-                    <th scope="col" className="trc-col">
-                      <span className="trc-badge">✦ RECOMMENDED FOR SCALING BRANDS</span>
-                      <div className="trc-header-title">The Reel Company</div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="feature-name">Consistent Quality</td>
-                    <td><span className="badge-tag">Varies</span></td>
-                    <td><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Inconsistent</span></td>
-                    <td><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> High</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>High</strong></span></td>
-                  </tr>
-                  <tr>
-                    <td className="feature-name">Affordable Pricing</td>
-                    <td><span className="badge-tag">High Overhead</span></td>
-                    <td><span className="badge-tag">Varies</span></td>
-                    <td><span className="badge-tag">Enterprise Only</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Affordable Rates</strong></span></td>
-                  </tr>
-                  <tr>
-                    <td className="feature-name">Fast Turnaround</td>
-                    <td><span className="badge-tag">Weeks</span></td>
-                    <td><span className="badge-tag">Slow</span></td>
-                    <td><span className="badge-tag">3-4 Weeks</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>7 to 10 Days</strong></span></td>
-                  </tr>
-                  <tr>
-                    <td className="feature-name">UGC &amp; Ad Specialisation</td>
-                    <td><span className="badge-tag">Generalist</span></td>
-                    <td><span className="badge-tag">Hit or Miss</span></td>
-                    <td><span className="badge-tag">Rarely</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>All Types of Content</strong></span></td>
-                  </tr>
-                  <tr>
-                    <td className="feature-name">Licensing &amp; Usage</td>
-                    <td><span className="badge-tag">Till Employed Contract</span></td>
-                    <td><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> No Trust or Contract</span></td>
-                    <td><span className="badge-tag">Time Bounded Rights</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Perpetual Usage Rights</strong></span></td>
-                  </tr>
-                  <tr>
-                    <td className="feature-name">No Long-Term Contracts</td>
-                    <td><span className="badge-tag">Fixed Salary</span></td>
-                    <td><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Per Project</span></td>
-                    <td><span className="badge-tag">6-12 Mo Lock-in</span></td>
-                    <td className="trc-col"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Easy Per Video Costing</strong></span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            {/* Mobile Switcher View - Horizontal Carousel */}
-            <div className="mobile-comp-view">
-              <div ref={comparisonCarouselRef} className="mobile-carousel" onScroll={handleCarouselScroll}>
-                {/* Card 1: In-House Team */}
-                <div className="mobile-carousel-card">
-                  <div className="mobile-carousel-header">
-                    <h3>In-House Team</h3>
-                  </div>
-                  <ul className="mobile-carousel-list">
-                    <li><span className="feature-name">Quality</span> <span className="val"><span className="badge-tag">Varies</span></span></li>
-                    <li><span className="feature-name">Pricing</span> <span className="val"><span className="badge-tag">High Overhead</span></span></li>
-                    <li><span className="feature-name">Turnaround</span> <span className="val"><span className="badge-tag">Weeks</span></span></li>
-                    <li><span className="feature-name">Specialisation</span> <span className="val"><span className="badge-tag">Generalist</span></span></li>
-                    <li><span className="feature-name">Licensing</span> <span className="val"><span className="badge-tag">Till Employed Contract</span></span></li>
-                    <li><span className="feature-name">Contracts</span> <span className="val"><span className="badge-tag">Fixed Salary</span></span></li>
-                  </ul>
-                </div>
-
-                {/* Card 2: Freelancers */}
-                <div className="mobile-carousel-card">
-                  <div className="mobile-carousel-header">
-                    <h3>Freelancers</h3>
-                  </div>
-                  <ul className="mobile-carousel-list">
-                    <li><span className="feature-name">Quality</span> <span className="val"><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Inconsistent</span></span></li>
-                    <li><span className="feature-name">Pricing</span> <span className="val"><span className="badge-tag">Varies</span></span></li>
-                    <li><span className="feature-name">Turnaround</span> <span className="val"><span className="badge-tag">Slow</span></span></li>
-                    <li><span className="feature-name">Specialisation</span> <span className="val"><span className="badge-tag">Hit or Miss</span></span></li>
-                    <li><span className="feature-name">Licensing</span> <span className="val"><span className="badge-cross"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> No Trust or Contract</span></span></li>
-                    <li><span className="feature-name">Contracts</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> Per Project</span></span></li>
-                  </ul>
-                </div>
-
-                {/* Card 3: Big Agencies */}
-                <div className="mobile-carousel-card">
-                  <div className="mobile-carousel-header">
-                    <h3>Big Agencies</h3>
-                  </div>
-                  <ul className="mobile-carousel-list">
-                    <li><span className="feature-name">Quality</span> <span className="val"><span className="badge-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg> High</span></span></li>
-                    <li><span className="feature-name">Pricing</span> <span className="val"><span className="badge-tag">Enterprise Only</span></span></li>
-                    <li><span className="feature-name">Turnaround</span> <span className="val"><span className="badge-tag">3-4 Weeks</span></span></li>
-                    <li><span className="feature-name">Specialisation</span> <span className="val"><span className="badge-tag">Rarely</span></span></li>
-                    <li><span className="feature-name">Licensing</span> <span className="val"><span className="badge-tag">Time Bounded Rights</span></span></li>
-                    <li><span className="feature-name">Contracts</span> <span className="val"><span className="badge-tag">6-12 Mo Lock-in</span></span></li>
-                  </ul>
-                </div>
-
-                {/* Card 4: The Reel Company */}
-                <div className="mobile-carousel-card mobile-carousel-card-trc">
-                  <div className="mobile-carousel-header">
-                    <span className="trc-badge" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>✦ RECOMMENDED FOR SCALING BRANDS</span>
-                    <h3>The Reel Company</h3>
-                  </div>
-                  <ul className="mobile-carousel-list">
-                    <li><span className="feature-name">Quality</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>High</strong></span></span></li>
-                    <li><span className="feature-name">Pricing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Affordable Rates</strong></span></span></li>
-                    <li><span className="feature-name">Turnaround</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>7 to 10 Days</strong></span></span></li>
-                    <li><span className="feature-name">Specialisation</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>All Types of Content</strong></span></span></li>
-                    <li><span className="feature-name">Licensing</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Perpetual Usage Rights</strong></span></span></li>
-                    <li><span className="feature-name">Contracts</span> <span className="val trc-val"><span className="badge-check-glow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Easy Per Video Costing</strong></span></span></li>
-                  </ul>
-                </div>
-              </div>
-              <div className="mobile-carousel-indicator">
-                {[0, 1, 2, 3].map((i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    className={`carousel-dot ${activeCarouselIndex === i ? 'active' : ''}`}
-                    onClick={() => handleDotClick(i)}
-                    aria-label={`Go to comparison slide ${i + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ═══════════════════════════════ FOOTER CTA ═══════════════════════════ */}
         <section id="footer-cta" className="footer-cta-section" aria-label="Final Call To Action">
           <div className="footer-cta-glow"></div>
@@ -1261,7 +1046,6 @@ export default function ReelCompanySite() {
               <a href="#hero" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
               <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-              <a href="#comparison" onClick={e => handleAnchorClick(e, '#comparison')}>Compare</a>
               <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
               <Link href="/privacy-policy">Privacy Policy</Link>
             </div>
