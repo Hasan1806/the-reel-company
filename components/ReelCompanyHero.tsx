@@ -38,8 +38,23 @@ export default function ReelCompanyHero({
         <div className="hero-action-buttons">
           <a
             href="#portfolio"
+            id="hero-view-portfolio-btn"
             className="btn btn-outline hero-cta-btn"
-            onClick={(e) => handleAnchorClick(e, "#portfolio")}
+            onClick={(e) => {
+              e.preventDefault();
+              handleAnchorClick(e, "#portfolio");
+              const target = document.getElementById("portfolio");
+              if (target) {
+                const headerOffset = 80;
+                const rect = target.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
+                const targetTop = rect.top + scrollTop - headerOffset;
+                window.scrollTo({
+                  top: Math.max(0, targetTop),
+                  behavior: "smooth",
+                });
+              }
+            }}
           >
             View Portfolio
           </a>
