@@ -280,13 +280,13 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .hero-curved-track-container {
   position: relative;
   width: 100%;
-  height: clamp(340px, 32vw, 440px);
+  height: clamp(290px, 25vw, 360px);
   overflow: hidden;
 }
 
 @media (max-width: 768px) {
   .hero-curved-track-container {
-    height: clamp(280px, 70vw, 350px);
+    height: clamp(225px, 56vw, 275px);
   }
 }
 
@@ -319,9 +319,9 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 
 .hero-curved-card {
-  width: clamp(150px, 12vw, 175px);
+  width: clamp(130px, 10vw, 150px);
   aspect-ratio: 9 / 16;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 25px rgba(229, 9, 20, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -333,8 +333,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 @media (max-width: 768px) {
   .hero-curved-card {
-    width: clamp(130px, 36vw, 150px);
-    border-radius: 16px;
+    width: clamp(105px, 29vw, 125px);
+    border-radius: 14px;
   }
 }
 

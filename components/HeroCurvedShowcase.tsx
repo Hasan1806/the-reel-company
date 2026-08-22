@@ -46,12 +46,12 @@ export default function HeroCurvedShowcase() {
     let isTablet = containerWidth >= 768 && containerWidth < 1024;
 
     let cardWidth = isMobile
-      ? Math.min(145, Math.max(130, Math.round(containerWidth * 0.36)))
+      ? Math.min(125, Math.max(105, Math.round(containerWidth * 0.29)))
       : isTablet
-      ? 145
-      : 160;
-    let curveDepth = isMobile ? 55 : isTablet ? 85 : 120;
-    let cardSpacing = isMobile ? cardWidth * 0.95 : isTablet ? 155 : 185;
+      ? 130
+      : 145;
+    let curveDepth = isMobile ? 45 : isTablet ? 75 : 100;
+    let cardSpacing = isMobile ? cardWidth * 0.96 : isTablet ? 140 : 165;
 
     const updateDimensions = () => {
       if (!container) return;
@@ -59,12 +59,12 @@ export default function HeroCurvedShowcase() {
       isMobile = containerWidth < 768;
       isTablet = containerWidth >= 768 && containerWidth < 1024;
       cardWidth = isMobile
-        ? Math.min(145, Math.max(130, Math.round(containerWidth * 0.36)))
+        ? Math.min(125, Math.max(105, Math.round(containerWidth * 0.29)))
         : isTablet
-        ? 145
-        : 160;
-      curveDepth = isMobile ? 55 : isTablet ? 85 : 120;
-      cardSpacing = isMobile ? cardWidth * 0.95 : isTablet ? 155 : 185;
+        ? 130
+        : 145;
+      curveDepth = isMobile ? 45 : isTablet ? 75 : 100;
+      cardSpacing = isMobile ? cardWidth * 0.96 : isTablet ? 140 : 165;
     };
 
     window.addEventListener("resize", updateDimensions, { passive: true });
