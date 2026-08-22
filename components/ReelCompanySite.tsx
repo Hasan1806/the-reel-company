@@ -233,7 +233,7 @@ export default function ReelCompanySite() {
 
   // Smooth scroll for anchor links
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
+    if (href && href.startsWith('#')) {
       e.preventDefault();
       closeMobileMenu();
       const id = href.slice(1);
@@ -245,13 +245,7 @@ export default function ReelCompanySite() {
 
       const target = document.getElementById(id);
       if (target) {
-        const headerOffset = 70;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   };

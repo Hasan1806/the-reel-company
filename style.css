@@ -23,6 +23,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;font-size:16px;}
+section[id], #portfolio, #services, #clients, #studio-overview, #faq, #footer-cta { scroll-margin-top: 80px; }
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 img,video{max-width:100%;display:block;}
 a{color:inherit;text-decoration:none;}
