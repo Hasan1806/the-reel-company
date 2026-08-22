@@ -36,7 +36,6 @@ export default function PrivacyPolicyPage() {
             <Link href="/#hero" className="nav-link">Home</Link>
             <Link href="/#portfolio" className="nav-link">Portfolio</Link>
             <Link href="/#services" className="nav-link">Services</Link>
-            <Link href="/#comparison" className="nav-link">Compare</Link>
             <Link href="/#footer-cta" className="nav-link">Contact</Link>
           </nav>
           <button
@@ -91,7 +90,6 @@ export default function PrivacyPolicyPage() {
             <Link href="/#hero" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
             <Link href="/#portfolio" className="mobile-nav-link" onClick={closeMobileMenu}>Portfolio</Link>
             <Link href="/#services" className="mobile-nav-link" onClick={closeMobileMenu}>Services</Link>
-            <Link href="/#comparison" className="mobile-nav-link" onClick={closeMobileMenu}>Compare</Link>
             <Link href="/#footer-cta" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link active" onClick={closeMobileMenu}>Privacy Policy</Link>
             <button
@@ -248,7 +246,6 @@ export default function PrivacyPolicyPage() {
               <Link href="/#hero">Home</Link>
               <Link href="/#portfolio">Portfolio</Link>
               <Link href="/#services">Services</Link>
-              <Link href="/#comparison">Compare</Link>
               <Link href="/#footer-cta">Contact</Link>
               <Link href="/privacy-policy" className="active">Privacy Policy</Link>
             </div>

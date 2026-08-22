@@ -78,7 +78,7 @@ function StatNumberCounter({ targetValue, displayString }: { targetValue: number
     };
   }, [targetValue, displayString]);
 
-  return <span ref={ref} suppressHydrationWarning>0</span>;
+  return <span ref={ref} suppressHydrationWarning>{displayString}</span>;
 }
 
 export default function HeroStatsPanel() {
