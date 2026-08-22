@@ -97,41 +97,46 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             trigger: container,
             start: "top top",
             end: conditions.isMobile ? "+=1100px" : "+=1400px",
-            scrub: conditions.isMobile ? 0.6 : 0.7,
+            scrub: conditions.isMobile ? 0.15 : 0.7,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            snap: {
-              snapTo: [0, 0.5, 1],
-              duration: { min: 0.25, max: 0.5 },
-              delay: 0.15,
-              ease: "power2.out",
-            },
+            ...(conditions.isMobile
+              ? {}
+              : {
+                  snap: {
+                    snapTo: [0, 0.5, 1],
+                    duration: { min: 0.25, max: 0.5 },
+                    delay: 0.15,
+                    ease: "power2.out",
+                  },
+                }),
           },
         });
 
-        // Initial setup
+        // Stable initial GPU layer setup - prevents layer churn during scroll
         gsap.set(lensImg, {
           transformOrigin: "50% 50%",
           scale: 1,
           force3D: true,
         });
         gsap.set(introText, { opacity: 1, scale: 1, y: 0, pointerEvents: "auto", force3D: true });
-        gsap.set(blackBg, { opacity: 1 });
-        gsap.set(lensLayer, { opacity: 1, scale: 1, transformOrigin: "50% 50%" });
-        gsap.set(readabilityOverlay, { opacity: 1 });
+        gsap.set(blackBg, { opacity: 1, force3D: true });
+        gsap.set(lensLayer, { opacity: 1, scale: 1, transformOrigin: "50% 50%", force3D: true });
+        gsap.set(readabilityOverlay, { opacity: 1, force3D: true });
         gsap.set(tempStatsWrap, { opacity: 0, visibility: "hidden", pointerEvents: "none" });
         gsap.set(tempStatsCard, { y: 24, scale: 0.92, opacity: 0, force3D: true });
-        gsap.set(tempStatItems, { opacity: 0, y: 12 });
+        gsap.set(tempStatItems, { opacity: 0, y: 12, force3D: true });
         gsap.set(mainHeroWrap, { opacity: 0, scale: 0.97, y: 12, pointerEvents: "none", force3D: true });
 
-        // Performance will-change optimization
-        tl.call(() => {
-          lensImg.style.willChange = "transform";
-          introText.style.willChange = "transform, opacity";
-          tempStatsCard.style.willChange = "transform, opacity";
-          mainHeroWrap.style.willChange = "transform, opacity";
-        }, undefined, 0.01);
+        // Stable GPU layer promotion
+        lensImg.style.willChange = "transform";
+        introText.style.willChange = "transform, opacity";
+        tempStatsCard.style.willChange = "transform, opacity";
+        mainHeroWrap.style.willChange = "transform, opacity";
+        readabilityOverlay.style.willChange = "opacity";
+        lensLayer.style.willChange = "opacity";
+        blackBg.style.willChange = "opacity";
 
         // ══════════════════════════════════════════════════════════
         // MASTER SCROLL TIMELINE (0.0 -> 1.0)
@@ -147,6 +152,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             y: -18,
             duration: 0.20,
             ease: "power1.out",
+            force3D: true,
           },
           0.0
         );
@@ -166,6 +172,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             scale: dynamicTargetScale * 1.15,
             duration: 0.50,
             ease: "sine.inOut",
+            force3D: true,
           },
           0.0
         );
@@ -185,6 +192,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             opacity: 1,
             duration: 0.18,
             ease: "power1.out",
+            force3D: true,
           },
           0.18
         );
@@ -197,6 +205,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             y: 0,
             duration: 0.24,
             ease: "power2.out",
+            force3D: true,
           },
           0.18
         );
@@ -209,6 +218,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             stagger: 0.03,
             duration: 0.18,
             ease: "power2.out",
+            force3D: true,
           },
           0.22
         );
@@ -225,6 +235,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             y: -18,
             duration: 0.16,
             ease: "power1.in",
+            force3D: true,
           },
           0.52
         );
@@ -235,6 +246,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             opacity: 0,
             duration: 0.14,
             ease: "power1.in",
+            force3D: true,
           },
           0.54
         );
@@ -255,6 +267,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             scale: dynamicTargetScale * 2.0,
             duration: 0.45,
             ease: "sine.inOut",
+            force3D: true,
           },
           0.50
         );
@@ -266,6 +279,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             opacity: 0,
             duration: 0.28,
             ease: "power1.out",
+            force3D: true,
           },
           0.62
         );
@@ -279,6 +293,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             y: 0,
             duration: 0.35,
             ease: "power2.out",
+            force3D: true,
           },
           0.65
         );
@@ -289,18 +304,6 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           },
           undefined,
           0.85
-        );
-
-        // Release willChange after transition completion
-        tl.call(
-          () => {
-            lensImg.style.willChange = "auto";
-            introText.style.willChange = "auto";
-            tempStatsCard.style.willChange = "auto";
-            mainHeroWrap.style.willChange = "auto";
-          },
-          undefined,
-          0.99
         );
       }
     );
@@ -346,6 +349,9 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
           width: "100%",
           overflow: "hidden",
           backgroundColor: "#080808",
+          contain: "strict",
+          transform: "translate3d(0, 0, 0)",
+          backfaceVisibility: "hidden",
         }}
       >
         {/* Layer 0: Main Hero Section Content (Z-Index: 1, emerges smoothly at 0.75-1.00) */}
@@ -360,6 +366,8 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             height: "100%",
             pointerEvents: "none",
             opacity: 0,
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         >
           {children}
@@ -375,6 +383,8 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             zIndex: 2,
             backgroundColor: "#080808",
             pointerEvents: "none",
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         />
 
@@ -393,6 +403,10 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             justifyContent: "center",
             pointerEvents: "none",
             overflow: "hidden",
+            contain: "strict",
+            isolation: "isolate",
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         >
           <picture style={{ width: "100%", height: "100%", display: "block" }}>
@@ -421,6 +435,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
                 objectPosition: "50% 50%",
                 transformOrigin: "50% 50%",
                 transform: "translate3d(0, 0, 0) scale(1)",
+                backfaceVisibility: "hidden",
               }}
             />
           </picture>
@@ -437,6 +452,8 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             background:
               "radial-gradient(circle at 50% 50%, rgba(8,8,8,0.55) 0%, rgba(8,8,8,0.2) 65%, rgba(8,8,8,0.75) 100%)",
             pointerEvents: "none",
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         />
 
@@ -456,6 +473,8 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             padding: "0 1.5rem",
             pointerEvents: "auto",
             transformOrigin: "50% 50%",
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         >
           <h1
@@ -521,6 +540,8 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
             pointerEvents: "none",
             opacity: 0,
             visibility: "hidden",
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         >
           <StatsCard

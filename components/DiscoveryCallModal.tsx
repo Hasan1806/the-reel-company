@@ -22,14 +22,12 @@ export default function DiscoveryCallModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Eager background preload immediately after component mounts
+  // Mount FormRobin iframe on-demand when the modal is opened
   useEffect(() => {
-    // Start preloading FormRobin immediately in background
-    const timer = setTimeout(() => {
+    if (isOpen && !isPreloadReady) {
       setIsPreloadReady(true);
-    }, 50);
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  }, [isOpen, isPreloadReady]);
 
   // Handle body scroll lock & keyboard accessibility when modal is open
   useEffect(() => {

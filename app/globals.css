@@ -4276,6 +4276,24 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   }
 }
 
+/* ═══════════════════ PERFORMANCE & GPU OPTIMIZATIONS ═══════════════════ */
+#comparison,
+.faq-section,
+#footer-cta,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 750px;
+}
 
-
-
+.intro-lens-layer,
+.intro-readability-overlay,
+.intro-text-cta-layer,
+.temp-transition-stats-wrap,
+.main-hero-preview-layer {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+}

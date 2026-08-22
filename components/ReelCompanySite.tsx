@@ -168,30 +168,62 @@ export default function ReelCompanySite() {
     };
   }, [mobileMenuOpen]);
 
-  // Scroll listener for header & nav active link
+  // Scroll listener for header & nav active link (RAF-throttled, cached offsets, zero duplicate re-renders)
   useEffect(() => {
     const sections = ['hero', 'portfolio', 'services', 'comparison', 'footer-cta'];
-    const handleScroll = () => {
-      if (window.scrollY > 60) {
-        setHeaderScrolled(true);
-      } else {
-        setHeaderScrolled(false);
-      }
+    let sectionOffsets: { id: string; top: number }[] = [];
 
-      const scrollMid = window.scrollY + window.innerHeight / 3;
-      let current = sections[0];
-      sections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && scrollMid >= el.offsetTop) {
-          current = id;
-        }
-      });
-      setActiveSection(current);
+    const updateOffsets = () => {
+      sectionOffsets = sections
+        .map(id => {
+          const el = document.getElementById(id);
+          return el ? { id, top: el.offsetTop } : null;
+        })
+        .filter(Boolean) as { id: string; top: number }[];
+    };
+
+    updateOffsets();
+
+    let ticking = false;
+    let lastScrolled = false;
+    let lastActive = 'hero';
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const isScrolled = scrollY > 60;
+          if (isScrolled !== lastScrolled) {
+            lastScrolled = isScrolled;
+            setHeaderScrolled(isScrolled);
+          }
+
+          const scrollMid = scrollY + window.innerHeight / 3;
+          let current = sections[0];
+          for (let i = 0; i < sectionOffsets.length; i++) {
+            if (scrollMid >= sectionOffsets[i].top) {
+              current = sectionOffsets[i].id;
+            }
+          }
+
+          if (current !== lastActive) {
+            lastActive = current;
+            setActiveSection(current);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', updateOffsets, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateOffsets);
+    };
   }, []);
 
   // Keyboard escape listener for mobile menu
@@ -410,7 +442,7 @@ export default function ReelCompanySite() {
     };
   }, []);
 
-  // Always Autoplay Guarantee for All 8 Portfolio Videos
+  // Autoplay Guarantee for Portfolio Videos when Section is In View
   useEffect(() => {
     const playAll = () => {
       const videos = document.querySelectorAll<HTMLVideoElement>('.portfolio-grid video, .portfolio-mobile-carousel video');
@@ -420,8 +452,6 @@ export default function ReelCompanySite() {
         }
       });
     };
-
-    playAll();
 
     const section = document.getElementById('portfolio');
     if (!section) return;

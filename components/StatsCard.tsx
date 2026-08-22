@@ -24,24 +24,27 @@ function easeOutQuart(x: number): number {
   return 1 - Math.pow(1 - x, 4);
 }
 
-function StatCounter({ targetValue, displayString }: { targetValue: number, displayString: string }) {
-  const [count, setCount] = useState(0);
-  const [hasRun, setHasRun] = useState(false);
+function StatCounter({ targetValue, displayString }: { targetValue: number; displayString: string }) {
   const ref = useRef<HTMLSpanElement>(null);
+  const hasRunRef = useRef(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     if (prefersReducedMotion) {
-      setCount(targetValue);
-      setHasRun(true);
+      el.textContent = displayString;
+      hasRunRef.current = true;
       return;
     }
 
+    let rafId: number | null = null;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !hasRun) {
-          setHasRun(true);
-          let start = 0;
+        if (entries[0].isIntersecting && !hasRunRef.current) {
+          hasRunRef.current = true;
           const duration = 1200;
           let startTime: number | null = null;
 
@@ -50,30 +53,38 @@ function StatCounter({ targetValue, displayString }: { targetValue: number, disp
             const progress = timestamp - startTime;
             const ratio = Math.min(progress / duration, 1);
             const eased = easeOutQuart(ratio);
-            setCount(Math.floor(eased * targetValue));
+            const currentVal = Math.floor(eased * targetValue);
+
+            if (el) {
+              el.textContent =
+                currentVal >= targetValue
+                  ? displayString
+                  : currentVal.toLocaleString("en-US");
+            }
+
             if (progress < duration) {
-              window.requestAnimationFrame(step);
-            } else {
-              setCount(targetValue);
+              rafId = window.requestAnimationFrame(step);
+            } else if (el) {
+              el.textContent = displayString;
             }
           };
-          window.requestAnimationFrame(step);
+
+          rafId = window.requestAnimationFrame(step);
+          observer.unobserve(el);
         }
       },
       { threshold: 0.5 }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    return () => observer.disconnect();
-  }, [targetValue, hasRun, prefersReducedMotion]);
+    observer.observe(el);
 
-  const formattedCount = count === targetValue 
-    ? displayString 
-    : count.toLocaleString("en-US");
+    return () => {
+      observer.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [targetValue, displayString, prefersReducedMotion]);
 
-  return <span ref={ref} suppressHydrationWarning>{formattedCount}</span>;
+  return <span ref={ref} suppressHydrationWarning>0</span>;
 }
 
 interface StatsCardProps {
