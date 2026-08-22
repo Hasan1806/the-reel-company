@@ -186,7 +186,7 @@ export default function LensZoomHero({ children }: LensZoomHeroProps) {
                 marginTop: "0.5rem",
               }}
             >
-              High-Performance Content at Scale
+              All Your Content Needs. Under One Roof.
             </p>
           </div>
         </div>

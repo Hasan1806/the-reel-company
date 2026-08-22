@@ -494,7 +494,7 @@ export default function LensIntroHero({ children }: LensIntroHeroProps) {
               letterSpacing: "-0.015em",
             }}
           >
-            High-Performance Content at Scale
+            All Your Content Needs. Under One Roof.
           </p>
           <div className="hero-ctas animated">
             <a
