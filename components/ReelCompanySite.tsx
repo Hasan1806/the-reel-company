@@ -668,6 +668,105 @@ export default function ReelCompanySite() {
           handleAnchorClick={handleAnchorClick}
         />
 
+        {/* ═══════════════════════════════ STUDIO SHOWCASE (HIGH-PERFORMANCE CONTENT AT SCALE) ═══════════════════════════════ */}
+        <section id="studio-overview" className="hero-section studio-overview-section" aria-label="Studio Overview">
+          <div className="hero-bg">
+            <div className="hero-bg-image" id="hero-bg-image"></div>
+            <div className="hero-overlay"></div>
+            <div className="hero-red-glow"></div>
+          </div>
+          <div className="hero-content">
+            <div className="hero-grid">
+              <div className="hero-text">
+                <h2 className="hero-headline">
+                  <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
+                </h2>
+                <h3 className="hero-tagline">High–Performance Content at Scale</h3>
+                <div className="hero-sub">
+                  <p>
+                    From content that stops the scroll, to ads that drive performance, TRC does it all—organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries, and everything in between.
+                  </p>
+                  <p>
+                    One team, one seamless workflow, 2x faster execution, and up to 50% lower costs than traditional agencies.
+                  </p>
+                </div>
+                <div className="hero-ctas">
+                  <a href="#portfolio" className="btn btn-red" onClick={e => handleAnchorClick(e, '#portfolio')}>See Our Work</a>
+                  <button type="button" className="btn btn-outline" onClick={openDiscoveryModal}>Book a Discovery Call</button>
+                </div>
+              </div>
+
+              <div className="hero-video-wrap">
+                <div className="hero-ambient-orb-left"></div>
+                <div className="hero-ambient-orb-right"></div>
+
+                {/* Left Floating Badge */}
+                <div className="hero-floating-card card-float-left">
+                  <div className="floating-card-icon">
+                    <div className="sound-wave-icon">
+                      <span className="sound-wave-bar"></span>
+                      <span className="sound-wave-bar"></span>
+                      <span className="sound-wave-bar"></span>
+                      <span className="sound-wave-bar"></span>
+                    </div>
+                  </div>
+                  <div className="floating-card-text">
+                    <span className="floating-card-title">Hinglish &amp; Vernacular</span>
+                    <span className="floating-card-sub">Pan-India Creators</span>
+                  </div>
+                </div>
+
+                {/* Right Floating Badge */}
+                <div className="hero-floating-card card-float-right">
+                  <div className="floating-card-icon">🔥</div>
+                  <div className="floating-card-text">
+                    <span className="floating-card-title">3.8x Avg ROAS</span>
+                    <span className="floating-card-sub">Meta India Ads</span>
+                  </div>
+                </div>
+
+                {/* Sparkle Accent Stars */}
+                <svg className="hero-sparkle sparkle-top-right" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="hero-sparkle sparkle-bottom-left" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+
+                <div className="hero-phone-card">
+                  <div className="phone-conic-ring"></div>
+                  <div className="phone-glow"></div>
+                  <div className="phone-frame">
+                    <video
+                      autoPlay={ASSETS.videoConfig.hero.autoPlay}
+                      muted={ASSETS.videoConfig.hero.muted}
+                      loop={ASSETS.videoConfig.hero.loop}
+                      playsInline={ASSETS.videoConfig.hero.playsInline}
+                      preload={ASSETS.videoConfig.hero.preload}
+                      poster={ASSETS.videos.hero.poster}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        const fallbackSrc = ASSETS.videos.hero.fallback;
+                        if (target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
+                          target.src = fallbackSrc;
+                          target.load();
+                          target.play().catch(() => {});
+                        }
+                      }}
+                    >
+                      <source src={ASSETS.videos.hero.src} type="video/mp4" />
+                      <source src="/cn-outro-hero-video.mp4" type="video/mp4" />
+                      <source src="https://creatornavigator.in/wp-content/uploads/2024/12/CN-Outro-Animation.mp4" type="video/mp4" />
+                      <source src={ASSETS.videos.hero.fallback} type="video/mp4" />
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ═══════════════════════════════ CLIENT MARQUEE ═══════════════════════════ */}
         <section id="clients" className="client-marquee-section" aria-label="Trusted Clients">
           <div className="client-marquee-header">
