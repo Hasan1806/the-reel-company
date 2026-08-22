@@ -245,7 +245,19 @@ export default function ReelCompanySite() {
 
       const target = document.getElementById(id);
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const headerOffset = 80;
+        const rect = target.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
+        const targetTop = rect.top + scrollTop - headerOffset;
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: 'smooth'
+        });
+      } else {
+        const fallback = document.querySelector(href);
+        if (fallback) {
+          fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
   };
