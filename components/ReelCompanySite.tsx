@@ -987,11 +987,14 @@ export default function ReelCompanySite() {
               <p className="pricing-callout-sub">
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
-              <div className="pricing-pill-tags">
-                <span className="pricing-pill">✦ Concept &amp; Scriptwriting</span>
-                <span className="pricing-pill">✦ Filming &amp; Direction</span>
-                <span className="pricing-pill">✦ Motion Graphics &amp; VFX</span>
-                <span className="pricing-pill">✦ Sound Design &amp; Color Grading</span>
+              <div className="pricing-callout-cta-wrap" style={{ marginTop: "1.5rem" }}>
+                <button
+                  type="button"
+                  className="btn btn-red"
+                  onClick={openDiscoveryModal}
+                >
+                  Book a Discovery Call
+                </button>
               </div>
             </div>
           </div>
