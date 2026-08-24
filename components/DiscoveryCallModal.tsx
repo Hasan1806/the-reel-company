@@ -30,6 +30,10 @@ export default function DiscoveryCallModal({
   const [companyName, setCompanyName] = useState("");
   const [designation, setDesignation] = useState("");
   const [selectedVideos, setSelectedVideos] = useState("1 to 20");
+  const [submittedData, setSubmittedData] = useState({
+    name: "",
+    videoCount: "1 to 20",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -111,23 +115,30 @@ export default function DiscoveryCallModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name.trim()) {
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const cleanEmail = email.trim();
+    const cleanCompany = companyName.trim();
+    const cleanDesig = designation.trim();
+    const currentSelectedVideos = selectedVideos;
+
+    if (!cleanName) {
       setErrorMessage("Please enter your name.");
       return;
     }
-    if (!phone.trim()) {
+    if (!cleanPhone) {
       setErrorMessage("Please enter your phone number.");
       return;
     }
-    if (!email.trim() || !email.includes("@")) {
+    if (!cleanEmail || !cleanEmail.includes("@")) {
       setErrorMessage("Please enter a valid email address.");
       return;
     }
-    if (!companyName.trim()) {
+    if (!cleanCompany) {
       setErrorMessage("Please enter your company name.");
       return;
     }
-    if (!designation.trim()) {
+    if (!cleanDesig) {
       setErrorMessage("Please enter your designation.");
       return;
     }
@@ -135,24 +146,30 @@ export default function DiscoveryCallModal({
     setIsSubmitting(true);
     setErrorMessage("");
 
+    // Cache the exact user selection for the success confirmation UI
+    setSubmittedData({
+      name: cleanName,
+      videoCount: currentSelectedVideos,
+    });
+
     const matchedOption = VIDEO_COUNT_OPTIONS.find(
-      (opt) => opt.label === selectedVideos
+      (opt) => opt.label === currentSelectedVideos
     );
     const googleVideoValue = matchedOption ? matchedOption.googleValue : "1-20";
 
-    // 1. Submit via backend API (which forwards to Google Forms once)
+    // 1. Submit via backend API (fast & reliable)
     let submittedViaApi = false;
     try {
       const res = await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name.trim(),
-          phone: phone.trim(),
-          email: email.trim(),
-          companyName: companyName.trim(),
-          designation: designation.trim(),
-          videoCount: selectedVideos,
+          name: cleanName,
+          phone: cleanPhone,
+          email: cleanEmail,
+          companyName: cleanCompany,
+          designation: cleanDesig,
+          videoCount: currentSelectedVideos,
           source: "Website Book a Call Modal",
         }),
       });
@@ -167,27 +184,27 @@ export default function DiscoveryCallModal({
     if (!submittedViaApi) {
       try {
         const googleFormData = new URLSearchParams();
-        googleFormData.append("entry.1936983498", name.trim());
-        googleFormData.append("entry.203780078", phone.trim());
-        googleFormData.append("entry.979876141", email.trim());
-        googleFormData.append("entry.897870888", companyName.trim());
-        googleFormData.append("entry.1100839857", designation.trim());
+        googleFormData.append("entry.1936983498", cleanName);
+        googleFormData.append("entry.203780078", cleanPhone);
+        googleFormData.append("entry.979876141", cleanEmail);
+        googleFormData.append("entry.897870888", cleanCompany);
+        googleFormData.append("entry.1100839857", cleanDesig);
         googleFormData.append("entry.1194319614", googleVideoValue);
 
-        await fetch(GOOGLE_FORM_ACTION_URL, {
+        fetch(GOOGLE_FORM_ACTION_URL, {
           method: "POST",
           mode: "no-cors",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
           body: googleFormData.toString(),
-        });
+        }).catch(() => {});
       } catch (e) {
         console.warn("Client-side fallback submit error:", e);
       }
     }
 
-    // Finish submission and show success UI
+    // Immediately switch to success screen
     setIsSubmitting(false);
     setIsSuccess(true);
     setName("");
@@ -507,7 +524,7 @@ export default function DiscoveryCallModal({
             </div>
             <h3 className="discovery-success-title">Call Request Received!</h3>
             <p className="discovery-success-msg">
-              Thank you, <strong style={{ color: "#fff" }}>{name || "there"}</strong>. We&apos;ve received your discovery call request for <span style={{ color: "var(--red)", fontWeight: 700 }}>{selectedVideos} videos</span>. Our team will reach out to you shortly via phone and email.
+              Thank you, <strong style={{ color: "#fff" }}>{submittedData.name || "there"}</strong>. We&apos;ve received your discovery call request for <span style={{ color: "var(--red)", fontWeight: 700 }}>{submittedData.videoCount} videos</span>. Our team will reach out to you shortly via phone and email.
             </p>
             <button
               type="button"

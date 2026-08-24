@@ -73,7 +73,7 @@ export async function POST(request: Request) {
 
     console.log("[BOOK A CALL LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward directly to Google Form server-side
+    // 1. Forward directly to Google Form server-side (non-blocking for instant speed)
     try {
       const googleFormData = new URLSearchParams();
       googleFormData.append("entry.1936983498", cleanName);
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       googleFormData.append("entry.1100839857", cleanDesignation);
       googleFormData.append("entry.1194319614", googleVideoValue);
 
-      await fetch(GOOGLE_FORM_ACTION_URL, {
+      fetch(GOOGLE_FORM_ACTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
