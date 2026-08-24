@@ -696,7 +696,9 @@ export default function ReelCompanySite() {
                 <h2 className="hero-headline">
                   <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
                 </h2>
-                <h3 className="hero-tagline">All Your Content Needs. Under One Roof.</h3>
+                <h3 className="hero-tagline">
+                  All Your Content Needs.<br className="hero-tagline-mobile-br" /> Under One Roof.
+                </h3>
                 <div className="hero-sub">
                   <p>
                     From content that stops the scroll, to ads that drive performance, TRC does it all—organic content, Meta ads, motion graphics, AI videos, YouTube long-form, documentaries, and everything in between.
