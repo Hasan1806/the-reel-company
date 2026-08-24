@@ -1429,7 +1429,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .problem-card-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
   position: relative;
   z-index: 2;
   padding-right: 3.5rem;
@@ -1446,11 +1445,13 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 
 .problem-card-desc {
-  font-size: clamp(13px, 0.9vw, 14.5px);
-  color: rgba(240, 237, 232, 0.70);
+  font-family: var(--font-head), var(--font-body), sans-serif;
+  font-size: clamp(15px, 1.1vw, 17.5px);
+  color: #F4F4F4;
   line-height: 1.4;
   margin: 0;
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: -0.012em;
 }
 
 .problem-index {
