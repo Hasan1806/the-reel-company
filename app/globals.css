@@ -4756,6 +4756,389 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   }
 }
 
+/* ════════════════ BOOK A CALL (DISCOVERY MODAL) ════════════════ */
+.discovery-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  animation: discoveryModalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes discoveryModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.discovery-modal-card {
+  position: relative;
+  background: #0c0c10;
+  border: 1px solid rgba(239, 35, 35, 0.35);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 540px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 2.25rem 2rem 2rem;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 60px rgba(229, 9, 20, 0.12);
+  animation: discoveryCardSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.discovery-modal-card::-webkit-scrollbar {
+  width: 6px;
+}
+.discovery-modal-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.discovery-modal-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+}
+
+@keyframes discoveryCardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.discovery-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.15rem;
+}
+
+.discovery-modal-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--red);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.discovery-modal-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(229, 9, 20, 0.8);
+}
+
+.discovery-modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a1a1aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.discovery-modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border-color: rgba(239, 35, 35, 0.45);
+  transform: scale(1.06);
+}
+
+.discovery-modal-info {
+  margin-bottom: 1.35rem;
+}
+
+.discovery-modal-title {
+  font-family: var(--font-head);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.025em;
+}
+
+.discovery-modal-sub {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.55;
+}
+
+.discovery-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.discovery-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 580px) {
+  .discovery-form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.discovery-modal-error {
+  padding: 0.65rem 0.9rem;
+  background: rgba(239, 35, 35, 0.12);
+  border: 1px solid rgba(239, 35, 35, 0.3);
+  border-radius: 10px;
+  color: #fca5a5;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+.discovery-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.discovery-input-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.discovery-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.discovery-input-icon {
+  position: absolute;
+  left: 0.95rem;
+  color: #71717a;
+  pointer-events: none;
+}
+
+.discovery-modal-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.78rem 1rem 0.78rem 2.6rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.discovery-modal-input::placeholder {
+  color: #52525b;
+}
+
+.discovery-modal-input:focus {
+  outline: none;
+  border-color: rgba(239, 35, 35, 0.65);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.18);
+}
+
+/* MCQ Video Count Grid */
+.discovery-mcq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.discovery-mcq-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.discovery-mcq-pill {
+  flex: 1 1 calc(33.333% - 0.55rem);
+  min-width: 90px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .discovery-mcq-pill {
+    flex: 1 1 calc(50% - 0.55rem);
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+.discovery-mcq-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.discovery-mcq-pill.is-selected {
+  background: rgba(229, 9, 20, 0.14);
+  border: 1.5px solid var(--red);
+  box-shadow: 0 0 16px rgba(229, 9, 20, 0.25);
+}
+
+.discovery-mcq-radio-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.discovery-mcq-pill.is-selected .discovery-mcq-radio-dot {
+  border-color: var(--red);
+}
+
+.discovery-mcq-inner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 6px var(--red);
+}
+
+.discovery-mcq-text {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.discovery-mcq-pill.is-selected .discovery-mcq-text {
+  color: #ffffff;
+}
+
+.discovery-modal-submit-btn {
+  width: 100%;
+  padding: 0.88rem 1.5rem;
+  font-size: 0.96rem;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.discovery-submit-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: discoverySpin 0.6s linear infinite;
+}
+
+@keyframes discoverySpin {
+  to { transform: rotate(360deg); }
+}
+
+.discovery-modal-privacy-note {
+  text-align: center;
+  font-size: 0.76rem;
+  color: #71717a;
+  margin-top: 0.85rem;
+}
+
+/* Success Screen Styles */
+.discovery-success-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  animation: discoveryFadeIn 0.3s ease forwards;
+}
+
+@keyframes discoveryFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.discovery-success-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  border: 2px solid rgba(34, 197, 94, 0.5);
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+}
+
+.discovery-success-title {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.65rem;
+}
+
+.discovery-success-msg {
+  font-size: 0.92rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 420px;
+  margin-bottom: 1.75rem;
+}
+
+.discovery-success-btn {
+  padding: 0.75rem 2.5rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .discovery-modal-card {
+    padding: 1.75rem 1.25rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .discovery-modal-title {
+    font-size: 1.35rem;
+  }
+}
+
 /* ═══════════════════ PERFORMANCE & GPU OPTIMIZATIONS ═══════════════════ */
 
 .intro-lens-layer,
