@@ -382,11 +382,11 @@ export default function DiscoveryCallModal({
                 </div>
               </div>
 
-              {/* Row 3: Company Name & Designation in Company */}
+              {/* Row 3: Brands / Company Name & Designation in Company */}
               <div className="discovery-form-row">
                 <div className="discovery-input-group">
                   <label htmlFor="discovery-company" className="discovery-input-label">
-                    Company Name <span className="req-star">*</span>
+                    Brands / Company Name <span className="req-star">*</span>
                   </label>
                   <div className="discovery-input-wrapper">
                     <svg
