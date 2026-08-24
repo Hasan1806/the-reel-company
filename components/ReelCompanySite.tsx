@@ -701,6 +701,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ HERO ═══════════════════════════════ */}
         <ReelCompanyHero
           openDiscoveryModal={openDiscoveryModal}
+          openPortfolioModal={openPortfolioModal}
           handleAnchorClick={handleAnchorClick}
         />
 
@@ -713,10 +714,11 @@ export default function ReelCompanySite() {
           </div>
           <div className="hero-content">
             <div className="hero-grid">
-              <div className="hero-text">
-                <h2 className="hero-headline">
-                  <span className="line-mask"><span className="line-inner">The Reel Company</span></span>
-                </h2>
+              <div className="hero-text-col">
+                <div className="hero-pill">
+                  <span className="pill-dot"></span>
+                  <span>FULL-SPECTRUM CONTENT &amp; PRODUCTION STUDIO</span>
+                </div>
                 <h3 className="hero-tagline">
                   All Your Content Needs.<br className="hero-tagline-mobile-br" /> Under One Roof.
                 </h3>
@@ -729,7 +731,7 @@ export default function ReelCompanySite() {
                   </p>
                 </div>
                 <div className="hero-ctas">
-                  <a href="#portfolio" className="btn btn-red" onClick={e => handleAnchorClick(e, '#portfolio')}>See Our Work</a>
+                  <button type="button" className="btn btn-red" onClick={openPortfolioModal}>See Our Work</button>
                   <button type="button" className="btn btn-outline" onClick={openDiscoveryModal}>Book a Discovery Call</button>
                 </div>
               </div>
@@ -1044,7 +1046,7 @@ export default function ReelCompanySite() {
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
               <div className="footer-cta-buttons">
                 <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>
-                <a href="#portfolio" className="btn btn-outline" onClick={e => handleAnchorClick(e, '#portfolio')}>View Portfolio</a>
+                <button type="button" className="btn btn-outline" onClick={openPortfolioModal}>View Portfolio</button>
               </div>
             </div>
             <button className="back-to-top" id="back-to-top" aria-label="Back to top" onClick={handleBackToTop}>

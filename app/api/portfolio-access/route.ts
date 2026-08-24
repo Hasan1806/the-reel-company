@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 
 function sanitize(text: string): string {
-  return text.replace(/[<>]/g, "").trim();
+  return typeof text === "string" ? text.replace(/[<>]/g, "").trim() : "";
 }
+
+const PORTFOLIO_GOOGLE_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSch9tLR2yl2BGu3-EiXK_p7UQLbCA5NSANVpnYen0pOs7Zj4w/formResponse";
 
 const PORTFOLIO_REDIRECT_URL =
   "https://www.playbook.com/s/creator-navigator/ugc-content-portfolio";
@@ -18,13 +21,15 @@ export async function POST(request: Request) {
 
     const {
       name = "",
+      fullName = "",
       phone = "",
+      contactNumber = "",
       email = "",
       source = "View Full Portfolio CTA",
     } = body;
 
-    const cleanName = sanitize(name);
-    const cleanPhone = sanitize(phone);
+    const cleanName = sanitize(name || fullName);
+    const cleanPhone = sanitize(phone || contactNumber);
     const cleanEmail = sanitize(email);
 
     const timestamp = new Date().toISOString();
@@ -41,7 +46,25 @@ export async function POST(request: Request) {
 
     console.log("[PORTFOLIO ACCESS LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // Forward to the main form database / Google Sheets Webhook
+    // 1. Forward directly to Google Form for Portfolio
+    try {
+      const googleFormData = new URLSearchParams();
+      googleFormData.append("entry.41647073", cleanName);
+      googleFormData.append("entry.1646448611", cleanPhone);
+      googleFormData.append("entry.1726298412", cleanEmail);
+
+      fetch(PORTFOLIO_GOOGLE_FORM_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: googleFormData.toString(),
+      }).catch((err) => console.log("Portfolio Google Form submit:", err));
+    } catch (gErr) {
+      console.warn("Portfolio Google Form forwarding error:", gErr);
+    }
+
+    // 2. Forward to the Google Sheets Webhook if configured
     const SHEET_WEBHOOK_URL =
       process.env.GOOGLE_SHEET_WEBHOOK_URL ||
       "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec";
@@ -62,15 +85,13 @@ export async function POST(request: Request) {
           timestamp,
         };
 
-        await fetch(SHEET_WEBHOOK_URL, {
+        fetch(SHEET_WEBHOOK_URL, {
           method: "POST",
           headers: {
             "Content-Type": "text/plain;charset=utf-8",
           },
           body: JSON.stringify(payload),
-          redirect: "follow",
-          cache: "no-store",
-        });
+        }).catch(() => {});
       } catch (webhookErr) {
         console.error("Failed to forward lead to Google Sheet webhook:", webhookErr);
       }

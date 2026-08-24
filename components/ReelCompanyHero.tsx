@@ -6,11 +6,13 @@ import HeroStatsPanel from "./HeroStatsPanel";
 
 interface ReelCompanyHeroProps {
   openDiscoveryModal: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+  openPortfolioModal?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   handleAnchorClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
 
 export default function ReelCompanyHero({
   openDiscoveryModal,
+  openPortfolioModal,
   handleAnchorClick,
 }: ReelCompanyHeroProps) {
   return (
@@ -36,14 +38,14 @@ export default function ReelCompanyHero({
 
         {/* Action Buttons */}
         <div className="hero-action-buttons">
-          <a
-            href="#portfolio"
+          <button
+            type="button"
             id="hero-view-portfolio-btn"
             className="btn btn-outline hero-cta-btn"
-            onClick={(e) => handleAnchorClick(e, "#portfolio")}
+            onClick={openPortfolioModal || ((e) => handleAnchorClick(e as any, "#portfolio"))}
           >
             View Portfolio
-          </a>
+          </button>
           <button
             type="button"
             className="btn btn-red hero-cta-btn"

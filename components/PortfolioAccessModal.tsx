@@ -10,6 +10,9 @@ interface PortfolioAccessModalProps {
 const PLAYBOOK_PORTFOLIO_URL =
   "https://www.playbook.com/s/creator-navigator/ugc-content-portfolio";
 
+const GOOGLE_PORTFOLIO_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSch9tLR2yl2BGu3-EiXK_p7UQLbCA5NSANVpnYen0pOs7Zj4w/formResponse";
+
 export default function PortfolioAccessModal({
   isOpen,
   onClose,
@@ -81,57 +84,79 @@ export default function PortfolioAccessModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !email.trim()) {
-      setErrorMessage("Please fill out all fields.");
+
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const cleanEmail = email.trim();
+
+    if (!cleanName) {
+      setErrorMessage("Please enter your full name.");
+      return;
+    }
+    if (!cleanPhone) {
+      setErrorMessage("Please enter your phone number.");
+      return;
+    }
+    if (!cleanEmail || !cleanEmail.includes("@")) {
+      setErrorMessage("Please enter a valid email address.");
       return;
     }
 
     setIsSubmitting(true);
     setErrorMessage("");
 
+    // 1. Submit via backend API (server-side forwarding to Google Forms & Sheet)
+    let submittedViaApi = false;
     try {
-      const payload = {
-        secret: "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm",
-        name: name.trim(),
-        fullName: name.trim(),
-        phone: phone.trim(),
-        contactNumber: phone.trim(),
-        email: email.trim(),
-        source: "View Full Portfolio CTA",
-        timestamp: new Date().toISOString(),
-      };
-
-      // Post to Google Sheet webhook directly (works in both static Hostinger and full-stack)
-      try {
-        fetch(
-          "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec",
-          {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8",
-            },
-            body: JSON.stringify(payload),
-          }
-        ).catch(() => {});
-      } catch {}
-
-      // Open Playbook in new tab
-      window.open(PLAYBOOK_PORTFOLIO_URL, "_blank", "noopener,noreferrer");
-
-      // Reset form & close modal
-      setIsSubmitting(false);
-      setName("");
-      setPhone("");
-      setEmail("");
-      onClose();
+      const res = await fetch("/api/portfolio-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: cleanName,
+          fullName: cleanName,
+          phone: cleanPhone,
+          contactNumber: cleanPhone,
+          email: cleanEmail,
+          source: "Portfolio Access Modal",
+        }),
+      });
+      if (res.ok) {
+        submittedViaApi = true;
+      }
     } catch (err) {
-      console.error("Submission error:", err);
-      // Fallback: still open Playbook
-      window.open(PLAYBOOK_PORTFOLIO_URL, "_blank", "noopener,noreferrer");
-      setIsSubmitting(false);
-      onClose();
+      console.warn("API route fallback:", err);
     }
+
+    // 2. Fallback: Submit directly to Google Forms if API was unreachable
+    if (!submittedViaApi) {
+      try {
+        const googleFormData = new URLSearchParams();
+        googleFormData.append("entry.41647073", cleanName);
+        googleFormData.append("entry.1646448611", cleanPhone);
+        googleFormData.append("entry.1726298412", cleanEmail);
+
+        fetch(GOOGLE_PORTFOLIO_FORM_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: googleFormData.toString(),
+        }).catch(() => {});
+      } catch (e) {
+        console.warn("Client-side direct submit error:", e);
+      }
+    }
+
+    // Open Playbook in new tab immediately
+    window.open(PLAYBOOK_PORTFOLIO_URL, "_blank", "noopener,noreferrer");
+
+    // Reset form & close modal smoothly
+    setIsSubmitting(false);
+    setName("");
+    setPhone("");
+    setEmail("");
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -184,7 +209,7 @@ export default function PortfolioAccessModal({
         <div className="portfolio-modal-info">
           <h3 className="portfolio-modal-title">Access Our Full Portfolio</h3>
           <p className="portfolio-modal-sub">
-            Fill in your details below to instantly view our private UGC &amp; performance ad library on Playbook.
+            Fill in your details below to instantly unlock our private UGC &amp; performance ad library on Playbook.
           </p>
         </div>
 
@@ -196,10 +221,10 @@ export default function PortfolioAccessModal({
             </div>
           )}
 
-          {/* Name Field */}
+          {/* Full Name Field */}
           <div className="portfolio-input-group">
             <label htmlFor="portfolio-form-name" className="portfolio-input-label">
-              Name <span className="req-star">*</span>
+              Full Name <span className="req-star">*</span>
             </label>
             <div className="portfolio-input-wrapper">
               <svg
@@ -231,10 +256,10 @@ export default function PortfolioAccessModal({
             </div>
           </div>
 
-          {/* Phone Field */}
+          {/* Phone Number Field */}
           <div className="portfolio-input-group">
             <label htmlFor="portfolio-form-phone" className="portfolio-input-label">
-              Phone no. <span className="req-star">*</span>
+              Phone Number <span className="req-star">*</span>
             </label>
             <div className="portfolio-input-wrapper">
               <svg
@@ -267,7 +292,7 @@ export default function PortfolioAccessModal({
           {/* Email Field */}
           <div className="portfolio-input-group">
             <label htmlFor="portfolio-form-email" className="portfolio-input-label">
-              E-mail <span className="req-star">*</span>
+              Email <span className="req-star">*</span>
             </label>
             <div className="portfolio-input-wrapper">
               <svg
@@ -298,7 +323,7 @@ export default function PortfolioAccessModal({
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button: Submit & Proceed */}
           <button
             type="submit"
             className="btn btn-red portfolio-modal-submit-btn"
@@ -311,7 +336,7 @@ export default function PortfolioAccessModal({
               </>
             ) : (
               <>
-                <span>Submit &amp; proceed</span>
+                <span>Submit &amp; Proceed</span>
                 <svg
                   width="16"
                   height="16"
@@ -331,7 +356,7 @@ export default function PortfolioAccessModal({
         </form>
 
         <p className="portfolio-modal-privacy-note">
-          🔒 Your details are kept strictly confidential.
+          🔒 Instant access • Direct high-resolution UGC library on Playbook
         </p>
       </div>
     </div>
