@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -164,6 +164,69 @@ export default function ReelCompanySite() {
     };
   }, [mobileMenuOpen]);
 
+  // Robust, professional smooth scroll engine for all section anchors
+  const scrollToSection = useCallback((targetId: string) => {
+    closeMobileMenu();
+    let id = targetId.replace(/^#/, '');
+
+    if (!id || id === 'hero' || id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (id === 'contact' && !document.getElementById('contact')) {
+      id = 'footer-cta';
+    }
+
+    const targetEl = document.getElementById(id) || document.querySelector(`#${id}`);
+    if (targetEl) {
+      const siteHeader = document.getElementById('site-header');
+      const headerHeight = siteHeader ? siteHeader.offsetHeight : 70;
+      const targetTop = targetEl.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
+      const scrollToPosition = Math.max(0, targetTop - headerHeight - 12);
+
+      window.scrollTo({
+        top: scrollToPosition,
+        behavior: 'smooth'
+      });
+
+      if (typeof window !== 'undefined' && window.history && window.history.pushState) {
+        window.history.pushState(null, '', `#${id}`);
+      }
+    } else {
+      const fallbackEl = document.querySelector(`[aria-label*="${id}" i]`);
+      if (fallbackEl) {
+        fallbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, []);
+
+  const handleAnchorClick = useCallback((e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      scrollToSection(href);
+    }
+  }, [scrollToSection]);
+
+  // Back to top button
+  const handleBackToTop = useCallback((e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined' && window.history && window.history.pushState) {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+  }, []);
+
+  // Handle hash on initial page load (e.g., coming from /privacy-policy#portfolio)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const timer = setTimeout(() => {
+        scrollToSection(window.location.hash);
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [scrollToSection]);
+
   // Scroll listener for header & nav active link (RAF-throttled, cached offsets, zero duplicate re-renders)
   useEffect(() => {
     const sections = ['hero', 'portfolio', 'services', 'footer-cta'];
@@ -173,7 +236,10 @@ export default function ReelCompanySite() {
       sectionOffsets = sections
         .map(id => {
           const el = document.getElementById(id);
-          return el ? { id, top: el.offsetTop } : null;
+          if (!el) return null;
+          const rect = el.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+          return { id, top: rect.top + scrollTop };
         })
         .filter(Boolean) as { id: string; top: number }[];
     };
@@ -230,51 +296,6 @@ export default function ReelCompanySite() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
-
-  // Robust, professional smooth scroll engine for all section anchors
-  const scrollToSection = (targetId: string) => {
-    closeMobileMenu();
-    const id = targetId.replace(/^#/, '');
-
-    if (id === 'hero' || id === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const targetEl = document.getElementById(id);
-    if (targetEl) {
-      const siteHeader = document.getElementById('site-header');
-      const headerHeight = siteHeader ? siteHeader.offsetHeight : 70;
-      const targetTop = targetEl.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
-      const scrollToPosition = Math.max(0, targetTop - headerHeight - 12);
-
-      window.scrollTo({
-        top: scrollToPosition,
-        behavior: 'smooth'
-      });
-
-      if (typeof window !== 'undefined' && window.history && window.history.pushState) {
-        window.history.pushState(null, '', `#${id}`);
-      }
-    } else {
-      const fallbackEl = document.querySelector(`#${id}`);
-      if (fallbackEl) {
-        fallbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-  };
-
-  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
-    if (href && href.startsWith('#')) {
-      e.preventDefault();
-      scrollToSection(href);
-    }
-  };
-
-  // Back to top button
-  const handleBackToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   // Hero Video Upload
   const handleHeroFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

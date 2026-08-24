@@ -4757,13 +4757,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 
 /* ═══════════════════ PERFORMANCE & GPU OPTIMIZATIONS ═══════════════════ */
-#comparison,
-.faq-section,
-#footer-cta,
-.site-footer {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 750px;
-}
 
 .intro-lens-layer,
 .intro-readability-overlay,

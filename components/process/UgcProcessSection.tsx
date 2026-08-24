@@ -106,7 +106,7 @@ export default function UgcProcessSection() {
 
   return (
     <section
-      id="services"
+      id="process"
       ref={sectionRef}
       className={`ugc-process-section ${isVisible ? "is-active" : "is-idle"} ${hasEntered ? "has-entered" : ""}`}
       aria-label="Our UGC Production Process"
