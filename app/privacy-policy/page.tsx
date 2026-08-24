@@ -292,7 +292,7 @@ export default function PrivacyPolicyPage() {
           <div className="footer-copyright">
             <span className="copyright-text">&copy; 2026 The Reel Company Co.</span>
           </div>
-          <p className="footer-studio-tag">UGC &amp; Content Production Studio</p>
+          <p className="footer-studio-tag">Formerly Creator Navigator</p>
         </div>
 
         {/* Big Footer Branding SVG (Last Element) */}
