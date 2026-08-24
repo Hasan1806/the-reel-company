@@ -26,7 +26,7 @@ const MONTHLY_REQUIREMENT_OPTIONS = [
 
 // Quick Role Chips for convenience
 const COMMON_ROLES = [
-  "Founder / CXO",
+  "Founder / CEO",
   "Marketing Head",
   "Brand Manager",
   "Creative Lead",
