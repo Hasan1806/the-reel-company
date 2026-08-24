@@ -278,9 +278,6 @@ export default function PrivacyPolicyPage() {
             <div className="footer-nav-col footer-contact-col">
               <h4>Contact</h4>
               <p className="footer-contact-line">
-                <span className="footer-contact-label">Address:</span> Ground Floor, Kohinoor Tower, Kohka Junwani, Bhilai, 490023, Chhattisgarh
-              </p>
-              <p className="footer-contact-line">
                 <span className="footer-contact-label">Phone -</span> +91 8109214834
               </p>
               <p className="footer-contact-line">
