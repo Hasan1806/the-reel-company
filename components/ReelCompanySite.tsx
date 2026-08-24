@@ -990,8 +990,8 @@ export default function ReelCompanySite() {
           <div className="client-cta-mesh" aria-hidden="true"></div>
           <div className="client-cta-inner">
             <h2 className="client-cta-headline">
-              Happy clients are our<br/>
-              best case study.
+              <span className="client-cta-headline-line">Happy clients are our</span>
+              <span className="client-cta-headline-line">best case study.</span>
             </h2>
             <p className="client-cta-sub">
               Join 250+ leading modern brands that stopped struggling with content and started scaling it.

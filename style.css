@@ -1583,7 +1583,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 /* ═══════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════ */
 .client-cta-section {
   padding: 2.75rem 0 4.5rem 0;
-  background: linear-gradient(135deg, #0d0405 0%, #a80c0c 45%, #e02020 70%, #800000 100%);
+  background: linear-gradient(145deg, #a80c0c 0%, #d81818 35%, #e02020 65%, #990808 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1621,7 +1621,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 
 .client-cta-inner {
-  max-width: var(--max-w);
+  max-width: 900px;
   margin: 0 auto 3rem auto;
   position: relative;
   z-index: 2;
@@ -1670,10 +1670,15 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   font-size: clamp(2.4rem, 5.5vw, 4.5rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.1;
+  line-height: 1.12;
   color: #ffffff;
   margin-bottom: 1.25rem;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.client-cta-headline-line {
+  display: block;
+  white-space: normal;
 }
 
 .headline-gradient-text {
@@ -1852,6 +1857,15 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .client-cta-inner {
     margin-bottom: 1.75rem;
     padding: 0 1.25rem;
+  }
+  .client-cta-headline {
+    font-size: clamp(1.65rem, 6.2vw, 2.2rem);
+    line-height: 1.15;
+    margin-bottom: 0.85rem;
+  }
+  .client-cta-headline-line {
+    display: block;
+    white-space: normal;
   }
   .testimonials-slider-container {
     -webkit-mask-image: none;
