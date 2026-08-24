@@ -1772,8 +1772,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: relative;
   z-index: 2;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 .testimonials-track {
   display: flex;
