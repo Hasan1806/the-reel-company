@@ -715,10 +715,7 @@ export default function ReelCompanySite() {
           <div className="hero-content">
             <div className="hero-grid">
               <div className="hero-text-col">
-                <div className="hero-pill">
-                  <span className="pill-dot"></span>
-                  <span>FULL-SPECTRUM CONTENT &amp; PRODUCTION STUDIO</span>
-                </div>
+                <h2 className="studio-brand-heading">The Reel Company</h2>
                 <h3 className="hero-tagline">
                   All Your Content Needs.<br className="hero-tagline-mobile-br" /> Under One Roof.
                 </h3>
