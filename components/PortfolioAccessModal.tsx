@@ -20,6 +20,7 @@ export default function PortfolioAccessModal({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: boolean }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -33,16 +34,16 @@ export default function PortfolioAccessModal({
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
 
-      // Focus first input on open
+      // Focus first input on open immediately
       const focusTimer = setTimeout(() => {
         firstInputRef.current?.focus();
-      }, 60);
+      }, 40);
 
       // Escape key listener & Focus Trap
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           e.preventDefault();
-          onClose();
+          handleClose();
           return;
         }
 
@@ -79,36 +80,52 @@ export default function PortfolioAccessModal({
     } else {
       document.body.style.overflow = "";
       setErrorMessage("");
+      setFieldErrors({});
     }
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleClose = () => {
+    onClose();
+    setErrorMessage("");
+    setFieldErrors({});
+  };
+
+  const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
+    if (e) e.preventDefault();
 
     const cleanName = name.trim();
     const cleanPhone = phone.trim();
     const cleanEmail = email.trim();
 
+    const newFieldErrors: { [key: string]: boolean } = {};
+
     if (!cleanName) {
+      newFieldErrors.name = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter your full name.");
+      firstInputRef.current?.focus();
       return;
     }
     if (!cleanPhone) {
+      newFieldErrors.phone = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter your phone number.");
       return;
     }
     if (!cleanEmail || !cleanEmail.includes("@")) {
+      newFieldErrors.email = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter a valid email address.");
       return;
     }
 
+    setFieldErrors({});
     setIsSubmitting(true);
     setErrorMessage("");
 
-    // 1. Submit via backend API (server-side forwarding to Google Forms & Sheet)
-    let submittedViaApi = false;
     try {
-      const res = await fetch("/api/portfolio-access", {
+      // 1. Submit via backend API in background
+      fetch("/api/portfolio-access", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -119,33 +136,26 @@ export default function PortfolioAccessModal({
           email: cleanEmail,
           source: "Portfolio Access Modal",
         }),
+      }).catch((err) => {
+        console.warn("API route non-blocking note:", err);
       });
-      if (res.ok) {
-        submittedViaApi = true;
-      }
-    } catch (err) {
-      console.warn("API route fallback:", err);
-    }
 
-    // 2. Fallback: Submit directly to Google Forms if API was unreachable
-    if (!submittedViaApi) {
-      try {
-        const googleFormData = new URLSearchParams();
-        googleFormData.append("entry.41647073", cleanName);
-        googleFormData.append("entry.1646448611", cleanPhone);
-        googleFormData.append("entry.1726298412", cleanEmail);
+      // 2. Client-side fallback to Google Forms
+      const googleFormData = new URLSearchParams();
+      googleFormData.append("entry.41647073", cleanName);
+      googleFormData.append("entry.1646448611", cleanPhone);
+      googleFormData.append("entry.1726298412", cleanEmail);
 
-        fetch(GOOGLE_PORTFOLIO_FORM_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: googleFormData.toString(),
-        }).catch(() => {});
-      } catch (e) {
-        console.warn("Client-side direct submit error:", e);
-      }
+      fetch(GOOGLE_PORTFOLIO_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: googleFormData.toString(),
+      }).catch(() => {});
+    } catch (e) {
+      console.warn("Submit process handled:", e);
     }
 
     // Open Playbook in new tab immediately
@@ -156,7 +166,7 @@ export default function PortfolioAccessModal({
     setName("");
     setPhone("");
     setEmail("");
-    onClose();
+    handleClose();
   };
 
   if (!isOpen) return null;
@@ -164,7 +174,7 @@ export default function PortfolioAccessModal({
   return (
     <div
       className="portfolio-modal-backdrop"
-      onClick={onClose}
+      onClick={handleClose}
       role="presentation"
     >
       <div
@@ -187,7 +197,7 @@ export default function PortfolioAccessModal({
             type="button"
             className="portfolio-modal-close-btn"
             aria-label="Close portfolio modal"
-            onClick={onClose}
+            onClick={handleClose}
           >
             <svg
               width="15"
@@ -217,7 +227,12 @@ export default function PortfolioAccessModal({
         <form onSubmit={handleSubmit} className="portfolio-modal-form" noValidate>
           {errorMessage && (
             <div className="portfolio-modal-error" role="alert">
-              {errorMessage}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{errorMessage}</span>
             </div>
           )}
 
@@ -245,10 +260,13 @@ export default function PortfolioAccessModal({
                 ref={firstInputRef}
                 id="portfolio-form-name"
                 type="text"
-                className="portfolio-modal-input"
+                className={`portfolio-modal-input ${fieldErrors.name ? "is-error" : ""}`}
                 placeholder="Your full name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: false });
+                }}
                 required
                 disabled={isSubmitting}
                 autoComplete="name"
@@ -278,10 +296,13 @@ export default function PortfolioAccessModal({
               <input
                 id="portfolio-form-phone"
                 type="tel"
-                className="portfolio-modal-input"
-                placeholder="+91 98765 43210"
+                className={`portfolio-modal-input ${fieldErrors.phone ? "is-error" : ""}`}
+                placeholder="Phone number with country code"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: false });
+                }}
                 required
                 disabled={isSubmitting}
                 autoComplete="tel"
@@ -289,10 +310,10 @@ export default function PortfolioAccessModal({
             </div>
           </div>
 
-          {/* Email Field */}
+          {/* Email Address Field */}
           <div className="portfolio-input-group">
             <label htmlFor="portfolio-form-email" className="portfolio-input-label">
-              Email <span className="req-star">*</span>
+              Work / Business Email <span className="req-star">*</span>
             </label>
             <div className="portfolio-input-wrapper">
               <svg
@@ -312,10 +333,13 @@ export default function PortfolioAccessModal({
               <input
                 id="portfolio-form-email"
                 type="email"
-                className="portfolio-modal-input"
-                placeholder="work@yourcompany.com"
+                className={`portfolio-modal-input ${fieldErrors.email ? "is-error" : ""}`}
+                placeholder="you@company.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: false });
+                }}
                 required
                 disabled={isSubmitting}
                 autoComplete="email"
@@ -323,27 +347,40 @@ export default function PortfolioAccessModal({
             </div>
           </div>
 
-          {/* Submit Button: Submit & Proceed */}
+          {/* Bottom Error banner */}
+          {errorMessage && (
+            <div className="portfolio-modal-error portfolio-bottom-error" role="alert">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
+          {/* Submit CTA Button */}
           <button
             type="submit"
             className="btn btn-red portfolio-modal-submit-btn"
             disabled={isSubmitting}
+            onClick={handleSubmit}
           >
             {isSubmitting ? (
               <>
                 <span className="portfolio-submit-spinner" />
-                <span>Redirecting…</span>
+                <span>Opening Portfolio...</span>
               </>
             ) : (
               <>
-                <span>Submit &amp; Proceed</span>
+                <span>Access Full Portfolio</span>
                 <svg
                   width="16"
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2.2"
+                  strokeWidth="2.4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -356,7 +393,7 @@ export default function PortfolioAccessModal({
         </form>
 
         <p className="portfolio-modal-privacy-note">
-          🔒 Instant access • Direct high-resolution UGC library on Playbook
+          🔒 Zero spam • Instant access to 250+ top-performing UGC creatives
         </p>
       </div>
     </div>

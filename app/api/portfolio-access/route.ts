@@ -46,23 +46,20 @@ export async function POST(request: Request) {
 
     console.log("[PORTFOLIO ACCESS LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward directly to Google Form for Portfolio
-    try {
-      const googleFormData = new URLSearchParams();
-      googleFormData.append("entry.41647073", cleanName);
-      googleFormData.append("entry.1646448611", cleanPhone);
-      googleFormData.append("entry.1726298412", cleanEmail);
+    // 1. Forward directly to Google Form for Portfolio asynchronously
+    const googleFormData = new URLSearchParams();
+    googleFormData.append("entry.41647073", cleanName);
+    googleFormData.append("entry.1646448611", cleanPhone);
+    googleFormData.append("entry.1726298412", cleanEmail);
 
-      fetch(PORTFOLIO_GOOGLE_FORM_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: googleFormData.toString(),
-      }).catch((err) => console.log("Portfolio Google Form submit:", err));
-    } catch (gErr) {
-      console.warn("Portfolio Google Form forwarding error:", gErr);
-    }
+    fetch(PORTFOLIO_GOOGLE_FORM_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: googleFormData.toString(),
+      signal: AbortSignal.timeout(5000),
+    }).catch((err) => console.log("Portfolio Google Form submit note:", err?.message || err));
 
     // 2. Forward to the Google Sheets Webhook if configured
     const SHEET_WEBHOOK_URL =
@@ -73,28 +70,25 @@ export async function POST(request: Request) {
       "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm";
 
     if (SHEET_WEBHOOK_URL) {
-      try {
-        const payload = {
-          secret: googleSheetSecret,
-          name: cleanName,
-          fullName: cleanName,
-          phone: cleanPhone,
-          contactNumber: cleanPhone,
-          email: cleanEmail,
-          source,
-          timestamp,
-        };
+      const payload = {
+        secret: googleSheetSecret,
+        name: cleanName,
+        fullName: cleanName,
+        phone: cleanPhone,
+        contactNumber: cleanPhone,
+        email: cleanEmail,
+        source,
+        timestamp,
+      };
 
-        fetch(SHEET_WEBHOOK_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(payload),
-        }).catch(() => {});
-      } catch (webhookErr) {
-        console.error("Failed to forward lead to Google Sheet webhook:", webhookErr);
-      }
+      fetch(SHEET_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(5000),
+      }).catch(() => {});
     }
 
     return NextResponse.json({
