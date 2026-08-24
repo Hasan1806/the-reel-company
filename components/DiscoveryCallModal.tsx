@@ -8,12 +8,29 @@ interface DiscoveryCallModalProps {
   triggerRef?: React.RefObject<HTMLButtonElement | HTMLAnchorElement | null>;
 }
 
-const VIDEO_COUNT_OPTIONS = [
-  { label: "1 to 20", googleValue: "1-20" },
-  { label: "20 to 50", googleValue: "20-50" },
-  { label: "50 to 100", googleValue: "50-100" },
-  { label: "100 to 200", googleValue: "100-200" },
-  { label: "200 +", googleValue: "200+" },
+// Options for "How are you currently solving your content problem?"
+const CONTENT_SOLUTION_OPTIONS = [
+  { label: "In-House Team", googleValue: "In House Team" },
+  { label: "Freelancers & Agencies", googleValue: "Freelancer/Agencies" },
+  { label: "Platforms & Apps", googleValue: "Platform and Apps" },
+  { label: "All of Them", googleValue: "All of them" },
+];
+
+// Options for "Expected Monthly Content Requirement"
+const MONTHLY_REQUIREMENT_OPTIONS = [
+  { label: "0 - 10", googleValue: "1-20" },
+  { label: "11 - 30", googleValue: "20-50" },
+  { label: "31 - 100", googleValue: "50-100" },
+  { label: "100+", googleValue: "100+" },
+];
+
+// Quick Role Chips for convenience
+const COMMON_ROLES = [
+  "Founder / CXO",
+  "Marketing Head",
+  "Brand Manager",
+  "Creative Lead",
+  "Other",
 ];
 
 const GOOGLE_FORM_ACTION_URL =
@@ -24,16 +41,23 @@ export default function DiscoveryCallModal({
   onClose,
   triggerRef,
 }: DiscoveryCallModalProps) {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  // Form State
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [selectedVideos, setSelectedVideos] = useState("1 to 20");
+  const [brandName, setBrandName] = useState("");
+  const [role, setRole] = useState("");
+  const [websiteOrSocial, setWebsiteOrSocial] = useState("");
+  const [contentSolution, setContentSolution] = useState("In-House Team");
+  const [monthlyRequirement, setMonthlyRequirement] = useState("11 - 30");
+
+  // Submitted Data Cache (for immediate confirmation display)
   const [submittedData, setSubmittedData] = useState({
     name: "",
-    videoCount: "1 to 20",
+    brand: "",
+    requirement: "11 - 30",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -48,7 +72,6 @@ export default function DiscoveryCallModal({
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
 
-      // Focus first input on open
       const focusTimer = setTimeout(() => {
         if (!isSuccess) {
           firstInputRef.current?.focus();
@@ -57,7 +80,6 @@ export default function DiscoveryCallModal({
         }
       }, 50);
 
-      // Escape key listener & Focus Trap
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
           e.preventDefault();
@@ -105,7 +127,6 @@ export default function DiscoveryCallModal({
 
   const handleClose = () => {
     onClose();
-    // Reset success state after fade out
     setTimeout(() => {
       setIsSuccess(false);
       setErrorMessage("");
@@ -115,61 +136,70 @@ export default function DiscoveryCallModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const cleanName = name.trim();
-    const cleanPhone = phone.trim();
+    const cleanFullName = fullName.trim();
+    const cleanPhone = phoneNumber.trim();
     const cleanEmail = email.trim();
-    const cleanCompany = companyName.trim();
-    const cleanDesig = designation.trim();
-    const currentSelectedVideos = selectedVideos;
+    const cleanBrand = brandName.trim();
+    const cleanRole = role.trim();
+    const cleanWeb = websiteOrSocial.trim();
+    const currentSolution = contentSolution;
+    const currentRequirement = monthlyRequirement;
 
-    if (!cleanName) {
-      setErrorMessage("Please enter your name.");
+    // Validations
+    if (!cleanFullName) {
+      setErrorMessage("Please enter your full name.");
       return;
     }
     if (!cleanPhone) {
-      setErrorMessage("Please enter your phone number.");
+      setErrorMessage("Please enter your phone number with country code.");
       return;
     }
     if (!cleanEmail || !cleanEmail.includes("@")) {
       setErrorMessage("Please enter a valid email address.");
       return;
     }
-    if (!cleanCompany) {
-      setErrorMessage("Please enter your company name.");
+    if (!cleanBrand) {
+      setErrorMessage("Please enter your brand name.");
       return;
     }
-    if (!cleanDesig) {
-      setErrorMessage("Please enter your designation.");
+    if (!cleanRole) {
+      setErrorMessage("Please select or enter your role in the company.");
       return;
     }
 
     setIsSubmitting(true);
     setErrorMessage("");
 
-    // Cache the exact user selection for the success confirmation UI
+    // Cache submission data for instant confirmation screen
     setSubmittedData({
-      name: cleanName,
-      videoCount: currentSelectedVideos,
+      name: cleanFullName,
+      brand: cleanBrand,
+      requirement: currentRequirement,
     });
 
-    const matchedOption = VIDEO_COUNT_OPTIONS.find(
-      (opt) => opt.label === currentSelectedVideos
-    );
-    const googleVideoValue = matchedOption ? matchedOption.googleValue : "1-20";
+    const googleSolutionValue =
+      CONTENT_SOLUTION_OPTIONS.find((opt) => opt.label === currentSolution)
+        ?.googleValue || "In House Team";
 
-    // 1. Submit via backend API (fast & reliable)
+    const googleRequirementValue =
+      MONTHLY_REQUIREMENT_OPTIONS.find((opt) => opt.label === currentRequirement)
+        ?.googleValue || "20-50";
+
+    // 1. Submit via backend API (fast & server-logged)
     let submittedViaApi = false;
     try {
       const res = await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: cleanName,
-          phone: cleanPhone,
+          fullName: cleanFullName,
+          phoneNumber: cleanPhone,
           email: cleanEmail,
-          companyName: cleanCompany,
-          designation: cleanDesig,
-          videoCount: currentSelectedVideos,
+          brandName: cleanBrand,
+          role: cleanRole,
+          websiteOrSocial: cleanWeb,
+          contentSolution: currentSolution,
+          monthlyRequirement: currentRequirement,
           source: "Website Book a Call Modal",
         }),
       });
@@ -177,19 +207,21 @@ export default function DiscoveryCallModal({
         submittedViaApi = true;
       }
     } catch (err) {
-      console.warn("API route error, falling back to direct submit:", err);
+      console.warn("API route fallback:", err);
     }
 
-    // 2. Fallback: If API was unavailable (e.g. static hosting), submit directly to Google Forms
+    // 2. Fallback: Submit directly to Google Forms if API endpoint is unreachable
     if (!submittedViaApi) {
       try {
         const googleFormData = new URLSearchParams();
-        googleFormData.append("entry.1936983498", cleanName);
+        googleFormData.append("entry.1936983498", cleanFullName);
         googleFormData.append("entry.203780078", cleanPhone);
         googleFormData.append("entry.979876141", cleanEmail);
-        googleFormData.append("entry.897870888", cleanCompany);
-        googleFormData.append("entry.1100839857", cleanDesig);
-        googleFormData.append("entry.1194319614", googleVideoValue);
+        googleFormData.append("entry.897870888", cleanBrand);
+        googleFormData.append("entry.1100839857", cleanRole);
+        googleFormData.append("entry.793890874", cleanWeb);
+        googleFormData.append("entry.982760340", googleSolutionValue);
+        googleFormData.append("entry.1194319614", googleRequirementValue);
 
         fetch(GOOGLE_FORM_ACTION_URL, {
           method: "POST",
@@ -204,15 +236,19 @@ export default function DiscoveryCallModal({
       }
     }
 
-    // Immediately switch to success screen
+    // Instantly transition to confirmation screen
     setIsSubmitting(false);
     setIsSuccess(true);
-    setName("");
-    setPhone("");
+
+    // Reset inputs
+    setFullName("");
+    setPhoneNumber("");
     setEmail("");
-    setCompanyName("");
-    setDesignation("");
-    setSelectedVideos("1 to 20");
+    setBrandName("");
+    setRole("");
+    setWebsiteOrSocial("");
+    setContentSolution("In-House Team");
+    setMonthlyRequirement("11 - 30");
   };
 
   if (!isOpen) return null;
@@ -265,9 +301,9 @@ export default function DiscoveryCallModal({
           <>
             {/* Header & Subtitle */}
             <div className="discovery-modal-info">
-              <h3 className="discovery-modal-title">Book a Call</h3>
+              <h3 className="discovery-modal-title">Book a Discovery Call</h3>
               <p className="discovery-modal-sub">
-                Fill in your details below and our production team will connect with you to plan your high-performing content.
+                Let&apos;s discuss how The Reel Company can scale your high-converting UGC &amp; performance video ads.
               </p>
             </div>
 
@@ -279,12 +315,15 @@ export default function DiscoveryCallModal({
                 </div>
               )}
 
-              {/* Row 1: Name & Phone No. */}
+              {/* Row 1: Full Name & Phone Number */}
               <div className="discovery-form-row">
                 <div className="discovery-input-group">
-                  <label htmlFor="discovery-name" className="discovery-input-label">
-                    Name <span className="req-star">*</span>
+                  <label htmlFor="discovery-fullname" className="discovery-input-label">
+                    Full Name <span className="req-star">*</span>
                   </label>
+                  <p className="discovery-input-desc">
+                    Enter your first and last name as you’d like us to address you.
+                  </p>
                   <div className="discovery-input-wrapper">
                     <svg
                       className="discovery-input-icon"
@@ -302,12 +341,12 @@ export default function DiscoveryCallModal({
                     </svg>
                     <input
                       ref={firstInputRef}
-                      id="discovery-name"
+                      id="discovery-fullname"
                       type="text"
                       className="discovery-modal-input"
-                      placeholder="Your full name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Sarah Jenkins"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       required
                       disabled={isSubmitting}
                       autoComplete="name"
@@ -317,8 +356,11 @@ export default function DiscoveryCallModal({
 
                 <div className="discovery-input-group">
                   <label htmlFor="discovery-phone" className="discovery-input-label">
-                    Phone No. <span className="req-star">*</span>
+                    Phone Number <span className="req-star">*</span>
                   </label>
+                  <p className="discovery-input-desc">
+                    Include your country code. This helps us contact you quickly.
+                  </p>
                   <div className="discovery-input-wrapper">
                     <svg
                       className="discovery-input-icon"
@@ -338,8 +380,8 @@ export default function DiscoveryCallModal({
                       type="tel"
                       className="discovery-modal-input"
                       placeholder="+91 98765 43210"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
                       required
                       disabled={isSubmitting}
                       autoComplete="tel"
@@ -348,11 +390,14 @@ export default function DiscoveryCallModal({
                 </div>
               </div>
 
-              {/* Row 2: E-Mail */}
+              {/* Row 2: Email Address */}
               <div className="discovery-input-group">
                 <label htmlFor="discovery-email" className="discovery-input-label">
-                  E-Mail <span className="req-star">*</span>
+                  Email Address <span className="req-star">*</span>
                 </label>
+                <p className="discovery-input-desc">
+                  We’ll use this to send follow-up details and next steps.
+                </p>
                 <div className="discovery-input-wrapper">
                   <svg
                     className="discovery-input-icon"
@@ -372,7 +417,7 @@ export default function DiscoveryCallModal({
                     id="discovery-email"
                     type="email"
                     className="discovery-modal-input"
-                    placeholder="name@company.com"
+                    placeholder="name@yourbrand.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -382,12 +427,15 @@ export default function DiscoveryCallModal({
                 </div>
               </div>
 
-              {/* Row 3: Brands / Company Name & Designation in Company */}
+              {/* Row 3: Brand Name & Role in Company */}
               <div className="discovery-form-row">
                 <div className="discovery-input-group">
-                  <label htmlFor="discovery-company" className="discovery-input-label">
-                    Brands / Company Name <span className="req-star">*</span>
+                  <label htmlFor="discovery-brand" className="discovery-input-label">
+                    Brand Name <span className="req-star">*</span>
                   </label>
+                  <p className="discovery-input-desc">
+                    What brand/company are you enquiring for?
+                  </p>
                   <div className="discovery-input-wrapper">
                     <svg
                       className="discovery-input-icon"
@@ -404,12 +452,12 @@ export default function DiscoveryCallModal({
                       <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
                     </svg>
                     <input
-                      id="discovery-company"
+                      id="discovery-brand"
                       type="text"
                       className="discovery-modal-input"
-                      placeholder="e.g. Acme Brands"
-                      value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
+                      placeholder="e.g. Glossier, Nykaa, Boat"
+                      value={brandName}
+                      onChange={(e) => setBrandName(e.target.value)}
                       required
                       disabled={isSubmitting}
                     />
@@ -417,9 +465,12 @@ export default function DiscoveryCallModal({
                 </div>
 
                 <div className="discovery-input-group">
-                  <label htmlFor="discovery-designation" className="discovery-input-label">
-                    Designation in Company <span className="req-star">*</span>
+                  <label htmlFor="discovery-role" className="discovery-input-label">
+                    Your Role in the Company <span className="req-star">*</span>
                   </label>
+                  <p className="discovery-input-desc">
+                    Select the option that best matches your role.
+                  </p>
                   <div className="discovery-input-wrapper">
                     <svg
                       className="discovery-input-icon"
@@ -437,27 +488,83 @@ export default function DiscoveryCallModal({
                       <polyline points="17 11 19 13 23 9" />
                     </svg>
                     <input
-                      id="discovery-designation"
+                      id="discovery-role"
                       type="text"
                       className="discovery-modal-input"
                       placeholder="e.g. Founder, Marketing Head"
-                      value={designation}
-                      onChange={(e) => setDesignation(e.target.value)}
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
                       required
                       disabled={isSubmitting}
                     />
                   </div>
+                  {/* Quick role selection chips */}
+                  <div className="discovery-role-pills">
+                    {COMMON_ROLES.map((r) => (
+                      <button
+                        key={r}
+                        type="button"
+                        className={`discovery-role-pill ${role === r ? "is-active" : ""}`}
+                        onClick={() => setRole(r)}
+                      >
+                        {r}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Row 4: No. of Videos (MCQ Selector) */}
+              {/* Row 4: Brand Website / Social Media Link */}
+              <div className="discovery-input-group">
+                <label htmlFor="discovery-website" className="discovery-input-label">
+                  Brand Website / Social Media Link
+                </label>
+                <p className="discovery-input-desc">
+                  Share your website and/or social link so we can review your current presence.
+                </p>
+                <div className="discovery-input-wrapper">
+                  <svg
+                    className="discovery-input-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  <input
+                    id="discovery-website"
+                    type="text"
+                    className="discovery-modal-input"
+                    placeholder="e.g. https://yourbrand.com or @instagram_handle"
+                    value={websiteOrSocial}
+                    onChange={(e) => setWebsiteOrSocial(e.target.value)}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
+
+              {/* Row 5: How are you currently solving your content problem? (MCQ) */}
               <div className="discovery-mcq-container">
                 <label className="discovery-input-label">
-                  No. of Videos <span className="req-star">*</span>
+                  How are you currently solving your content problem? <span className="req-star">*</span>
                 </label>
-                <div className="discovery-mcq-grid" role="radiogroup" aria-label="Number of videos required">
-                  {VIDEO_COUNT_OPTIONS.map((opt) => {
-                    const isSelected = selectedVideos === opt.label;
+                <p className="discovery-input-desc">
+                  Choose the option that best describes how your content is handled today.
+                </p>
+                <div
+                  className="discovery-mcq-grid"
+                  role="radiogroup"
+                  aria-label="How content is currently handled"
+                >
+                  {CONTENT_SOLUTION_OPTIONS.map((opt) => {
+                    const isSelected = contentSolution === opt.label;
                     return (
                       <button
                         key={opt.label}
@@ -465,7 +572,42 @@ export default function DiscoveryCallModal({
                         role="radio"
                         aria-checked={isSelected}
                         className={`discovery-mcq-pill ${isSelected ? "is-selected" : ""}`}
-                        onClick={() => setSelectedVideos(opt.label)}
+                        onClick={() => setContentSolution(opt.label)}
+                        disabled={isSubmitting}
+                      >
+                        <span className="discovery-mcq-radio-dot">
+                          {isSelected && <span className="discovery-mcq-inner-dot" />}
+                        </span>
+                        <span className="discovery-mcq-text">{opt.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Row 6: Expected Monthly Content Requirement (MCQ) */}
+              <div className="discovery-mcq-container">
+                <label className="discovery-input-label">
+                  Expected Monthly Content Requirement <span className="req-star">*</span>
+                </label>
+                <p className="discovery-input-desc">
+                  How many content pieces do you expect per month (e.g., reels/posts/shorts)?
+                </p>
+                <div
+                  className="discovery-mcq-grid"
+                  role="radiogroup"
+                  aria-label="Expected monthly content requirement"
+                >
+                  {MONTHLY_REQUIREMENT_OPTIONS.map((opt) => {
+                    const isSelected = monthlyRequirement === opt.label;
+                    return (
+                      <button
+                        key={opt.label}
+                        type="button"
+                        role="radio"
+                        aria-checked={isSelected}
+                        className={`discovery-mcq-pill ${isSelected ? "is-selected" : ""}`}
+                        onClick={() => setMonthlyRequirement(opt.label)}
                         disabled={isSubmitting}
                       >
                         <span className="discovery-mcq-radio-dot">
@@ -491,7 +633,7 @@ export default function DiscoveryCallModal({
                   </>
                 ) : (
                   <>
-                    <span>Submit</span>
+                    <span>Submit Request</span>
                     <svg
                       width="16"
                       height="16"
@@ -511,20 +653,30 @@ export default function DiscoveryCallModal({
             </form>
 
             <p className="discovery-modal-privacy-note">
-              🔒 Fast turnaround • Zero spam • Direct creator &amp; studio consultation
+              🔒 Fast turnaround • Zero spam • Direct consultation with The Reel Company
             </p>
           </>
         ) : (
           /* Success Screen */
           <div className="discovery-success-wrap">
             <div className="discovery-success-icon">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="34"
+                height="34"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h3 className="discovery-success-title">Call Request Received!</h3>
+            <h3 className="discovery-success-title">Discovery Call Requested!</h3>
             <p className="discovery-success-msg">
-              Thank you, <strong style={{ color: "#fff" }}>{submittedData.name || "there"}</strong>. We&apos;ve received your discovery call request for <span style={{ color: "var(--red)", fontWeight: 700 }}>{submittedData.videoCount} videos</span>. Our team will reach out to you shortly via phone and email.
+              Thank you, <strong style={{ color: "#fff" }}>{submittedData.name || "there"}</strong>! We&apos;ve received your discovery call request for{" "}
+              <strong style={{ color: "#fff" }}>{submittedData.brand || "your brand"}</strong> ({submittedData.requirement} content pieces/mo). Our production team will connect with you shortly via phone &amp; email.
             </p>
             <button
               type="button"

@@ -8,17 +8,30 @@ function sanitize(text: string): string {
 const GOOGLE_FORM_ACTION_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSfo7zUw86_yoFHA0d8AVUtbGjDfD3yyUq76fz9M0RC1uSyqJQ/formResponse";
 
-const VIDEO_COUNT_MAP: Record<string, string> = {
+const CONTENT_SOLUTION_MAP: Record<string, string> = {
+  "In-House Team": "In House Team",
+  "Freelancers & Agencies": "Freelancer/Agencies",
+  "Platforms & Apps": "Platform and Apps",
+  "All of Them": "All of them",
+  "In House Team": "In House Team",
+  "Freelancer/Agencies": "Freelancer/Agencies",
+  "Platform and Apps": "Platform and Apps",
+  "All of them": "All of them",
+};
+
+const MONTHLY_REQUIREMENT_MAP: Record<string, string> = {
+  "0 - 10": "1-20",
+  "11 - 30": "20-50",
+  "31 - 100": "50-100",
+  "100+": "100+",
   "1 to 20": "1-20",
   "20 to 50": "20-50",
   "50 to 100": "50-100",
-  "100 to 200": "100-200",
-  "200 +": "200+",
+  "100 to 200": "100+",
+  "200 +": "100+",
   "1-20": "1-20",
   "20-50": "20-50",
   "50-100": "50-100",
-  "100-200": "100-200",
-  "200+": "200+",
 };
 
 export async function POST(request: Request) {
@@ -31,57 +44,73 @@ export async function POST(request: Request) {
     }
 
     const {
-      name = "",
       fullName = "",
+      name = "",
+      phoneNumber = "",
       phone = "",
       contactNumber = "",
       email = "",
+      brandName = "",
       companyName = "",
       company = "",
+      role = "",
       designation = "",
+      websiteOrSocial = "",
+      contentSolution = "",
+      monthlyRequirement = "",
       videoCount = "",
       estimatedMOQ = "",
       honeypot = "",
-      source = "Book a Call Modal",
+      source = "Website Discovery Call Modal",
     } = body;
 
-    // Honeypot check for bots
+    // Honeypot bot protection
     if (honeypot) {
       return NextResponse.json({ success: true, message: "Request received" });
     }
 
-    const cleanName = sanitize(name || fullName);
-    const cleanPhone = sanitize(phone || contactNumber);
+    const cleanFullName = sanitize(fullName || name);
+    const cleanPhone = sanitize(phoneNumber || phone || contactNumber);
     const cleanEmail = sanitize(email);
-    const cleanCompany = sanitize(companyName || company);
-    const cleanDesignation = sanitize(designation);
-    const rawVideoCount = sanitize(videoCount || estimatedMOQ || "1 to 20");
-    const googleVideoValue = VIDEO_COUNT_MAP[rawVideoCount] || "1-20";
+    const cleanBrand = sanitize(brandName || companyName || company);
+    const cleanRole = sanitize(role || designation);
+    const cleanWeb = sanitize(websiteOrSocial);
+    const rawContentSolution = sanitize(contentSolution || "In-House Team");
+    const rawRequirement = sanitize(monthlyRequirement || videoCount || estimatedMOQ || "11 - 30");
+
+    const googleSolutionValue =
+      CONTENT_SOLUTION_MAP[rawContentSolution] || "In House Team";
+    const googleRequirementValue =
+      MONTHLY_REQUIREMENT_MAP[rawRequirement] || "20-50";
 
     const timestamp = new Date().toISOString();
 
     const leadData = {
-      name: cleanName,
-      phone: cleanPhone,
+      fullName: cleanFullName,
+      phoneNumber: cleanPhone,
       email: cleanEmail,
-      companyName: cleanCompany,
-      designation: cleanDesignation,
-      videoCount: rawVideoCount,
+      brandName: cleanBrand,
+      role: cleanRole,
+      websiteOrSocial: cleanWeb,
+      contentSolution: rawContentSolution,
+      monthlyRequirement: rawRequirement,
       source,
       timestamp,
     };
 
-    console.log("[BOOK A CALL LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
+    console.log("[DISCOVERY CALL LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward directly to Google Form server-side (non-blocking for instant speed)
+    // 1. Forward to Google Forms server-side
     try {
       const googleFormData = new URLSearchParams();
-      googleFormData.append("entry.1936983498", cleanName);
+      googleFormData.append("entry.1936983498", cleanFullName);
       googleFormData.append("entry.203780078", cleanPhone);
       googleFormData.append("entry.979876141", cleanEmail);
-      googleFormData.append("entry.897870888", cleanCompany);
-      googleFormData.append("entry.1100839857", cleanDesignation);
-      googleFormData.append("entry.1194319614", googleVideoValue);
+      googleFormData.append("entry.897870888", cleanBrand);
+      googleFormData.append("entry.1100839857", cleanRole);
+      googleFormData.append("entry.793890874", cleanWeb);
+      googleFormData.append("entry.982760340", googleSolutionValue);
+      googleFormData.append("entry.1194319614", googleRequirementValue);
 
       fetch(GOOGLE_FORM_ACTION_URL, {
         method: "POST",
@@ -89,7 +118,7 @@ export async function POST(request: Request) {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: googleFormData.toString(),
-      }).catch((err) => console.log("Google Form server submit:", err));
+      }).catch((err) => console.log("Google Form server submit error:", err));
     } catch (gErr) {
       console.warn("Google Form forwarding error:", gErr);
     }
@@ -106,17 +135,20 @@ export async function POST(request: Request) {
       try {
         const payload = {
           secret: googleSheetSecret,
-          name: cleanName,
-          fullName: cleanName,
+          fullName: cleanFullName,
+          name: cleanFullName,
+          phoneNumber: cleanPhone,
           phone: cleanPhone,
           contactNumber: cleanPhone,
           email: cleanEmail,
-          companyName: cleanCompany,
-          company: cleanCompany,
-          designation: cleanDesignation,
-          videoCount: rawVideoCount,
-          estimatedMoq: rawVideoCount,
-          estimatedMOQ: rawVideoCount,
+          brandName: cleanBrand,
+          companyName: cleanBrand,
+          role: cleanRole,
+          designation: cleanRole,
+          websiteOrSocial: cleanWeb,
+          contentSolution: rawContentSolution,
+          monthlyRequirement: rawRequirement,
+          videoCount: rawRequirement,
           source,
           timestamp,
         };
