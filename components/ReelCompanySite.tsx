@@ -10,6 +10,7 @@ import PortfolioAccessModal from './PortfolioAccessModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
+import ClientTestimonialsSection from './ClientTestimonialsSection';
 import { ASSETS } from '@/config/assets';
 
 interface VideoItem {
@@ -985,48 +986,7 @@ export default function ReelCompanySite() {
         <EditorialMarqueeSection />
 
         {/* ═══════════════════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════════════ */}
-        <section id="client-cta" className="client-cta-section" aria-label="Work With Us">
-          <div className="client-cta-ambient-glow" aria-hidden="true"></div>
-          <div className="client-cta-mesh" aria-hidden="true"></div>
-          <div className="client-cta-inner">
-            <h2 className="client-cta-headline">
-              <span className="client-cta-headline-line">Happy clients are our</span>
-              <span className="client-cta-headline-line">best case study.</span>
-            </h2>
-            <p className="client-cta-sub">
-              Join 250+ leading modern brands that stopped struggling with content and started scaling it.
-            </p>
-          </div>
-
-          <div className="testimonials-slider-container">
-            {/* Single Row (Moving Left) */}
-            <div className="testimonials-track track-left">
-              {[1, 2].map((groupIndex) => (
-                <div key={`group1-${groupIndex}`} className="marquee-group" aria-hidden={groupIndex > 1 ? "true" : undefined}>
-                  {[1, 2, 3, 4, 5, 6].map((item, idx) => (
-                    <div key={`t1-${groupIndex}-${idx}`} className="testimonial-card">
-                      <div className="testimonial-video-wrap">
-                        <div className="testimonial-empty-placeholder">
-                          <div className="testimonial-center-icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="testimonial-overlay"></div>
-                        <div className="testimonial-play-indicator">
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ClientTestimonialsSection />
 
         {/* ═══════════════════════════════ FOOTER CTA ═══════════════════════════ */}
         <section id="footer-cta" className="footer-cta-section" aria-label="Final Call To Action">
