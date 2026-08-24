@@ -991,7 +991,7 @@ export default function ReelCompanySite() {
           <div className="client-cta-inner">
             <h2 className="client-cta-headline">
               Happy clients are our<br/>
-              <span className="headline-gradient-text">best case study.</span>
+              best case study.
             </h2>
             <p className="client-cta-sub">
               Join 250+ leading modern brands that stopped struggling with content and started scaling it.
