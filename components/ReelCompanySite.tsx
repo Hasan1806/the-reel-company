@@ -655,9 +655,9 @@ export default function ReelCompanySite() {
 
   return (
     <>
-      <header id="site-header" role="banner" className={headerScrolled ? 'scrolled' : ''}>
-        <div className="header-inner">
-          <a href="#hero" className="logo" aria-label="The Reel Company Home" onClick={e => handleAnchorClick(e, '#hero')}>
+      <header id="site-header" role="banner" className={headerScrolled ? 'scrolled' : ''} suppressHydrationWarning>
+        <div className="header-inner" suppressHydrationWarning>
+          <a href="#hero" className="logo" aria-label="The Reel Company Home" onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>
             <img
               src={ASSETS.brand.logo.primary}
               alt={ASSETS.brand.logo.alt}
@@ -666,33 +666,33 @@ export default function ReelCompanySite() {
               height={40}
             />
           </a>
-          <nav id="main-nav" aria-label="Main navigation">
-            <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
-            <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
-            <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-            <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
+          <nav id="main-nav" aria-label="Main navigation" suppressHydrationWarning>
+            <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
+            <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
+            <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
+            <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
           </nav>
-          <button type="button" className="btn btn-red header-cta" id="header-cta-btn" onClick={openDiscoveryModal}>
+          <button type="button" className="btn btn-red header-cta" id="header-cta-btn" onClick={openDiscoveryModal} suppressHydrationWarning>
             Book a Call
           </button>
-          <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu}>
+          <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu} suppressHydrationWarning>
             <span></span><span></span><span></span>
           </button>
         </div>
-        <div className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`} id="mobile-nav" aria-hidden={mobileMenuOpen ? 'false' : 'true'}>
+        <div className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`} id="mobile-nav" aria-hidden={mobileMenuOpen ? 'false' : 'true'} suppressHydrationWarning>
           <button className="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu" onClick={closeMobileMenu}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-          <div className="mobile-nav-scroll-container">
-            <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
-            <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
-            <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-            <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
-            <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu}>Privacy Policy</Link>
-            <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }}>Book a Call</button>
+          <div className="mobile-nav-scroll-container" suppressHydrationWarning>
+            <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
+            <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
+            <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
+            <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
+            <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Privacy Policy</Link>
+            <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }} suppressHydrationWarning>Book a Call</button>
           </div>
         </div>
       </header>

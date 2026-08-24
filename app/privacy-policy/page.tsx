@@ -21,9 +21,9 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="privacy-page-root">
       {/* ═══════════════════════════════ HEADER / NAVBAR ═══════════════════════════ */}
-      <header id="site-header" role="banner" className="scrolled">
-        <div className="header-inner">
-          <Link href="/" className="logo" aria-label="The Reel Company Home">
+      <header id="site-header" role="banner" className="scrolled" suppressHydrationWarning>
+        <div className="header-inner" suppressHydrationWarning>
+          <Link href="/" className="logo" aria-label="The Reel Company Home" suppressHydrationWarning>
             <img
               src={ASSETS.brand.logo.primary}
               alt={ASSETS.brand.logo.alt}
@@ -32,17 +32,18 @@ export default function PrivacyPolicyPage() {
               height={40}
             />
           </Link>
-          <nav id="main-nav" aria-label="Main navigation">
-            <Link href="/#hero" className="nav-link">Home</Link>
-            <Link href="/#portfolio" className="nav-link">Portfolio</Link>
-            <Link href="/#services" className="nav-link">Services</Link>
-            <Link href="/#footer-cta" className="nav-link">Contact</Link>
+          <nav id="main-nav" aria-label="Main navigation" suppressHydrationWarning>
+            <Link href="/#hero" className="nav-link" suppressHydrationWarning>Home</Link>
+            <Link href="/#portfolio" className="nav-link" suppressHydrationWarning>Portfolio</Link>
+            <Link href="/#services" className="nav-link" suppressHydrationWarning>Services</Link>
+            <Link href="/#footer-cta" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
           <button
             type="button"
             className="btn btn-red header-cta"
             id="header-cta-btn"
             onClick={openDiscoveryModal}
+            suppressHydrationWarning
           >
             Book a Call
           </button>
@@ -53,6 +54,7 @@ export default function PrivacyPolicyPage() {
             aria-expanded={mobileMenuOpen ? "true" : "false"}
             aria-controls="mobile-nav"
             onClick={toggleMobileMenu}
+            suppressHydrationWarning
           >
             <span></span>
             <span></span>
