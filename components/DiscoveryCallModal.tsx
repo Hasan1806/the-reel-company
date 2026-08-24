@@ -51,6 +51,9 @@ export default function DiscoveryCallModal({
   const [contentSolution, setContentSolution] = useState("In-House Team");
   const [monthlyRequirement, setMonthlyRequirement] = useState("11 - 30");
 
+  // Field-level error highlights
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: boolean }>({});
+
   // Submitted Data Cache (for immediate confirmation display)
   const [submittedData, setSubmittedData] = useState({
     name: "",
@@ -130,11 +133,12 @@ export default function DiscoveryCallModal({
     setTimeout(() => {
       setIsSuccess(false);
       setErrorMessage("");
+      setFieldErrors({});
     }, 300);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
+    if (e) e.preventDefault();
 
     const cleanFullName = fullName.trim();
     const cleanPhone = phoneNumber.trim();
@@ -145,28 +149,44 @@ export default function DiscoveryCallModal({
     const currentSolution = contentSolution;
     const currentRequirement = monthlyRequirement;
 
+    const newFieldErrors: { [key: string]: boolean } = {};
+
     // Validations
     if (!cleanFullName) {
+      newFieldErrors.fullName = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter your full name.");
+      modalRef.current?.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     if (!cleanPhone) {
+      newFieldErrors.phoneNumber = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter your phone number with country code.");
+      modalRef.current?.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     if (!cleanEmail || !cleanEmail.includes("@")) {
+      newFieldErrors.email = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter a valid email address.");
+      modalRef.current?.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     if (!cleanBrand) {
+      newFieldErrors.brandName = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please enter your brand name.");
       return;
     }
     if (!cleanRole) {
+      newFieldErrors.role = true;
+      setFieldErrors(newFieldErrors);
       setErrorMessage("Please select or enter your role in the company.");
       return;
     }
 
+    setFieldErrors({});
     setIsSubmitting(true);
     setErrorMessage("");
 
@@ -185,10 +205,9 @@ export default function DiscoveryCallModal({
       MONTHLY_REQUIREMENT_OPTIONS.find((opt) => opt.label === currentRequirement)
         ?.googleValue || "20-50";
 
-    // 1. Submit via backend API (fast & server-logged)
-    let submittedViaApi = false;
     try {
-      const res = await fetch("/api/discovery-call", {
+      // 1. Submit via backend API (fast & server-logged)
+      await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -202,55 +221,48 @@ export default function DiscoveryCallModal({
           monthlyRequirement: currentRequirement,
           source: "Website Book a Call Modal",
         }),
+      }).catch((err) => {
+        console.warn("API route non-blocking note:", err);
       });
-      if (res.ok) {
-        submittedViaApi = true;
-      }
-    } catch (err) {
-      console.warn("API route fallback:", err);
+
+      // 2. Client-side parallel fallback to Google Forms
+      const googleFormData = new URLSearchParams();
+      googleFormData.append("entry.1936983498", cleanFullName);
+      googleFormData.append("entry.203780078", cleanPhone);
+      googleFormData.append("entry.979876141", cleanEmail);
+      googleFormData.append("entry.897870888", cleanBrand);
+      googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb || "N/A"}` : (cleanWeb || "N/A"));
+      googleFormData.append("entry.793890874", cleanWeb || "N/A");
+      googleFormData.append("entry.1916628574", googleSolutionValue);
+      googleFormData.append("entry.1949108106", googleSolutionValue);
+      googleFormData.append("entry.982760340", googleSolutionValue);
+      googleFormData.append("entry.1194319614", googleRequirementValue);
+
+      fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: googleFormData.toString(),
+      }).catch(() => {});
+    } catch (e) {
+      console.warn("Submit process handled:", e);
+    } finally {
+      // Instantly transition to confirmation screen
+      setIsSubmitting(false);
+      setIsSuccess(true);
+
+      // Reset inputs
+      setFullName("");
+      setPhoneNumber("");
+      setEmail("");
+      setBrandName("");
+      setRole("");
+      setWebsiteOrSocial("");
+      setContentSolution("In-House Team");
+      setMonthlyRequirement("11 - 30");
     }
-
-    // 2. Fallback: Submit directly to Google Forms if API endpoint is unreachable
-    if (!submittedViaApi) {
-      try {
-        const googleFormData = new URLSearchParams();
-        googleFormData.append("entry.1936983498", cleanFullName);
-        googleFormData.append("entry.203780078", cleanPhone);
-        googleFormData.append("entry.979876141", cleanEmail);
-        googleFormData.append("entry.897870888", cleanBrand);
-        googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb || "N/A"}` : (cleanWeb || "N/A"));
-        googleFormData.append("entry.793890874", cleanWeb || "N/A");
-        googleFormData.append("entry.1916628574", googleSolutionValue);
-        googleFormData.append("entry.1949108106", googleSolutionValue);
-        googleFormData.append("entry.982760340", googleSolutionValue);
-        googleFormData.append("entry.1194319614", googleRequirementValue);
-
-        fetch(GOOGLE_FORM_ACTION_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: googleFormData.toString(),
-        }).catch(() => {});
-      } catch (e) {
-        console.warn("Client-side fallback submit error:", e);
-      }
-    }
-
-    // Instantly transition to confirmation screen
-    setIsSubmitting(false);
-    setIsSuccess(true);
-
-    // Reset inputs
-    setFullName("");
-    setPhoneNumber("");
-    setEmail("");
-    setBrandName("");
-    setRole("");
-    setWebsiteOrSocial("");
-    setContentSolution("In-House Team");
-    setMonthlyRequirement("11 - 30");
   };
 
   if (!isOpen) return null;
@@ -313,7 +325,12 @@ export default function DiscoveryCallModal({
             <form onSubmit={handleSubmit} className="discovery-modal-form" noValidate>
               {errorMessage && (
                 <div className="discovery-modal-error" role="alert">
-                  {errorMessage}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>{errorMessage}</span>
                 </div>
               )}
 
@@ -345,10 +362,13 @@ export default function DiscoveryCallModal({
                       ref={firstInputRef}
                       id="discovery-fullname"
                       type="text"
-                      className="discovery-modal-input"
+                      className={`discovery-modal-input ${fieldErrors.fullName ? "is-error" : ""}`}
                       placeholder="e.g. Sarah Jenkins"
                       value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
+                      onChange={(e) => {
+                        setFullName(e.target.value);
+                        if (fieldErrors.fullName) setFieldErrors({ ...fieldErrors, fullName: false });
+                      }}
                       required
                       disabled={isSubmitting}
                       autoComplete="name"
@@ -380,10 +400,13 @@ export default function DiscoveryCallModal({
                     <input
                       id="discovery-phone"
                       type="tel"
-                      className="discovery-modal-input"
+                      className={`discovery-modal-input ${fieldErrors.phoneNumber ? "is-error" : ""}`}
                       placeholder="+91 98765 43210"
                       value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      onChange={(e) => {
+                        setPhoneNumber(e.target.value);
+                        if (fieldErrors.phoneNumber) setFieldErrors({ ...fieldErrors, phoneNumber: false });
+                      }}
                       required
                       disabled={isSubmitting}
                       autoComplete="tel"
@@ -418,10 +441,13 @@ export default function DiscoveryCallModal({
                   <input
                     id="discovery-email"
                     type="email"
-                    className="discovery-modal-input"
+                    className={`discovery-modal-input ${fieldErrors.email ? "is-error" : ""}`}
                     placeholder="name@yourbrand.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: false });
+                    }}
                     required
                     disabled={isSubmitting}
                     autoComplete="email"
@@ -456,10 +482,13 @@ export default function DiscoveryCallModal({
                     <input
                       id="discovery-brand"
                       type="text"
-                      className="discovery-modal-input"
+                      className={`discovery-modal-input ${fieldErrors.brandName ? "is-error" : ""}`}
                       placeholder="e.g. Glossier, Nykaa, Boat"
                       value={brandName}
-                      onChange={(e) => setBrandName(e.target.value)}
+                      onChange={(e) => {
+                        setBrandName(e.target.value);
+                        if (fieldErrors.brandName) setFieldErrors({ ...fieldErrors, brandName: false });
+                      }}
                       required
                       disabled={isSubmitting}
                     />
@@ -492,10 +521,13 @@ export default function DiscoveryCallModal({
                     <input
                       id="discovery-role"
                       type="text"
-                      className="discovery-modal-input"
+                      className={`discovery-modal-input ${fieldErrors.role ? "is-error" : ""}`}
                       placeholder="e.g. Founder, Marketing Head"
                       value={role}
-                      onChange={(e) => setRole(e.target.value)}
+                      onChange={(e) => {
+                        setRole(e.target.value);
+                        if (fieldErrors.role) setFieldErrors({ ...fieldErrors, role: false });
+                      }}
                       required
                       disabled={isSubmitting}
                     />
@@ -507,7 +539,10 @@ export default function DiscoveryCallModal({
                         key={r}
                         type="button"
                         className={`discovery-role-pill ${role === r ? "is-active" : ""}`}
-                        onClick={() => setRole(r)}
+                        onClick={() => {
+                          setRole(r);
+                          if (fieldErrors.role) setFieldErrors({ ...fieldErrors, role: false });
+                        }}
                       >
                         {r}
                       </button>
@@ -622,16 +657,29 @@ export default function DiscoveryCallModal({
                 </div>
               </div>
 
+              {/* Bottom Error banner directly above button if any error */}
+              {errorMessage && (
+                <div className="discovery-modal-error discovery-bottom-error" role="alert">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               {/* Submit Button */}
               <button
                 type="submit"
                 className="btn btn-red discovery-modal-submit-btn"
                 disabled={isSubmitting}
+                onClick={handleSubmit}
               >
                 {isSubmitting ? (
                   <>
                     <span className="discovery-submit-spinner" />
-                    <span>Submitting...</span>
+                    <span>Submitting Request...</span>
                   </>
                 ) : (
                   <>

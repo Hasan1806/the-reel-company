@@ -100,31 +100,30 @@ export async function POST(request: Request) {
 
     console.log("[DISCOVERY CALL LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward to Google Forms server-side (including all required entry IDs)
-    try {
-      const googleFormData = new URLSearchParams();
-      googleFormData.append("entry.1936983498", cleanFullName);
-      googleFormData.append("entry.203780078", cleanPhone);
-      googleFormData.append("entry.979876141", cleanEmail);
-      googleFormData.append("entry.897870888", cleanBrand);
-      googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb}` : cleanWeb);
-      googleFormData.append("entry.793890874", cleanWeb);
-      googleFormData.append("entry.1916628574", googleSolutionValue);
-      googleFormData.append("entry.1949108106", googleSolutionValue);
-      googleFormData.append("entry.982760340", googleSolutionValue);
-      googleFormData.append("entry.1194319614", googleRequirementValue);
+    // 1. Forward to Google Forms server-side with safety timeout
+    const googleFormData = new URLSearchParams();
+    googleFormData.append("entry.1936983498", cleanFullName);
+    googleFormData.append("entry.203780078", cleanPhone);
+    googleFormData.append("entry.979876141", cleanEmail);
+    googleFormData.append("entry.897870888", cleanBrand);
+    googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb}` : cleanWeb);
+    googleFormData.append("entry.793890874", cleanWeb);
+    googleFormData.append("entry.1916628574", googleSolutionValue);
+    googleFormData.append("entry.1949108106", googleSolutionValue);
+    googleFormData.append("entry.982760340", googleSolutionValue);
+    googleFormData.append("entry.1194319614", googleRequirementValue);
 
-      await fetch(GOOGLE_FORM_ACTION_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: googleFormData.toString(),
-      });
-      console.log("[GOOGLE FORM FORWARDED SUCCESSFULLY]");
-    } catch (gErr) {
-      console.warn("Google Form forwarding error:", gErr);
-    }
+    // Fire Google Form submission asynchronously so response is instant
+    fetch(GOOGLE_FORM_ACTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: googleFormData.toString(),
+      signal: AbortSignal.timeout(5000),
+    }).catch((gErr) => {
+      console.warn("Google Form forwarding non-blocking note:", gErr?.message || gErr);
+    });
 
     // 2. Also forward to Google Sheet Webhook if configured
     const SHEET_WEBHOOK_URL =
@@ -135,37 +134,36 @@ export async function POST(request: Request) {
       "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm";
 
     if (googleSheetUrl) {
-      try {
-        const payload = {
-          secret: googleSheetSecret,
-          fullName: cleanFullName,
-          name: cleanFullName,
-          phoneNumber: cleanPhone,
-          phone: cleanPhone,
-          contactNumber: cleanPhone,
-          email: cleanEmail,
-          brandName: cleanBrand,
-          companyName: cleanBrand,
-          role: cleanRole,
-          designation: cleanRole,
-          websiteOrSocial: cleanWeb,
-          contentSolution: rawContentSolution,
-          monthlyRequirement: rawRequirement,
-          videoCount: rawRequirement,
-          source,
-          timestamp,
-        };
+      const payload = {
+        secret: googleSheetSecret,
+        fullName: cleanFullName,
+        name: cleanFullName,
+        phoneNumber: cleanPhone,
+        phone: cleanPhone,
+        contactNumber: cleanPhone,
+        email: cleanEmail,
+        brandName: cleanBrand,
+        companyName: cleanBrand,
+        role: cleanRole,
+        designation: cleanRole,
+        websiteOrSocial: cleanWeb,
+        contentSolution: rawContentSolution,
+        monthlyRequirement: rawRequirement,
+        videoCount: rawRequirement,
+        source,
+        timestamp,
+      };
 
-        fetch(googleSheetUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(payload),
-        }).catch(() => {});
-      } catch (sheetErr) {
-        console.warn("Sheet Webhook forwarding error:", sheetErr);
-      }
+      fetch(googleSheetUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(5000),
+      }).catch((sheetErr) => {
+        console.warn("Sheet Webhook non-blocking note:", sheetErr?.message || sheetErr);
+      });
     }
 
     return NextResponse.json({
