@@ -218,8 +218,10 @@ export default function DiscoveryCallModal({
         googleFormData.append("entry.203780078", cleanPhone);
         googleFormData.append("entry.979876141", cleanEmail);
         googleFormData.append("entry.897870888", cleanBrand);
-        googleFormData.append("entry.1100839857", cleanRole);
-        googleFormData.append("entry.793890874", cleanWeb);
+        googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb || "N/A"}` : (cleanWeb || "N/A"));
+        googleFormData.append("entry.793890874", cleanWeb || "N/A");
+        googleFormData.append("entry.1916628574", googleSolutionValue);
+        googleFormData.append("entry.1949108106", googleSolutionValue);
         googleFormData.append("entry.982760340", googleSolutionValue);
         googleFormData.append("entry.1194319614", googleRequirementValue);
 

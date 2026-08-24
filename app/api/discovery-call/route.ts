@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     const cleanEmail = sanitize(email);
     const cleanBrand = sanitize(brandName || companyName || company);
     const cleanRole = sanitize(role || designation);
-    const cleanWeb = sanitize(websiteOrSocial);
+    const cleanWeb = sanitize(websiteOrSocial) || "N/A";
     const rawContentSolution = sanitize(contentSolution || "In-House Team");
     const rawRequirement = sanitize(monthlyRequirement || videoCount || estimatedMOQ || "11 - 30");
 
@@ -92,33 +92,36 @@ export async function POST(request: Request) {
       brandName: cleanBrand,
       role: cleanRole,
       websiteOrSocial: cleanWeb,
-      contentSolution: rawContentSolution,
-      monthlyRequirement: rawRequirement,
+      contentSolution: googleSolutionValue,
+      monthlyRequirement: googleRequirementValue,
       source,
       timestamp,
     };
 
     console.log("[DISCOVERY CALL LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward to Google Forms server-side
+    // 1. Forward to Google Forms server-side (including all required entry IDs)
     try {
       const googleFormData = new URLSearchParams();
       googleFormData.append("entry.1936983498", cleanFullName);
       googleFormData.append("entry.203780078", cleanPhone);
       googleFormData.append("entry.979876141", cleanEmail);
       googleFormData.append("entry.897870888", cleanBrand);
-      googleFormData.append("entry.1100839857", cleanRole);
+      googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb}` : cleanWeb);
       googleFormData.append("entry.793890874", cleanWeb);
+      googleFormData.append("entry.1916628574", googleSolutionValue);
+      googleFormData.append("entry.1949108106", googleSolutionValue);
       googleFormData.append("entry.982760340", googleSolutionValue);
       googleFormData.append("entry.1194319614", googleRequirementValue);
 
-      fetch(GOOGLE_FORM_ACTION_URL, {
+      await fetch(GOOGLE_FORM_ACTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: googleFormData.toString(),
-      }).catch((err) => console.log("Google Form server submit error:", err));
+      });
+      console.log("[GOOGLE FORM FORWARDED SUCCESSFULLY]");
     } catch (gErr) {
       console.warn("Google Form forwarding error:", gErr);
     }
