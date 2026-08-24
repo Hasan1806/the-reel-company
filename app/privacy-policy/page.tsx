@@ -210,7 +210,7 @@ export default function PrivacyPolicyPage() {
 
                 <div className="privacy-contact-item">
                   <span className="privacy-contact-label">E-mail</span>
-                  <span className="privacy-contact-val">shubham@creator-navigator.in</span>
+                  <span className="privacy-contact-val">connect@thereelcompany.in</span>
                 </div>
 
                 <div className="privacy-contact-item">
@@ -282,7 +282,7 @@ export default function PrivacyPolicyPage() {
                 <span className="footer-contact-label">Phone -</span> +91 8109214834
               </p>
               <p className="footer-contact-line">
-                <span className="footer-contact-label">E-mail :</span> shubham@creator-navigator.in
+                <span className="footer-contact-label">E-mail :</span> connect@thereelcompany.in
               </p>
             </div>
           </nav>

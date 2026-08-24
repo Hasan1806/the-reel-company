@@ -1096,7 +1096,7 @@ export default function ReelCompanySite() {
                 <span className="footer-contact-label">Phone -</span> +91 8109214834
               </p>
               <p className="footer-contact-line">
-                <span className="footer-contact-label">E-mail :</span> shubham@creator-navigator.in
+                <span className="footer-contact-label">E-mail :</span> connect@thereelcompany.in
               </p>
             </div>
           </nav>
