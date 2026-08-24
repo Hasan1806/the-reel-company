@@ -1014,7 +1014,6 @@ export default function ReelCompanySite() {
                           </div>
                         </div>
                         <div className="testimonial-overlay"></div>
-                        <div className="testimonial-label">Client Review 0{idx + 1}</div>
                         <div className="testimonial-play-indicator">
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z" />
