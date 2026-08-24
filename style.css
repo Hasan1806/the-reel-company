@@ -1582,7 +1582,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 /* ═══════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════ */
 .client-cta-section {
-  padding: 5.5rem 0 5rem 0;
+  padding: 2.75rem 0 4.5rem 0;
   background: linear-gradient(135deg, #0d0405 0%, #a80c0c 45%, #e02020 70%, #800000 100%);
   text-align: center;
   position: relative;
@@ -1847,10 +1847,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 @media (max-width: 768px) {
   .client-cta-section {
-    padding: 3.5rem 0 3rem 0;
+    padding: 1.75rem 0 2.5rem 0 !important;
   }
   .client-cta-inner {
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
     padding: 0 1.25rem;
   }
   .testimonials-slider-container {
@@ -2598,7 +2598,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   .footer-cta-buttons{justify-content:center;width:100%;}
   .back-to-top{margin-top:2.25rem;}
   .capabilities-grid{grid-template-columns:1fr 1fr;}
-  .client-cta-section{padding:5rem 2rem;}
+  .client-cta-section{padding:1.75rem 0 2.5rem 0;}
 }
 @media(max-width:480px){
   .hero-content{
