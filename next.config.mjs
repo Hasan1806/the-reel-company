@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
@@ -17,24 +19,28 @@ const nextConfig = {
     ],
   },
   async headers() {
+    const staticCacheHeader = isProd
+      ? [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ]
+      : [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, max-age=0, must-revalidate',
+          },
+        ];
+
     return [
       {
         source: '/:all*(svg|jpg|jpeg|png|webp|avif|mp4|webm|woff2|woff|ttf)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: staticCacheHeader,
       },
       {
         source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: staticCacheHeader,
       },
       {
         source: '/:path*',
@@ -51,6 +57,14 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
           },
+          ...(isProd
+            ? []
+            : [
+                {
+                  key: 'Cache-Control',
+                  value: 'no-cache, no-store, max-age=0, must-revalidate',
+                },
+              ]),
         ],
       },
     ];
@@ -58,3 +72,4 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
