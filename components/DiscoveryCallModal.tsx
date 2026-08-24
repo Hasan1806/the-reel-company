@@ -140,31 +140,10 @@ export default function DiscoveryCallModal({
     );
     const googleVideoValue = matchedOption ? matchedOption.googleValue : "1-20";
 
-    // 1. Submit directly to Google Forms via FormData / URLSearchParams
+    // 1. Submit via backend API (which forwards to Google Forms once)
+    let submittedViaApi = false;
     try {
-      const googleFormData = new URLSearchParams();
-      googleFormData.append("entry.1936983498", name.trim());
-      googleFormData.append("entry.203780078", phone.trim());
-      googleFormData.append("entry.979876141", email.trim());
-      googleFormData.append("entry.897870888", companyName.trim());
-      googleFormData.append("entry.1100839857", designation.trim());
-      googleFormData.append("entry.1194319614", googleVideoValue);
-
-      fetch(GOOGLE_FORM_ACTION_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: googleFormData.toString(),
-      }).catch((err) => console.log("Google Form client submit:", err));
-    } catch (e) {
-      console.warn("Client-side form post fallback:", e);
-    }
-
-    // 2. Also send to our backend API route for reliable redundancy
-    try {
-      await fetch("/api/discovery-call", {
+      const res = await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -177,8 +156,35 @@ export default function DiscoveryCallModal({
           source: "Website Book a Call Modal",
         }),
       });
+      if (res.ok) {
+        submittedViaApi = true;
+      }
     } catch (err) {
-      console.warn("API route backup:", err);
+      console.warn("API route error, falling back to direct submit:", err);
+    }
+
+    // 2. Fallback: If API was unavailable (e.g. static hosting), submit directly to Google Forms
+    if (!submittedViaApi) {
+      try {
+        const googleFormData = new URLSearchParams();
+        googleFormData.append("entry.1936983498", name.trim());
+        googleFormData.append("entry.203780078", phone.trim());
+        googleFormData.append("entry.979876141", email.trim());
+        googleFormData.append("entry.897870888", companyName.trim());
+        googleFormData.append("entry.1100839857", designation.trim());
+        googleFormData.append("entry.1194319614", googleVideoValue);
+
+        await fetch(GOOGLE_FORM_ACTION_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: googleFormData.toString(),
+        });
+      } catch (e) {
+        console.warn("Client-side fallback submit error:", e);
+      }
     }
 
     // Finish submission and show success UI
