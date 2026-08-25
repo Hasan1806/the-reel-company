@@ -36,17 +36,16 @@ export default function TermsAndConditionsPage() {
             <Link href="/#hero" className="nav-link" suppressHydrationWarning>Home</Link>
             <Link href="/#portfolio" className="nav-link" suppressHydrationWarning>Portfolio</Link>
             <Link href="/#services" className="nav-link" suppressHydrationWarning>Services</Link>
-            <Link href="/#footer-cta" className="nav-link" suppressHydrationWarning>Contact</Link>
+            <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
-          <button
-            type="button"
+          <Link
+            href="/contact"
             className="btn btn-red header-cta"
             id="header-cta-btn"
-            onClick={openDiscoveryModal}
             suppressHydrationWarning
           >
             Book a Call
-          </button>
+          </Link>
           <button
             className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
             id="mobile-menu-toggle"
@@ -92,19 +91,16 @@ export default function TermsAndConditionsPage() {
             <Link href="/#hero" className="mobile-nav-link" onClick={closeMobileMenu}>Home</Link>
             <Link href="/#portfolio" className="mobile-nav-link" onClick={closeMobileMenu}>Portfolio</Link>
             <Link href="/#services" className="mobile-nav-link" onClick={closeMobileMenu}>Services</Link>
-            <Link href="/#footer-cta" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
+            <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu}>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link active" onClick={closeMobileMenu}>Terms &amp; Conditions</Link>
-            <button
-              type="button"
+            <Link
+              href="/contact"
               className="btn btn-red mobile-nav-cta"
-              onClick={() => {
-                closeMobileMenu();
-                openDiscoveryModal();
-              }}
+              onClick={closeMobileMenu}
             >
               Book a Call
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -240,29 +236,29 @@ export default function TermsAndConditionsPage() {
               <Link href="/#hero">Home</Link>
               <Link href="/#portfolio">Portfolio</Link>
               <Link href="/#services">Services</Link>
-              <Link href="/#footer-cta">Contact</Link>
+              <Link href="/contact">Contact</Link>
               <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="/terms-and-conditions" className="active">Terms &amp; Conditions</Link>
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <button 
-                type="button" 
-                className="footer-nav-link-btn" 
-                onClick={openDiscoveryModal}
+              <Link 
+                href="/contact" 
+                className="footer-nav-link-btn"
+                style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Book a Call
-              </button>
+              </Link>
               <Link href="/#portfolio">
                 Portfolio Access
               </Link>
-              <button 
-                type="button" 
-                className="footer-nav-link-btn" 
-                onClick={openDiscoveryModal}
+              <a 
+                href="mailto:connect@thereelcompany.in"
+                className="footer-nav-link-btn"
+                style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Email Us
-              </button>
+              </a>
             </div>
             <div className="footer-nav-col footer-contact-col">
               <h4>Contact</h4>

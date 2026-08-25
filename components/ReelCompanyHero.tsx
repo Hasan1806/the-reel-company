@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import HeroCurvedShowcase from "./HeroCurvedShowcase";
 import HeroStatsPanel from "./HeroStatsPanel";
 
 interface ReelCompanyHeroProps {
-  openDiscoveryModal: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
+  openDiscoveryModal?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   openPortfolioModal?: (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   handleAnchorClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
@@ -46,14 +47,13 @@ export default function ReelCompanyHero({
           >
             View our Work
           </button>
-          <button
-            type="button"
+          <Link
+            href="/contact"
             id="hero-book-call-btn"
             className="btn btn-red hero-cta-btn hero-book-call-btn"
-            onClick={openDiscoveryModal}
           >
             Book a Call
-          </button>
+          </Link>
         </div>
       </div>
 

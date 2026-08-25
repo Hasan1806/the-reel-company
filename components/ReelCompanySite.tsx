@@ -736,11 +736,11 @@ export default function ReelCompanySite() {
             <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
             <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
             <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
-            <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
+            <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
-          <button type="button" className="btn btn-red header-cta" id="header-cta-btn" onClick={openDiscoveryModal} suppressHydrationWarning>
+          <Link href="/contact" className="btn btn-red header-cta" id="header-cta-btn" suppressHydrationWarning>
             Book a Call
-          </button>
+          </Link>
           <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu} suppressHydrationWarning>
             <span></span><span></span><span></span>
           </button>
@@ -756,9 +756,10 @@ export default function ReelCompanySite() {
             <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
             <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
             <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
-            <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
+            <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Privacy Policy</Link>
-            <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }} suppressHydrationWarning>Book a Call</button>
+            <Link href="/terms-and-conditions" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Terms &amp; Conditions</Link>
+            <Link href="/contact" className="btn btn-red mobile-nav-cta" onClick={closeMobileMenu} suppressHydrationWarning>Book a Call</Link>
           </div>
         </div>
       </header>
@@ -793,7 +794,7 @@ export default function ReelCompanySite() {
                   </p>
                 </div>
                 <div className="hero-ctas">
-                  <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>
+                  <Link href="/contact" className="btn btn-red">Book a Discovery Call</Link>
                 </div>
               </div>
 
@@ -1031,13 +1032,12 @@ export default function ReelCompanySite() {
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
               <div className="pricing-callout-cta-wrap" style={{ marginTop: "1.5rem" }}>
-                <button
-                  type="button"
+                <Link
+                  href="/contact"
                   className="btn btn-red"
-                  onClick={openDiscoveryModal}
                 >
                   Book a Discovery Call
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -1062,7 +1062,7 @@ export default function ReelCompanySite() {
               </h2>
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
               <div className="footer-cta-buttons">
-                <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>
+                <Link href="/contact" className="btn btn-red">Book a Discovery Call</Link>
               </div>
             </div>
             <button className="back-to-top" id="back-to-top" aria-label="Back to top" onClick={handleBackToTop}>
@@ -1099,19 +1099,19 @@ export default function ReelCompanySite() {
               <a href="#hero" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
               <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-              <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
+              <Link href="/contact">Contact</Link>
               <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <button 
-                type="button" 
-                className="footer-nav-link-btn" 
-                onClick={openDiscoveryModal}
+              <Link 
+                href="/contact" 
+                className="footer-nav-link-btn"
+                style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Book a Call
-              </button>
+              </Link>
               <button 
                 type="button" 
                 className="footer-nav-link-btn" 
@@ -1119,13 +1119,13 @@ export default function ReelCompanySite() {
               >
                 Portfolio Access
               </button>
-              <button 
-                type="button" 
-                className="footer-nav-link-btn" 
-                onClick={openDiscoveryModal}
+              <a 
+                href="mailto:connect@thereelcompany.in"
+                className="footer-nav-link-btn"
+                style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Email Us
-              </button>
+              </a>
             </div>
             <div className="footer-nav-col footer-contact-col">
               <h4>Contact</h4>
