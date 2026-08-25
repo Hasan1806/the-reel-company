@@ -92,6 +92,7 @@ export default function PortfolioAccessModal({
 
   const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
     if (e) e.preventDefault();
+    if (isSubmitting) return;
 
     const cleanName = name.trim();
     const cleanPhone = phone.trim();

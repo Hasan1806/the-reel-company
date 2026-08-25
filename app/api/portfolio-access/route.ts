@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 
     console.log("[PORTFOLIO ACCESS LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward directly to Google Form for Portfolio asynchronously
+    // 1. Forward directly to Google Form for Portfolio asynchronously (Google Forms writes cleanly to the linked Sheet)
     const googleFormData = new URLSearchParams();
     googleFormData.append("entry.41647073", cleanName);
     googleFormData.append("entry.1646448611", cleanPhone);
@@ -61,17 +61,10 @@ export async function POST(request: Request) {
       signal: AbortSignal.timeout(5000),
     }).catch((err) => console.log("Portfolio Google Form submit note:", err?.message || err));
 
-    // 2. Forward to the Google Sheets Webhook if configured
-    const SHEET_WEBHOOK_URL =
-      process.env.GOOGLE_SHEET_WEBHOOK_URL ||
-      "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec";
-    const googleSheetSecret =
-      process.env.GOOGLE_SHEET_SECRET ||
-      "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm";
-
-    if (SHEET_WEBHOOK_URL) {
+    // 2. Forward to the Google Sheets Webhook only if explicitly configured in environment
+    if (process.env.GOOGLE_SHEET_WEBHOOK_URL) {
       const payload = {
-        secret: googleSheetSecret,
+        secret: process.env.GOOGLE_SHEET_SECRET || "",
         name: cleanName,
         fullName: cleanName,
         phone: cleanPhone,
@@ -81,7 +74,7 @@ export async function POST(request: Request) {
         timestamp,
       };
 
-      fetch(SHEET_WEBHOOK_URL, {
+      fetch(process.env.GOOGLE_SHEET_WEBHOOK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
