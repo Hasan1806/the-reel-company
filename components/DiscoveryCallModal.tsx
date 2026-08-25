@@ -230,25 +230,10 @@ export default function DiscoveryCallModal({
         throw new Error(data?.message || "Failed to submit request");
       }
 
-      // Verified successful submission:
+      // Verified successful submission: directly close modal and open /thank-you
       setIsSubmitting(false);
-      setIsSuccess(true);
-
-      // Reset inputs
-      setFullName("");
-      setPhoneNumber("");
-      setEmail("");
-      setBrandName("");
-      setRole("");
-      setWebsiteOrSocial("");
-      setContentSolution("In-House Team");
-      setMonthlyRequirement("11 - 30");
-
-      // Show "Response Submitted" with right checkmark, then smoothly navigate to /thank-you
-      setTimeout(() => {
-        onClose();
-        router.push("/thank-you");
-      }, 1200);
+      onClose();
+      router.push("/thank-you");
     } catch (e: any) {
       console.warn("Submit process error:", e);
       setIsSubmitting(false);

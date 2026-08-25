@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 // Options for "How are you currently solving your content problem?"
@@ -31,6 +31,11 @@ const COMMON_ROLES = [
 export default function DiscoveryCallForm() {
   const router = useRouter();
 
+  // Prefetch /thank-you so page transition is instantaneous and smooth
+  useEffect(() => {
+    router.prefetch("/thank-you");
+  }, [router]);
+
   // Form State
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -43,16 +48,7 @@ export default function DiscoveryCallForm() {
 
   // Field-level error highlights
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: boolean }>({});
-
-  // Submitted Data Cache (for immediate confirmation display)
-  const [submittedData, setSubmittedData] = useState({
-    name: "",
-    brand: "",
-    requirement: "11 - 30",
-  });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const formTopRef = useRef<HTMLDivElement>(null);
@@ -113,13 +109,6 @@ export default function DiscoveryCallForm() {
     setIsSubmitting(true);
     setErrorMessage("");
 
-    // Cache submission data for instant confirmation screen
-    setSubmittedData({
-      name: cleanFullName,
-      brand: cleanBrand,
-      requirement: currentRequirement,
-    });
-
     try {
       // 1. Submit via backend API (fast single dispatch & server-logged)
       const res = await fetch("/api/discovery-call", {
@@ -149,24 +138,9 @@ export default function DiscoveryCallForm() {
         throw new Error(data?.message || "Failed to submit request");
       }
 
-      // Verified successful submission:
+      // Verified successful submission: directly and immediately open /thank-you page
       setIsSubmitting(false);
-      setIsSuccess(true);
-
-      // Reset inputs
-      setFullName("");
-      setPhoneNumber("");
-      setEmail("");
-      setBrandName("");
-      setRole("");
-      setWebsiteOrSocial("");
-      setContentSolution("In-House Team");
-      setMonthlyRequirement("11 - 30");
-
-      // Show "Response Submitted" with right checkmark, then navigate to /thank-you
-      setTimeout(() => {
-        router.push("/thank-you");
-      }, 1200);
+      router.push("/thank-you");
     } catch (e: any) {
       console.warn("Submit process error:", e);
       setIsSubmitting(false);
@@ -184,30 +158,28 @@ export default function DiscoveryCallForm() {
         </div>
       </div>
 
-      {!isSuccess ? (
-        <>
-          {/* Header & Subtitle */}
-          <div className="discovery-modal-info">
-            <h1 className="discovery-modal-title">Book a Discovery Call</h1>
-            <p className="discovery-modal-sub">
-              Let&apos;s discuss how The Reel Company can scale your high-converting UGC &amp; performance video ads.
-            </p>
+      {/* Header & Subtitle */}
+      <div className="discovery-modal-info">
+        <h1 className="discovery-modal-title">Book a Discovery Call</h1>
+        <p className="discovery-modal-sub">
+          Let&apos;s discuss how The Reel Company can scale your high-converting UGC &amp; performance video ads.
+        </p>
+      </div>
+
+      {/* Form Body */}
+      <form onSubmit={handleSubmit} className="discovery-modal-form" noValidate>
+        {errorMessage && (
+          <div className="discovery-modal-error" role="alert">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>{errorMessage}</span>
           </div>
+        )}
 
-          {/* Form Body */}
-          <form onSubmit={handleSubmit} className="discovery-modal-form" noValidate>
-            {errorMessage && (
-              <div className="discovery-modal-error" role="alert">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
-            {/* Row 1: Full Name & Phone Number */}
+        {/* Row 1: Full Name & Phone Number */}
             <div className="discovery-form-row">
               <div className="discovery-input-group">
                 <label htmlFor="contact-fullname" className="discovery-input-label">
@@ -572,35 +544,11 @@ export default function DiscoveryCallForm() {
                 </>
               )}
             </button>
-          </form>
 
-          <p className="discovery-modal-privacy-note">
-            🔒 Fast turnaround • Zero spam • Direct consultation with The Reel Company
-          </p>
-        </>
-      ) : (
-        /* Success Transition Screen */
-        <div className="discovery-success-wrap">
-          <div className="discovery-success-icon" aria-hidden="true">
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <h3 className="discovery-success-title">Response Submitted</h3>
-          <p className="discovery-success-msg">
-            Thank you, <strong style={{ color: "#fff" }}>{submittedData.name || "there"}</strong>! We&apos;ve received your request. Redirecting you to the confirmation page...
-          </p>
-        </div>
-      )}
+            <p className="discovery-modal-privacy-note">
+              🔒 Fast turnaround • Zero spam • Direct consultation with The Reel Company
+            </p>
+          </form>
     </div>
   );
 }
