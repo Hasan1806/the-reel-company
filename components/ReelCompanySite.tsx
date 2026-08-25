@@ -1036,7 +1036,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ UGC PROCESS ═══════════════════════════ */}
         <UgcProcessSection />
 
-        {/* ═══════════════════════════════ COMPACT PRICING CALLOUT & DATA SUBMISSION ═══════════════════════════ */}
+        {/* ═══════════════════════════════ COMPACT PRICING CALLOUT ═══════════════════════════ */}
         <section className="pricing-callout-section" aria-label="Transparent Pricing">
           <div className="pricing-callout-container">
             <div className="pricing-callout-glow" aria-hidden="true"></div>
@@ -1051,15 +1051,10 @@ export default function ReelCompanySite() {
               <p className="pricing-callout-sub">
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
-
-              {/* Custom Dark Luxury Quick Inquiry Form */}
-              <QuickInquiryPricingForm />
-
-              <div className="pricing-callout-cta-wrap" style={{ marginTop: "2rem" }}>
-                <p className="pricing-or-text">Need a full custom proposal?</p>
+              <div className="pricing-callout-cta-wrap" style={{ marginTop: "1.5rem" }}>
                 <Link
                   href="/contact"
-                  className="btn btn-outline pricing-sub-btn"
+                  className="btn btn-red"
                 >
                   Book a Discovery Call
                 </Link>
@@ -1074,7 +1069,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════════════ */}
         <ClientTestimonialsSection />
 
-        {/* ═══════════════════════════════ FOOTER CTA ═══════════════════════════ */}
+        {/* ═══════════════════════════════ FOOTER CTA & QUICK INQUIRY ═══════════════════════════ */}
         <section id="footer-cta" className="footer-cta-section" aria-label="Final Call To Action">
           <div className="footer-cta-glow"></div>
           <div className="footer-cta-container">
@@ -1086,8 +1081,15 @@ export default function ReelCompanySite() {
                 <span className="footer-cta-line">Bigger Team?</span>
               </h2>
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
-              <div className="footer-cta-buttons">
-                <Link href="/contact" className="btn btn-red">Book a Discovery Call</Link>
+
+              {/* Custom Dark Luxury Quick Inquiry Form */}
+              <QuickInquiryPricingForm />
+
+              <div className="footer-cta-buttons" style={{ marginTop: "2rem" }}>
+                <p className="pricing-or-text">Prefer to schedule a detailed discovery call?</p>
+                <Link href="/contact" className="btn btn-outline pricing-sub-btn">
+                  Book a 1-on-1 Call
+                </Link>
               </div>
             </div>
             <button className="back-to-top" id="back-to-top" aria-label="Back to top" onClick={handleBackToTop}>

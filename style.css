@@ -2544,7 +2544,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   color: rgba(255, 255, 255, 0.7);
   max-width: 52ch;
   line-height: 1.65;
-  margin: 0 auto 2.25rem;
+  margin: 0 auto 1.5rem;
   text-align: center;
 }
 .footer-cta-buttons {

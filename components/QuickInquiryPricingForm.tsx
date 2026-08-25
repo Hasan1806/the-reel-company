@@ -58,9 +58,9 @@ export default function QuickInquiryPricingForm() {
           fullName: "Quick Inquiry Lead",
           phoneNumber: cleanPhone,
           email: cleanEmail,
-          brandName: "Transparent Pricing Inquiry",
+          brandName: "Footer CTA Lead",
           role: "Quick Lead",
-          source: "Transparent Pricing Section Form",
+          source: "Footer CTA Section Form",
         }),
       }).catch(() => {});
 
@@ -85,7 +85,7 @@ export default function QuickInquiryPricingForm() {
               <span className="quick-inquiry-dot" aria-hidden="true" />
               <span>DIRECT INQUIRY</span>
             </div>
-            <h3 className="quick-inquiry-title">Get Started with Video Production</h3>
+            <h3 className="quick-inquiry-title">Get Started with The Reel Company</h3>
             <p className="quick-inquiry-sub">Enter your Phone Number &amp; Email to get in touch with our team directly:</p>
           </div>
 
