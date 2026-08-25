@@ -21,6 +21,32 @@ export const CURVED_HERO_VIDEOS: CurvedVideoItem[] = [
   { id: "cv-10", src: "/videos/portfolio/portfolio-1.mp4", poster: "/videos/portfolio/portfolio-1-poster.webp" },
   { id: "cv-11", src: "/videos/portfolio/portfolio-2.mp4", poster: "/videos/portfolio/portfolio-2-poster.webp" },
   { id: "cv-12", src: "/videos/portfolio/portfolio-3.mp4", poster: "/videos/portfolio/portfolio-3-poster.webp" },
+  // 5 New Appended Videos
+  {
+    id: "cv-13",
+    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663476/CN2704_watermarked.mp4",
+    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663476/CN2704_watermarked.jpg",
+  },
+  {
+    id: "cv-14",
+    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663464/Sugar_Support_4_watermarked.mp4",
+    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663464/Sugar_Support_4_watermarked.jpg",
+  },
+  {
+    id: "cv-15",
+    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663432/CN2694_watermarked.mp4",
+    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663432/CN2694_watermarked.jpg",
+  },
+  {
+    id: "cv-16",
+    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663420/CN2541_watermarked.mp4",
+    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663420/CN2541_watermarked.jpg",
+  },
+  {
+    id: "cv-17",
+    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663411/CN2545_watermarked.mp4",
+    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663411/CN2545_watermarked.jpg",
+  },
 ];
 
 export default function HeroCurvedShowcase() {
@@ -37,21 +63,21 @@ export default function HeroCurvedShowcase() {
     let lastTime = performance.now();
     let globalProgress = 0;
 
-    // Single cycle duration: ~28s (lively, active, buttery smooth)
-    const SPEED = 1 / (28 * 1000);
+    // Single cycle duration: ~18s (noticeably faster ~1.45x, dynamic, fluid and cinematic)
+    const SPEED = 1 / (18 * 1000);
 
-    // Track geometry parameters
+    // Track geometry parameters (scaled down ~12-14% for more compact, refined look)
     let containerWidth = container.clientWidth || window.innerWidth;
     let isMobile = containerWidth < 768;
     let isTablet = containerWidth >= 768 && containerWidth < 1024;
 
     let cardWidth = isMobile
-      ? Math.min(125, Math.max(105, Math.round(containerWidth * 0.29)))
+      ? Math.min(108, Math.max(90, Math.round(containerWidth * 0.25)))
       : isTablet
-      ? 130
-      : 145;
-    let curveDepth = isMobile ? 45 : isTablet ? 75 : 100;
-    let cardSpacing = isMobile ? cardWidth * 0.96 : isTablet ? 140 : 165;
+      ? 112
+      : 126;
+    let curveDepth = isMobile ? 42 : isTablet ? 70 : 90;
+    let cardSpacing = isMobile ? Math.round(cardWidth * 0.96) : isTablet ? 124 : 144;
 
     const updateDimensions = () => {
       if (!container) return;
@@ -59,12 +85,12 @@ export default function HeroCurvedShowcase() {
       isMobile = containerWidth < 768;
       isTablet = containerWidth >= 768 && containerWidth < 1024;
       cardWidth = isMobile
-        ? Math.min(125, Math.max(105, Math.round(containerWidth * 0.29)))
+        ? Math.min(108, Math.max(90, Math.round(containerWidth * 0.25)))
         : isTablet
-        ? 130
-        : 145;
-      curveDepth = isMobile ? 45 : isTablet ? 75 : 100;
-      cardSpacing = isMobile ? cardWidth * 0.96 : isTablet ? 140 : 165;
+        ? 112
+        : 126;
+      curveDepth = isMobile ? 42 : isTablet ? 70 : 90;
+      cardSpacing = isMobile ? Math.round(cardWidth * 0.96) : isTablet ? 124 : 144;
     };
 
     window.addEventListener("resize", updateDimensions, { passive: true });
