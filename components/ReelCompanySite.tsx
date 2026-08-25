@@ -1045,7 +1045,7 @@ export default function ReelCompanySite() {
               <button 
                 type="button" 
                 className="footer-nav-link-btn" 
-                onClick={openPortfolioModal}
+                onClick={(e) => handleAnchorClick(e, '#portfolio')}
               >
                 Portfolio Access
               </button>

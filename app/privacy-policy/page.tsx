@@ -260,13 +260,9 @@ export default function PrivacyPolicyPage() {
               >
                 Book a Call
               </button>
-              <button 
-                type="button" 
-                className="footer-nav-link-btn" 
-                onClick={openPortfolioModal}
-              >
+              <Link href="/#portfolio">
                 Portfolio Access
-              </button>
+              </Link>
               <button 
                 type="button" 
                 className="footer-nav-link-btn" 
