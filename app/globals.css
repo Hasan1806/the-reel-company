@@ -602,13 +602,25 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 .hero-tagline {
   font-family: var(--font-head);
-  font-size: clamp(1.3rem, 2.35vw, 2.35rem);
-  font-weight: 700;
-  color: #f8fafc !important;
-  margin-bottom: 1.25rem;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  font-size: clamp(2.35rem, 3.8vw, 3.6rem);
+  font-weight: 800;
+  color: #ffffff !important;
+  margin-bottom: 1.5rem;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  transform: none;
+}
+.studio-overview-section .hero-tagline {
+  font-family: var(--font-head);
+  font-size: clamp(2.35rem, 3.8vw, 3.6rem);
+  font-weight: 800;
+  color: #ffffff !important;
+  margin-bottom: 1.5rem;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
   opacity: 1;
   transform: none;
 }
