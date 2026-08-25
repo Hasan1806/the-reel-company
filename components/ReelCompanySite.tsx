@@ -1032,6 +1032,7 @@ export default function ReelCompanySite() {
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
               <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
               <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
