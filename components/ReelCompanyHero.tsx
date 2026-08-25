@@ -42,7 +42,7 @@ export default function ReelCompanyHero({
             type="button"
             id="hero-view-portfolio-btn"
             className="btn btn-outline hero-cta-btn"
-            onClick={openPortfolioModal || ((e) => handleAnchorClick(e as any, "#portfolio"))}
+            onClick={(e) => handleAnchorClick(e as any, "#portfolio")}
           >
             View Portfolio
           </button>
