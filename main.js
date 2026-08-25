@@ -4,14 +4,18 @@
 ═══════════════════════════════════════════════════════ */
 
 const VIDEOS = [
-  { src: '/videos/portfolio/portfolio-1.mp4', label: 'E-Commerce UGC Ad' },
-  { src: '/videos/portfolio/portfolio-2.mp4', label: 'Performance Ad Creative' },
-  { src: '/videos/portfolio/portfolio-3.mp4', label: 'Brand Storytelling' },
-  { src: '/videos/portfolio/portfolio-4.mp4', label: 'Direct-Response Reel' },
-  { src: '/videos/portfolio/portfolio-5.mp4', label: 'Scroll-Stopping Hook' },
-  { src: '/videos/portfolio/portfolio-6.mp4', label: 'Lifestyle & Fitness Ad' },
-  { src: '/videos/portfolio/portfolio-7.mp4', label: 'Viral Creator Reel' },
-  { src: '/videos/portfolio/portfolio-8.mp4', label: 'High-ROI Paid Social' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787662132/CN1098_watermarked.webm', label: 'Creative UGC 01' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661073/CN0804_1__watermarked.webm', label: 'Creative UGC 02' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661072/CN0663_watermarked.webm', label: 'Creative UGC 03' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661071/CN2473_watermarked.webm', label: 'Creative UGC 04' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661069/CN2539_watermarked.webm', label: 'Creative UGC 05' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661064/SK-86_1_watermarked.webm', label: 'Creative UGC 06' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661062/mount_everest_watermarked.webm', label: 'Creative UGC 07' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661059/CN2423_watermarked.webm', label: 'Creative UGC 08' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661025/CN0581_watermarked.webm', label: 'Creative UGC 09' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787660985/CN1064_watermarked.webm', label: 'Creative UGC 10' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787662197/CN2579_watermarked.mp4', label: 'Creative UGC 11' },
+  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787662175/CN2463_watermarked.mp4', label: 'Creative UGC 12' },
 ];
 
 // ─── State ────────────────────────────────────────────

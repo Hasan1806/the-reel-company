@@ -13,43 +13,84 @@ import FAQSection from './FAQSection';
 import ClientTestimonialsSection from './ClientTestimonialsSection';
 import { ASSETS } from '@/config/assets';
 
-interface VideoItem {
+interface PortfolioVideoItem {
+  id?: string;
   src: string;
   poster?: string;
+  type?: string;
   label: string;
 }
 
-const VIDEOS: VideoItem[] = [
-  ...ASSETS.videos.portfolio.map(item => ({ src: item.src, poster: item.poster, label: item.label })),
-  { src: '', label: 'Creative in Production' },
-  { src: '', label: 'Brand Campaign in Production' },
-  { src: '', label: 'Performance Ad in Production' },
-  { src: '', label: 'Creator Story in Production' },
-];
+const VIDEOS: PortfolioVideoItem[] = ASSETS.videos.portfolio.map((item) => ({
+  id: item.id,
+  src: item.src,
+  poster: item.poster,
+  type: item.type,
+  label: item.label,
+}));
 
 interface LazyPortfolioCardProps {
-  video: VideoItem;
+  video: PortfolioVideoItem;
   index: number;
   isMobile?: boolean;
+  activeAudioIndex: number | null;
+  onSetActiveAudio: (index: number | null) => void;
 }
 
-function LazyPortfolioCard({ video, index, isMobile }: LazyPortfolioCardProps) {
+function LazyPortfolioCard({
+  video,
+  index,
+  isMobile,
+  activeAudioIndex,
+  onSetActiveAudio,
+}: LazyPortfolioCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
+  // Sync mute state when another portfolio card is unmuted
+  useEffect(() => {
+    if (activeAudioIndex !== null && activeAudioIndex !== index) {
+      if (videoRef.current && !videoRef.current.muted) {
+        videoRef.current.muted = true;
+      }
+      setIsMuted(true);
+    }
+  }, [activeAudioIndex, index]);
+
+  // Viewport-aware autoplay & pause
   useEffect(() => {
     const el = cardRef.current;
+    const vid = videoRef.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
-        if (videoRef.current) {
+        if (vid) {
           if (entry.isIntersecting) {
-            videoRef.current.play().catch(() => {});
+            // Attempt autoplay with sound if permitted
+            vid.muted = isMuted;
+            const playPromise = vid.play();
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  setIsPlaying(true);
+                })
+                .catch(() => {
+                  // Fallback: If browser policy restricts unmuted autoplay, play muted
+                  if (!vid.muted) {
+                    vid.muted = true;
+                    setIsMuted(true);
+                    vid.play().then(() => setIsPlaying(true)).catch(() => {});
+                  }
+                });
+            }
           } else {
-            videoRef.current.pause();
+            vid.pause();
+            setIsPlaying(false);
           }
         }
       },
@@ -61,42 +102,140 @@ function LazyPortfolioCard({ video, index, isMobile }: LazyPortfolioCardProps) {
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [isMuted]);
+
+  // Play / Pause toggle
+  const handleTogglePlay = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const vid = videoRef.current;
+    if (!vid) return;
+
+    if (vid.paused) {
+      vid.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          vid.muted = true;
+          setIsMuted(true);
+          vid.play().then(() => setIsPlaying(true)).catch(() => {});
+        });
+    } else {
+      vid.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  // Mute / Unmute toggle
+  const handleToggleMute = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const vid = videoRef.current;
+    if (!vid) return;
+
+    const nextMuted = !isMuted;
+    vid.muted = nextMuted;
+    setIsMuted(nextMuted);
+
+    if (!nextMuted) {
+      onSetActiveAudio(index);
+    } else if (activeAudioIndex === index) {
+      onSetActiveAudio(null);
+    }
+  };
+
+  // Card click interaction
+  const handleCardClick = () => {
+    const vid = videoRef.current;
+    if (!vid) return;
+
+    // If card was playing muted due to browser policy, unmute on first click
+    if (vid.muted && isPlaying) {
+      vid.muted = false;
+      setIsMuted(false);
+      onSetActiveAudio(index);
+    } else {
+      handleTogglePlay();
+    }
+  };
 
   return (
     <div
       ref={cardRef}
-      className={`video-card ${!video.src ? 'empty-slot' : ''}`}
+      className={`video-card ${!isPlaying ? 'is-paused' : 'is-playing'}`}
       data-index={index}
+      onClick={handleCardClick}
+      role="region"
+      aria-label={`Portfolio video ${index + 1}`}
     >
       <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
         <span className="video-index-tag">{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
       </div>
 
-      {video.src ? (
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          loop
-          preload={isInView ? "metadata" : "none"}
-          poster={video.poster}
-          aria-label={video.label}
-          src={isInView ? video.src : undefined}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      ) : (
-        <div className="empty-slot-content">
-          <div className="empty-slot-icon-wrap">
-            <svg width={isMobile ? "24" : "26"} height={isMobile ? "24" : "26"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="23 7 16 12 23 17 23 7" />
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+      <video
+        ref={videoRef}
+        playsInline
+        loop
+        autoPlay
+        muted={isMuted}
+        preload={isInView ? "metadata" : "none"}
+        poster={video.poster}
+        aria-label={video.label}
+        src={isInView ? video.src : undefined}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+
+      {/* Center Play Icon when paused */}
+      {!isPlaying && (
+        <div className="portfolio-center-play-overlay" aria-hidden="true">
+          <div className="portfolio-center-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: "2px" }}>
+              <path d="M8 5v14l11-7z" />
             </svg>
           </div>
-          <div className="empty-slot-label">{video.label}</div>
-          <span className="empty-slot-sub">{isMobile ? '✦ Slot Reserved' : '✦ Creative Slot Reserved'}</span>
         </div>
       )}
+
+      {/* Video Controls Bar */}
+      <div className="portfolio-card-controls-bar">
+        {/* Play/Pause Button */}
+        <button
+          type="button"
+          className="portfolio-control-btn portfolio-play-btn"
+          onClick={handleTogglePlay}
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+        >
+          {isPlaying ? (
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+            </svg>
+          ) : (
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: "1.5px" }}>
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
+
+        {/* Mute/Unmute Button */}
+        <button
+          type="button"
+          className="portfolio-control-btn portfolio-mute-btn"
+          onClick={handleToggleMute}
+          aria-label={isMuted ? "Unmute video" : "Mute video"}
+        >
+          {isMuted ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          )}
+        </button>
+      </div>
     </div>
   );
 }
@@ -108,6 +247,7 @@ export default function ReelCompanySite() {
   const [heroVideoName, setHeroVideoName] = useState('CN-Outro-Animation.mp4');
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
+  const [activePortfolioAudioIndex, setActivePortfolioAudioIndex] = useState<number | null>(null);
   // Discovery Call Modal state
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const lastActiveCtaRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
@@ -475,82 +615,7 @@ export default function ReelCompanySite() {
     };
   }, []);
 
-  // Autoplay Guarantee for Portfolio Videos when Section is In View
-  useEffect(() => {
-    const playAll = () => {
-      const videos = document.querySelectorAll<HTMLVideoElement>('.portfolio-grid video, .portfolio-mobile-carousel video');
-      videos.forEach(v => {
-        if (v.paused) {
-          v.play().catch(() => {});
-        }
-      });
-    };
 
-    const section = document.getElementById('portfolio');
-    if (!section) return;
-
-    const sectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          playAll();
-        }
-      });
-    }, { threshold: 0.05 });
-
-    sectionObserver.observe(section);
-
-    // Visibility change / window focus guarantee
-    const handleVisibilityChange = () => {
-      if (!document.hidden) playAll();
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      sectionObserver.disconnect();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
-
-  // Hover & Manual toggle for individual portfolio video card
-  const playPortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
-    if (!cardEl) return;
-    const video = cardEl.querySelector<HTMLVideoElement>('video');
-    if (!video) return;
-
-    if (!video.src && video.dataset.src) {
-      video.src = video.dataset.src;
-    }
-
-    video.play().catch(() => {});
-    setPortfolioPlayingState(prev => ({ ...prev, [idx]: true }));
-  };
-
-  const pausePortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
-    if (!cardEl) return;
-    const video = cardEl.querySelector<HTMLVideoElement>('video');
-    if (!video) return;
-
-    video.pause();
-    setPortfolioPlayingState(prev => ({ ...prev, [idx]: false }));
-  };
-
-  const togglePortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
-    if (!cardEl) return;
-    const video = cardEl.querySelector<HTMLVideoElement>('video');
-    if (!video) return;
-
-    if (!video.src && video.dataset.src) {
-      video.src = video.dataset.src;
-    }
-
-    if (video.paused) {
-      video.play().catch(() => {});
-      setPortfolioPlayingState(prev => ({ ...prev, [idx]: true }));
-    } else {
-      video.pause();
-      setPortfolioPlayingState(prev => ({ ...prev, [idx]: false }));
-    }
-  };
 
   // GSAP Animations
   useEffect(() => {
@@ -888,6 +953,8 @@ export default function ReelCompanySite() {
                 video={v}
                 index={i}
                 isMobile={false}
+                activeAudioIndex={activePortfolioAudioIndex}
+                onSetActiveAudio={setActivePortfolioAudioIndex}
               />
             ))}
           </div>
@@ -899,6 +966,8 @@ export default function ReelCompanySite() {
                 video={v}
                 index={i}
                 isMobile={true}
+                activeAudioIndex={activePortfolioAudioIndex}
+                onSetActiveAudio={setActivePortfolioAudioIndex}
               />
             ))}
           </div>

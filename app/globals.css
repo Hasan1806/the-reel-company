@@ -1289,6 +1289,77 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   font-weight: 600;
 }
 
+/* ═══════════════════ PORTFOLIO CONTROLS ═══════════════════ */
+.portfolio-card-controls-bar {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+.portfolio-control-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(14, 14, 18, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.portfolio-control-btn:hover {
+  background: rgba(224, 32, 32, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(224, 32, 32, 0.55);
+}
+
+.portfolio-control-btn:active {
+  transform: scale(0.92);
+}
+
+.portfolio-center-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  pointer-events: none;
+  animation: portfolioCenterPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.portfolio-center-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(224, 32, 32, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(224, 32, 32, 0.6);
+}
+
+@keyframes portfolioCenterPop {
+  0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
 .portfolio-cta{text-align:center;margin-top:1.75rem;padding:0 2rem;position:relative;z-index:2;}
 
 /* ═══════════════════ STATS ═══════════════════ */
