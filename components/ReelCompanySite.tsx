@@ -728,8 +728,7 @@ export default function ReelCompanySite() {
                   </p>
                 </div>
                 <div className="hero-ctas">
-                  <button type="button" className="btn btn-red" onClick={openPortfolioModal}>See Our Work</button>
-                  <button type="button" className="btn btn-outline" onClick={openDiscoveryModal}>Book a Discovery Call</button>
+                  <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>
                 </div>
               </div>
 
