@@ -902,12 +902,6 @@ export default function ReelCompanySite() {
               />
             ))}
           </div>
-
-          <div className="portfolio-cta">
-            <button type="button" className="btn btn-outline" onClick={openPortfolioModal}>
-              View Full Portfolio
-            </button>
-          </div>
         </section>
 
 
