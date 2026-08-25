@@ -66,18 +66,18 @@ export default function HeroCurvedShowcase() {
     // Single cycle duration: ~18s (noticeably faster ~1.45x, dynamic, fluid and cinematic)
     const SPEED = 1 / (18 * 1000);
 
-    // Track geometry parameters (scaled down ~12-14% for more compact, refined look)
+    // Track geometry parameters (compact, lightweight proportions matching reference)
     let containerWidth = container.clientWidth || window.innerWidth;
     let isMobile = containerWidth < 768;
     let isTablet = containerWidth >= 768 && containerWidth < 1024;
 
     let cardWidth = isMobile
-      ? Math.min(108, Math.max(90, Math.round(containerWidth * 0.25)))
+      ? Math.min(74, Math.max(60, Math.round(containerWidth * 0.18)))
       : isTablet
-      ? 112
-      : 126;
-    let curveDepth = isMobile ? 42 : isTablet ? 70 : 90;
-    let cardSpacing = isMobile ? Math.round(cardWidth * 0.96) : isTablet ? 124 : 144;
+      ? 76
+      : 84;
+    let curveDepth = isMobile ? 28 : isTablet ? 45 : 55;
+    let cardSpacing = isMobile ? Math.round(cardWidth * 1.06) : isTablet ? 86 : 96;
 
     const updateDimensions = () => {
       if (!container) return;
@@ -85,12 +85,12 @@ export default function HeroCurvedShowcase() {
       isMobile = containerWidth < 768;
       isTablet = containerWidth >= 768 && containerWidth < 1024;
       cardWidth = isMobile
-        ? Math.min(108, Math.max(90, Math.round(containerWidth * 0.25)))
+        ? Math.min(74, Math.max(60, Math.round(containerWidth * 0.18)))
         : isTablet
-        ? 112
-        : 126;
-      curveDepth = isMobile ? 42 : isTablet ? 70 : 90;
-      cardSpacing = isMobile ? Math.round(cardWidth * 0.96) : isTablet ? 124 : 144;
+        ? 76
+        : 84;
+      curveDepth = isMobile ? 28 : isTablet ? 45 : 55;
+      cardSpacing = isMobile ? Math.round(cardWidth * 1.06) : isTablet ? 86 : 96;
     };
 
     window.addEventListener("resize", updateDimensions, { passive: true });

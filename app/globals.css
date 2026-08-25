@@ -334,13 +334,13 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 .hero-curved-track-container {
   position: relative;
   width: 100%;
-  height: clamp(260px, 22vw, 320px);
+  height: clamp(170px, 14vw, 210px);
   overflow: hidden;
 }
 
 @media (max-width: 768px) {
   .hero-curved-track-container {
-    height: clamp(200px, 50vw, 245px);
+    height: clamp(130px, 32vw, 155px);
   }
 }
 
@@ -373,11 +373,11 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 }
 
 .hero-curved-card {
-  width: clamp(112px, 8.5vw, 130px);
+  width: clamp(72px, 6.2vw, 92px);
   aspect-ratio: 9 / 16;
-  border-radius: 14px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 25px rgba(229, 9, 20, 0.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), 0 0 20px rgba(229, 9, 20, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: #0d0d0e;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -387,8 +387,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
 @media (max-width: 768px) {
   .hero-curved-card {
-    width: clamp(90px, 25vw, 108px);
-    border-radius: 12px;
+    width: clamp(60px, 18vw, 76px);
+    border-radius: 8px;
   }
 }
 
