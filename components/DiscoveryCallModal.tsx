@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface DiscoveryCallModalProps {
   isOpen: boolean;
@@ -41,6 +42,8 @@ export default function DiscoveryCallModal({
   onClose,
   triggerRef,
 }: DiscoveryCallModalProps) {
+  const router = useRouter();
+
   // Form State
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -207,7 +210,7 @@ export default function DiscoveryCallModal({
 
     try {
       // 1. Submit via backend API (fast & server-logged)
-      await fetch("/api/discovery-call", {
+      const res = await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -221,8 +224,6 @@ export default function DiscoveryCallModal({
           monthlyRequirement: currentRequirement,
           source: "Website Book a Call Modal",
         }),
-      }).catch((err) => {
-        console.warn("API route non-blocking note:", err);
       });
 
       // 2. Client-side parallel fallback to Google Forms
@@ -246,12 +247,22 @@ export default function DiscoveryCallModal({
         },
         body: googleFormData.toString(),
       }).catch(() => {});
-    } catch (e) {
-      console.warn("Submit process handled:", e);
-    } finally {
-      // Instantly transition to confirmation screen
+
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
+
+      if (!res.ok || (data && data.success === false)) {
+        throw new Error(data?.message || "Failed to submit request");
+      }
+
+      // Verified successful submission:
       setIsSubmitting(false);
       setIsSuccess(true);
+      onClose();
 
       // Reset inputs
       setFullName("");
@@ -262,6 +273,13 @@ export default function DiscoveryCallModal({
       setWebsiteOrSocial("");
       setContentSolution("In-House Team");
       setMonthlyRequirement("11 - 30");
+
+      // Navigate to dedicated Thank You page
+      router.push("/thank-you");
+    } catch (e: any) {
+      console.warn("Submit process error:", e);
+      setIsSubmitting(false);
+      setErrorMessage(e?.message || "Something went wrong while submitting. Please try again.");
     }
   };
 

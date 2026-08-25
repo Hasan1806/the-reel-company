@@ -5580,3 +5580,346 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   -webkit-perspective: 1000px;
   perspective: 1000px;
 }
+
+/* ═══════════════════ THANK YOU PAGE ═══════════════════ */
+.thank-you-page-root {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background: #080808;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+}
+
+.thank-you-ambient-glow {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -25%);
+  width: min(720px, 92vw);
+  height: min(720px, 92vw);
+  background: radial-gradient(circle at center, rgba(224, 32, 32, 0.16) 0%, rgba(224, 32, 32, 0.04) 45%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.thank-you-ambient-mesh {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(22, 22, 28, 0.7) 0%, rgba(8, 8, 8, 0.98) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.thank-you-header {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.thank-you-main {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.thank-you-card {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Success Checkmark Element */
+.thank-you-icon-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(224, 32, 32, 0.1);
+  border: 1.5px solid rgba(224, 32, 32, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff3b3b;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 30px rgba(224, 32, 32, 0.35);
+  animation: thankYouIconPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.thank-you-icon-pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(224, 32, 32, 0.25);
+  animation: thankYouPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes thankYouIconPop {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes thankYouPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.12); opacity: 0.9; }
+}
+
+.thank-you-check-svg {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: thankYouCheckDraw 0.6s ease-out 0.2s forwards;
+}
+
+@keyframes thankYouCheckDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Eyebrow Badge */
+.thank-you-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(224, 32, 32, 0.16);
+  border: 1px solid rgba(224, 32, 32, 0.35);
+  color: #ff4a4a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.15rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1.25rem;
+}
+
+.thank-you-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  box-shadow: 0 0 8px #ff3b3b;
+}
+
+.thank-you-title {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 4.5vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+.thank-you-intro {
+  max-width: 580px;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.thank-you-founder-line {
+  font-size: clamp(1rem, 1.3vw, 1.12rem);
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.thank-you-p {
+  font-size: clamp(0.92rem, 1.15vw, 1rem);
+  color: rgba(240, 237, 232, 0.8);
+  line-height: 1.62;
+  margin: 0;
+}
+
+.thank-you-p-last {
+  color: rgba(240, 237, 232, 0.95);
+  font-weight: 500;
+}
+
+/* Contact Card */
+.thank-you-contact-box {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  padding: 1.5rem 1.75rem;
+  text-align: left;
+  margin-bottom: 2rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.thank-you-contact-heading {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.015em;
+}
+
+.thank-you-contact-desc {
+  font-size: 0.86rem;
+  color: rgba(240, 237, 232, 0.72);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.thank-you-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.thank-you-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.thank-you-contact-item:hover {
+  background: rgba(224, 32, 32, 0.1);
+  border-color: rgba(224, 32, 32, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.thank-you-contact-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(224, 32, 32, 0.18);
+  border: 1px solid rgba(224, 32, 32, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff3b3b;
+  flex-shrink: 0;
+}
+
+.thank-you-contact-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.thank-you-contact-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 600;
+}
+
+.thank-you-contact-val {
+  font-size: 0.88rem;
+  color: #ffffff;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Action Buttons */
+.thank-you-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.thank-you-btn-primary {
+  padding: 0.95rem 2.2rem;
+  font-size: 0.96rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.thank-you-btn-secondary {
+  padding: 0.95rem 2.2rem;
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.thank-you-closing {
+  font-size: 0.88rem;
+  color: rgba(240, 237, 232, 0.65);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.thank-you-footer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.82rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 640px) {
+  .thank-you-contact-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .thank-you-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .thank-you-actions .btn {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    justify-content: center;
+  }
+  .thank-you-contact-box {
+    padding: 1.25rem 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thank-you-icon-wrap,
+  .thank-you-icon-pulse,
+  .thank-you-check-svg {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
