@@ -40,15 +40,8 @@ export default function ReelCompanyHero({
         <div className="hero-action-buttons">
           <button
             type="button"
-            id="hero-view-portfolio-btn"
-            className="btn btn-outline hero-cta-btn"
-            onClick={(e) => handleAnchorClick(e as any, "#portfolio")}
-          >
-            View Portfolio
-          </button>
-          <button
-            type="button"
-            className="btn btn-red hero-cta-btn"
+            id="hero-book-call-btn"
+            className="btn btn-red hero-cta-btn hero-book-call-btn"
             onClick={openDiscoveryModal}
           >
             Book a Call

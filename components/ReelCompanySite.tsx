@@ -994,7 +994,6 @@ export default function ReelCompanySite() {
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
               <div className="footer-cta-buttons">
                 <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>
-                <button type="button" className="btn btn-outline" onClick={(e) => handleAnchorClick(e, '#portfolio')}>View Portfolio</button>
               </div>
             </div>
             <button className="back-to-top" id="back-to-top" aria-label="Back to top" onClick={handleBackToTop}>
