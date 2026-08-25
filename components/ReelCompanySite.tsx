@@ -1082,15 +1082,15 @@ export default function ReelCompanySite() {
               </h2>
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
 
-              {/* Custom Dark Luxury Quick Inquiry Form */}
-              <QuickInquiryPricingForm />
-
-              <div className="footer-cta-buttons" style={{ marginTop: "2rem" }}>
-                <p className="pricing-or-text">Prefer to schedule a detailed discovery call?</p>
-                <Link href="/contact" className="btn btn-outline pricing-sub-btn">
-                  Book a 1-on-1 Call
+              {/* 1. BIG & HIGHLIGHTED PRIMARY CTA BUTTON */}
+              <div className="footer-cta-buttons" style={{ marginBottom: "2.25rem" }}>
+                <Link href="/contact" className="btn btn-red btn-lg footer-primary-cta-btn">
+                  Book a Discovery Call
                 </Link>
               </div>
+
+              {/* 2. COMPACT & SUBTLE QUICK INQUIRY FORM */}
+              <QuickInquiryPricingForm />
             </div>
             <button className="back-to-top" id="back-to-top" aria-label="Back to top" onClick={handleBackToTop}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
