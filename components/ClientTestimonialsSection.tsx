@@ -89,7 +89,7 @@ const AUTO_SCROLL_SPEED = 28;
 export default function ClientTestimonialsSection() {
   const [activeInstanceKey, setActiveInstanceKey] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isInteracting, setIsInteracting] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -190,13 +190,22 @@ export default function ClientTestimonialsSection() {
         }
       }
 
-      // Activate and play new video
+      // Activate and play new video with volume by default
       setActiveInstanceKey(instanceKey);
       targetVideo.muted = isMuted;
       targetVideo.play().then(() => {
         setIsPlaying(true);
         pauseReasonsRef.current.videoPlaying = true;
       }).catch((err) => {
+        // Safe fallback in case browser policy restricts unmuted audio
+        if (!targetVideo.muted) {
+          targetVideo.muted = true;
+          setIsMuted(true);
+          targetVideo.play().then(() => {
+            setIsPlaying(true);
+            pauseReasonsRef.current.videoPlaying = true;
+          }).catch(() => {});
+        }
         console.warn("[Testimonial Video Play Error]", err);
       });
     }
