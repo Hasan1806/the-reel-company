@@ -1035,7 +1035,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ UGC PROCESS ═══════════════════════════ */}
         <UgcProcessSection />
 
-        {/* ═══════════════════════════════ COMPACT PRICING CALLOUT ═══════════════════════════ */}
+        {/* ═══════════════════════════════ COMPACT PRICING CALLOUT & DATA SUBMISSION ═══════════════════════════ */}
         <section className="pricing-callout-section" aria-label="Transparent Pricing">
           <div className="pricing-callout-container">
             <div className="pricing-callout-glow" aria-hidden="true"></div>
@@ -1050,10 +1050,35 @@ export default function ReelCompanySite() {
               <p className="pricing-callout-sub">
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
-              <div className="pricing-callout-cta-wrap" style={{ marginTop: "1.5rem" }}>
+
+              {/* Embedded Google Inquiry Form */}
+              <div className="pricing-form-embed-wrapper">
+                <div className="pricing-form-header">
+                  <span className="pricing-form-tag">DIRECT INQUIRY</span>
+                  <p className="pricing-form-hint">Enter your Phone Number &amp; Email below to submit your details directly:</p>
+                </div>
+                <div className="pricing-iframe-box">
+                  <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSd7n5N3QLp44MfEaSqq34sk3K6hnTLGzMWkoyEeFs_nwgKgTg/viewform?embedded=true"
+                    width="640"
+                    height="556"
+                    frameBorder="0"
+                    marginHeight={0}
+                    marginWidth={0}
+                    title="Quick Inquiry Form"
+                    className="pricing-google-iframe"
+                    loading="lazy"
+                  >
+                    Loading form…
+                  </iframe>
+                </div>
+              </div>
+
+              <div className="pricing-callout-cta-wrap" style={{ marginTop: "2rem" }}>
+                <p className="pricing-or-text">Need a full custom proposal?</p>
                 <Link
                   href="/contact"
-                  className="btn btn-red"
+                  className="btn btn-outline pricing-sub-btn"
                 >
                   Book a Discovery Call
                 </Link>
