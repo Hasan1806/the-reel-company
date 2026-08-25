@@ -48,9 +48,9 @@ function LazyPortfolioCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
-  // Sync mute state when another portfolio card is unmuted
+  // Sync mute state: when another card in this portfolio grid is unmuted, this card becomes muted
   useEffect(() => {
     if (activeAudioIndex !== null && activeAudioIndex !== index) {
       if (videoRef.current && !videoRef.current.muted) {
@@ -60,7 +60,7 @@ function LazyPortfolioCard({
     }
   }, [activeAudioIndex, index]);
 
-  // Viewport-aware autoplay & pause
+  // Viewport-aware autoplay: starts muted by default without restarting or interrupting playback position
   useEffect(() => {
     const el = cardRef.current;
     const vid = videoRef.current;
@@ -71,7 +71,8 @@ function LazyPortfolioCard({
         setIsInView(entry.isIntersecting);
         if (vid) {
           if (entry.isIntersecting) {
-            // Attempt autoplay with sound if permitted
+            // Autoplay silently in MUTE mode by default
+            vid.defaultMuted = true;
             vid.muted = isMuted;
             const playPromise = vid.play();
             if (playPromise !== undefined) {
@@ -80,12 +81,10 @@ function LazyPortfolioCard({
                   setIsPlaying(true);
                 })
                 .catch(() => {
-                  // Fallback: If browser policy restricts unmuted autoplay, play muted
-                  if (!vid.muted) {
-                    vid.muted = true;
-                    setIsMuted(true);
-                    vid.play().then(() => setIsPlaying(true)).catch(() => {});
-                  }
+                  // Fallback safe muted play
+                  vid.muted = true;
+                  setIsMuted(true);
+                  vid.play().then(() => setIsPlaying(true)).catch(() => {});
                 });
             }
           } else {
@@ -102,7 +101,7 @@ function LazyPortfolioCard({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [isMuted]);
+  }, [video.src]);
 
   // Play / Pause toggle
   const handleTogglePlay = (e?: React.MouseEvent) => {
@@ -130,29 +129,44 @@ function LazyPortfolioCard({
     const vid = videoRef.current;
     if (!vid) return;
 
-    const nextMuted = !isMuted;
-    vid.muted = nextMuted;
-    setIsMuted(nextMuted);
-
-    if (!nextMuted) {
+    if (isMuted || vid.muted) {
+      // Unmute: sound ON from current playback position (no restart)
+      vid.muted = false;
+      setIsMuted(false);
       onSetActiveAudio(index);
-    } else if (activeAudioIndex === index) {
-      onSetActiveAudio(null);
+      if (vid.paused) {
+        vid.play().catch(() => {});
+      }
+    } else {
+      // Mute: audio OFF, continues playing
+      vid.muted = true;
+      setIsMuted(true);
+      if (activeAudioIndex === index) {
+        onSetActiveAudio(null);
+      }
     }
   };
 
-  // Card click interaction
+  // Card click interaction: clicking the video unmutes this exact video from its current position
   const handleCardClick = () => {
     const vid = videoRef.current;
     if (!vid) return;
 
-    // If card was playing muted due to browser policy, unmute on first click
-    if (vid.muted && isPlaying) {
+    if (isMuted || vid.muted) {
+      // Unmute and continue playing seamlessly from CURRENT timestamp
       vid.muted = false;
       setIsMuted(false);
       onSetActiveAudio(index);
+      if (vid.paused) {
+        vid.play().then(() => setIsPlaying(true)).catch(() => {});
+      }
     } else {
-      handleTogglePlay();
+      // If already unmuted and playing, clicking the video toggles audio off while continuing playback
+      vid.muted = true;
+      setIsMuted(true);
+      if (activeAudioIndex === index) {
+        onSetActiveAudio(null);
+      }
     }
   };
 
@@ -181,6 +195,11 @@ function LazyPortfolioCard({
         src={isInView ? video.src : undefined}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onVolumeChange={() => {
+          if (videoRef.current) {
+            setIsMuted(videoRef.current.muted);
+          }
+        }}
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
 
