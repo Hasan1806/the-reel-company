@@ -3885,14 +3885,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     padding: 0.95rem 1.5rem;
   }
 }
-  .pricing-pill-tags {
-    gap: 0.5rem;
-  }
-  .pricing-pill {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.85rem;
-  }
-}
 
 /* ════════════════ EDITORIAL MARQUEE SECTION ════════════════ */
 .editorial-marquee-section {
