@@ -113,7 +113,7 @@ export async function POST(request: Request) {
     googleFormData.append("entry.982760340", googleSolutionValue);
     googleFormData.append("entry.1194319614", googleRequirementValue);
 
-    // Fire Google Form submission asynchronously so response is instant
+    // Forward to Google Forms asynchronously with safety timeout (Google Forms writes cleanly to the linked Sheet)
     fetch(GOOGLE_FORM_ACTION_URL, {
       method: "POST",
       headers: {
@@ -125,17 +125,10 @@ export async function POST(request: Request) {
       console.warn("Google Form forwarding non-blocking note:", gErr?.message || gErr);
     });
 
-    // 2. Also forward to Google Sheet Webhook if configured
-    const SHEET_WEBHOOK_URL =
-      "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec";
-    const googleSheetUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL;
-    const googleSheetSecret =
-      process.env.GOOGLE_SHEET_SECRET ||
-      "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm";
-
-    if (googleSheetUrl) {
+    // If explicit separate webhook is configured in environment, use it; otherwise do not duplicate
+    if (process.env.GOOGLE_SHEET_WEBHOOK_URL) {
       const payload = {
-        secret: googleSheetSecret,
+        secret: process.env.GOOGLE_SHEET_SECRET || "",
         fullName: cleanFullName,
         name: cleanFullName,
         phoneNumber: cleanPhone,
@@ -154,7 +147,7 @@ export async function POST(request: Request) {
         timestamp,
       };
 
-      fetch(googleSheetUrl, {
+      fetch(process.env.GOOGLE_SHEET_WEBHOOK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
@@ -168,7 +161,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Discovery call booked successfully",
+      message: "Response Submitted",
       leadId: `lead_${Date.now()}`,
     });
   } catch (error) {

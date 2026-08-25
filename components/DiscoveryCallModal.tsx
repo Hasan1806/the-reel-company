@@ -142,6 +142,7 @@ export default function DiscoveryCallModal({
 
   const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
     if (e) e.preventDefault();
+    if (isSubmitting) return;
 
     const cleanFullName = fullName.trim();
     const cleanPhone = phoneNumber.trim();
@@ -200,16 +201,8 @@ export default function DiscoveryCallModal({
       requirement: currentRequirement,
     });
 
-    const googleSolutionValue =
-      CONTENT_SOLUTION_OPTIONS.find((opt) => opt.label === currentSolution)
-        ?.googleValue || "In House Team";
-
-    const googleRequirementValue =
-      MONTHLY_REQUIREMENT_OPTIONS.find((opt) => opt.label === currentRequirement)
-        ?.googleValue || "20-50";
-
     try {
-      // 1. Submit via backend API (fast & server-logged)
+      // 1. Submit via backend API (fast single dispatch & server-logged)
       const res = await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -226,28 +219,6 @@ export default function DiscoveryCallModal({
         }),
       });
 
-      // 2. Client-side parallel fallback to Google Forms
-      const googleFormData = new URLSearchParams();
-      googleFormData.append("entry.1936983498", cleanFullName);
-      googleFormData.append("entry.203780078", cleanPhone);
-      googleFormData.append("entry.979876141", cleanEmail);
-      googleFormData.append("entry.897870888", cleanBrand);
-      googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb || "N/A"}` : (cleanWeb || "N/A"));
-      googleFormData.append("entry.793890874", cleanWeb || "N/A");
-      googleFormData.append("entry.1916628574", googleSolutionValue);
-      googleFormData.append("entry.1949108106", googleSolutionValue);
-      googleFormData.append("entry.982760340", googleSolutionValue);
-      googleFormData.append("entry.1194319614", googleRequirementValue);
-
-      fetch(GOOGLE_FORM_ACTION_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: googleFormData.toString(),
-      }).catch(() => {});
-
       let data: any = {};
       try {
         data = await res.json();
@@ -262,7 +233,6 @@ export default function DiscoveryCallModal({
       // Verified successful submission:
       setIsSubmitting(false);
       setIsSuccess(true);
-      onClose();
 
       // Reset inputs
       setFullName("");
@@ -274,8 +244,11 @@ export default function DiscoveryCallModal({
       setContentSolution("In-House Team");
       setMonthlyRequirement("11 - 30");
 
-      // Navigate to dedicated Thank You page
-      router.push("/thank-you");
+      // Show "Response Submitted" with right checkmark, then smoothly navigate to /thank-you
+      setTimeout(() => {
+        onClose();
+        router.push("/thank-you");
+      }, 1200);
     } catch (e: any) {
       console.warn("Submit process error:", e);
       setIsSubmitting(false);
@@ -692,7 +665,6 @@ export default function DiscoveryCallModal({
                 type="submit"
                 className="btn btn-red discovery-modal-submit-btn"
                 disabled={isSubmitting}
-                onClick={handleSubmit}
               >
                 {isSubmitting ? (
                   <>
@@ -727,31 +699,33 @@ export default function DiscoveryCallModal({
         ) : (
           /* Success Screen */
           <div className="discovery-success-wrap">
-            <div className="discovery-success-icon">
+            <div className="discovery-success-icon" aria-hidden="true">
               <svg
-                width="34"
-                height="34"
+                width="36"
+                height="36"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2.5"
+                strokeWidth="2.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h3 className="discovery-success-title">Discovery Call Requested!</h3>
+            <h3 className="discovery-success-title">Response Submitted</h3>
             <p className="discovery-success-msg">
-              Thank you, <strong style={{ color: "#fff" }}>{submittedData.name || "there"}</strong>! We&apos;ve received your discovery call request for{" "}
-              <strong style={{ color: "#fff" }}>{submittedData.brand || "your brand"}</strong> ({submittedData.requirement} content pieces/mo). Our production team will connect with you shortly via phone &amp; email.
+              Thank you, <strong style={{ color: "#fff" }}>{submittedData.name || "there"}</strong>! We&apos;ve received your request. Redirecting you to the confirmation page...
             </p>
             <button
               type="button"
               className="btn btn-red discovery-success-btn"
-              onClick={handleClose}
+              onClick={() => {
+                onClose();
+                router.push("/thank-you");
+              }}
             >
-              Done
+              Continue
             </button>
           </div>
         )}
