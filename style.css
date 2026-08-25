@@ -3651,33 +3651,35 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   color: #ffffff;
 }
 
-/* Embedded Form in Pricing Card */
-.pricing-form-embed-wrapper {
+/* Quick Inquiry Custom Form */
+.quick-inquiry-box {
   width: 100%;
-  max-width: 640px;
-  margin: 1.5rem auto 0;
-  background: rgba(10, 10, 12, 0.85);
+  max-width: 580px;
+  margin: 1.75rem auto 0;
+  background: rgba(12, 12, 15, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 25px rgba(229, 9, 20, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(229, 9, 20, 0.08);
+  text-align: left;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.pricing-form-embed-wrapper:hover {
-  border-color: rgba(229, 9, 20, 0.3);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 35px rgba(229, 9, 20, 0.12);
+.quick-inquiry-box:hover {
+  border-color: rgba(229, 9, 20, 0.35);
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.7), 0 0 40px rgba(229, 9, 20, 0.15);
 }
 
-.pricing-form-header {
-  padding: 1.15rem 1.25rem 0.85rem;
+.quick-inquiry-header {
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(255, 255, 255, 0.02);
+  margin-bottom: 1.5rem;
 }
 
-.pricing-form-tag {
-  display: inline-block;
+.quick-inquiry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   font-family: var(--font-head);
   font-size: 0.7rem;
   font-weight: 700;
@@ -3685,32 +3687,174 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   color: #ff5c5c;
   background: rgba(229, 9, 20, 0.12);
   border: 1px solid rgba(229, 9, 20, 0.3);
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.85rem;
   border-radius: 999px;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
-.pricing-form-hint {
+.quick-inquiry-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e50914;
+  box-shadow: 0 0 8px #e50914;
+}
+
+.quick-inquiry-title {
+  font-family: var(--font-head);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
+}
+
+.quick-inquiry-sub {
   font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #94a3b8;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-.pricing-iframe-box {
+.quick-inquiry-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(229, 9, 20, 0.15);
+  border: 1px solid rgba(229, 9, 20, 0.4);
+  color: #ff8080;
+  font-size: 0.84rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.quick-inquiry-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  margin-bottom: 1.4rem;
+}
+
+.quick-inquiry-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.quick-inquiry-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.02em;
+}
+
+.quick-req {
+  color: #ff4d4d;
+}
+
+.quick-inquiry-input-wrap {
   position: relative;
-  width: 100%;
-  overflow: hidden;
-  background: #ffffff;
-  border-radius: 0 0 17px 17px;
+  display: flex;
+  align-items: center;
 }
 
-.pricing-google-iframe {
+.quick-input-icon {
+  position: absolute;
+  left: 1rem;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.quick-inquiry-input {
   width: 100%;
-  min-height: 556px;
-  border: none;
-  display: block;
-  background: #ffffff;
+  padding: 0.85rem 1rem 0.85rem 2.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.quick-inquiry-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.quick-inquiry-input:focus {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: #e50914;
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+}
+
+.quick-inquiry-submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* Success State */
+.quick-inquiry-success {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.quick-success-icon-wrap {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1.1rem;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.25);
+}
+
+.quick-success-title {
+  font-family: var(--font-head);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.quick-success-text {
+  font-size: 0.92rem;
+  color: #94a3b8;
+  max-width: 40ch;
+  margin: 0 auto 1.5rem;
+  line-height: 1.55;
+}
+
+.quick-success-reset-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-success-reset-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .pricing-or-text {
@@ -3732,18 +3876,24 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
     padding: 2rem 1.15rem;
     border-radius: 20px;
   }
-  .pricing-form-embed-wrapper {
+  .quick-inquiry-box {
+    padding: 1.4rem 1.15rem;
     margin: 1.25rem auto 0;
-    border-radius: 14px;
+    border-radius: 16px;
   }
-  .pricing-form-header {
-    padding: 1rem 0.75rem 0.65rem;
+  .quick-inquiry-title {
+    font-size: 1.1rem;
   }
-  .pricing-form-hint {
+  .quick-inquiry-sub {
     font-size: 0.82rem;
   }
-  .pricing-google-iframe {
-    min-height: 580px;
+  .quick-inquiry-input {
+    font-size: 1rem;
+    padding: 0.8rem 0.9rem 0.8rem 2.6rem;
+  }
+  .quick-inquiry-submit-btn {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.92rem;
   }
   .pricing-pill-tags {
     gap: 0.5rem;

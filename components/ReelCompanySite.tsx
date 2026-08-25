@@ -11,6 +11,7 @@ import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
 import ClientTestimonialsSection from './ClientTestimonialsSection';
+import QuickInquiryPricingForm from './QuickInquiryPricingForm';
 import { ASSETS } from '@/config/assets';
 
 interface PortfolioVideoItem {
@@ -1051,28 +1052,8 @@ export default function ReelCompanySite() {
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
 
-              {/* Embedded Google Inquiry Form */}
-              <div className="pricing-form-embed-wrapper">
-                <div className="pricing-form-header">
-                  <span className="pricing-form-tag">DIRECT INQUIRY</span>
-                  <p className="pricing-form-hint">Enter your Phone Number &amp; Email below to submit your details directly:</p>
-                </div>
-                <div className="pricing-iframe-box">
-                  <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSd7n5N3QLp44MfEaSqq34sk3K6hnTLGzMWkoyEeFs_nwgKgTg/viewform?embedded=true"
-                    width="640"
-                    height="556"
-                    frameBorder="0"
-                    marginHeight={0}
-                    marginWidth={0}
-                    title="Quick Inquiry Form"
-                    className="pricing-google-iframe"
-                    loading="lazy"
-                  >
-                    Loading form…
-                  </iframe>
-                </div>
-              </div>
+              {/* Custom Dark Luxury Quick Inquiry Form */}
+              <QuickInquiryPricingForm />
 
               <div className="pricing-callout-cta-wrap" style={{ marginTop: "2rem" }}>
                 <p className="pricing-or-text">Need a full custom proposal?</p>
