@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
             id="header-cta-btn"
             suppressHydrationWarning
           >
-            Book a Call
+            Book a Discovery Call
           </Link>
           <button
             className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
@@ -99,7 +99,7 @@ export default function PrivacyPolicyPage() {
               className="btn btn-red mobile-nav-cta"
               onClick={closeMobileMenu}
             >
-              Book a Call
+              Book a Discovery Call
             </Link>
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function PrivacyPolicyPage() {
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
-                Book a Call
+                Book a Discovery Call
               </Link>
               <Link href="/#portfolio">
                 Portfolio Access

@@ -154,7 +154,7 @@ export default function DiscoveryCallForm() {
       <div className="discovery-modal-header">
         <div className="discovery-modal-badge">
           <span className="discovery-modal-dot" aria-hidden="true" />
-          <span>BOOK A CALL</span>
+          <span>Book a Discovery Call</span>
         </div>
       </div>
 

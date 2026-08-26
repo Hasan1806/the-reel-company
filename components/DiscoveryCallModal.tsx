@@ -215,7 +215,7 @@ export default function DiscoveryCallModal({
           websiteOrSocial: cleanWeb,
           contentSolution: currentSolution,
           monthlyRequirement: currentRequirement,
-          source: "Website Book a Call Modal",
+          source: "Website Book a Discovery Call Modal",
         }),
       });
 
@@ -254,14 +254,14 @@ export default function DiscoveryCallModal({
         className="discovery-modal-card"
         role="dialog"
         aria-modal="true"
-        aria-label="Book a Call"
+        aria-label="Book a Discovery Call"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Control Bar */}
         <div className="discovery-modal-header">
           <div className="discovery-modal-badge">
             <span className="discovery-modal-dot" aria-hidden="true" />
-            <span>BOOK A CALL</span>
+            <span>Book a Discovery Call</span>
           </div>
 
           <button

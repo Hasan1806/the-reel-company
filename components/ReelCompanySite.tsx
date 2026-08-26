@@ -761,7 +761,7 @@ export default function ReelCompanySite() {
             <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
           <Link href="/contact" className="btn btn-red header-cta" id="header-cta-btn" suppressHydrationWarning>
-            Book a Call
+            Book a Discovery Call
           </Link>
           <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu} suppressHydrationWarning>
             <span></span><span></span><span></span>
@@ -781,7 +781,7 @@ export default function ReelCompanySite() {
             <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Terms &amp; Conditions</Link>
-            <Link href="/contact" className="btn btn-red mobile-nav-cta" onClick={closeMobileMenu} suppressHydrationWarning>Book a Call</Link>
+            <Link href="/contact" className="btn btn-red mobile-nav-cta" onClick={closeMobileMenu} suppressHydrationWarning>Book a Discovery Call</Link>
           </div>
         </div>
       </header>
@@ -1141,7 +1141,7 @@ export default function ReelCompanySite() {
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
-                Book a Call
+                Book a Discovery Call
               </Link>
               <button 
                 type="button" 

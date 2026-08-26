@@ -5396,7 +5396,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   }
 }
 
-/* ════════════════ BOOK A CALL (DISCOVERY MODAL) ════════════════ */
+/* ════════════════ Book a Discovery Call (DISCOVERY MODAL) ════════════════ */
 .discovery-modal-backdrop {
   position: fixed;
   inset: 0;

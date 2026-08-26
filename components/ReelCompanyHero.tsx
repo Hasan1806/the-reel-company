@@ -52,7 +52,7 @@ export default function ReelCompanyHero({
             id="hero-book-call-btn"
             className="btn btn-red hero-cta-btn hero-book-call-btn"
           >
-            Book a Call
+            Book a Discovery Call
           </Link>
         </div>
       </div>
