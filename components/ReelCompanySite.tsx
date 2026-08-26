@@ -7,6 +7,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import ReelCompanyHero from './ReelCompanyHero';
 import DiscoveryCallModal from './DiscoveryCallModal';
 import PortfolioAccessModal from './PortfolioAccessModal';
+import QueryModal from './QueryModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
@@ -282,6 +283,19 @@ export default function ReelCompanySite() {
 
   const closeDiscoveryModal = () => {
     setDiscoveryModalOpen(false);
+  };
+
+  // Query Modal state
+  const [queryModalOpen, setQueryModalOpen] = useState(false);
+  const openQueryModal = (e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (e) {
+      e.preventDefault();
+      lastActiveCtaRef.current = e.currentTarget;
+    }
+    setQueryModalOpen(true);
+  };
+  const closeQueryModal = () => {
+    setQueryModalOpen(false);
   };
 
   // Portfolio Access Modal state
@@ -813,8 +827,9 @@ export default function ReelCompanySite() {
                     One team, one seamless workflow, 2x faster execution, and up to 50% lower costs than traditional agencies.
                   </p>
                 </div>
-                <div className="hero-ctas">
+                <div className="hero-ctas" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                   <Link href="/contact" className="btn btn-red">Book a Discovery Call</Link>
+                  <button type="button" className="btn" style={{ background: '#222', border: '1px solid #444', color: '#fff' }} onClick={openQueryModal}>Raise a Query</button>
                 </div>
               </div>
 
@@ -1081,12 +1096,12 @@ export default function ReelCompanySite() {
                 <span className="footer-cta-line">Bigger Team?</span>
               </h2>
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
-
               {/* 1. BIG & HIGHLIGHTED PRIMARY CTA BUTTON */}
-              <div className="footer-cta-buttons" style={{ marginBottom: "2.25rem" }}>
+              <div className="footer-cta-buttons" style={{ marginBottom: "2.25rem", display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Link href="/contact" className="btn btn-red btn-lg footer-primary-cta-btn">
                   Book a Discovery Call
                 </Link>
+                <button type="button" className="btn btn-lg" style={{ background: '#222', border: '1px solid #444', color: '#fff' }} onClick={openQueryModal}>Raise a Query</button>
               </div>
 
               {/* 2. COMPACT & SUBTLE QUICK INQUIRY FORM */}
@@ -1228,6 +1243,13 @@ export default function ReelCompanySite() {
       <PortfolioAccessModal
         isOpen={portfolioModalOpen}
         onClose={closePortfolioModal}
+      />
+
+      {/* Query Modal */}
+      <QueryModal
+        isOpen={queryModalOpen}
+        onClose={closeQueryModal}
+        triggerRef={lastActiveCtaRef}
       />
     </>
   );

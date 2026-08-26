@@ -363,11 +363,9 @@ export default function DiscoveryCallForm() {
                     <circle cx="8.5" cy="7" r="4" />
                     <polyline points="17 11 19 13 23 9" />
                   </svg>
-                  <input
+                  <select
                     id="contact-role"
-                    type="text"
                     className={`discovery-modal-input ${fieldErrors.role ? "is-error" : ""}`}
-                    placeholder="e.g. Founder, Marketing Head"
                     value={role}
                     onChange={(e) => {
                       setRole(e.target.value);
@@ -375,23 +373,14 @@ export default function DiscoveryCallForm() {
                     }}
                     required
                     disabled={isSubmitting}
-                  />
-                </div>
-                {/* Quick role selection chips */}
-                <div className="discovery-role-pills">
-                  {COMMON_ROLES.map((r) => (
-                    <button
-                      key={r}
-                      type="button"
-                      className={`discovery-role-pill ${role === r ? "is-active" : ""}`}
-                      onClick={() => {
-                        setRole(r);
-                        if (fieldErrors.role) setFieldErrors({ ...fieldErrors, role: false });
-                      }}
-                    >
-                      {r}
-                    </button>
-                  ))}
+                  >
+                    <option value="" disabled>Select your role</option>
+                    {COMMON_ROLES.map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -432,73 +421,57 @@ export default function DiscoveryCallForm() {
               </div>
             </div>
 
-            {/* Row 5: How are you currently solving your content problem? (MCQ) */}
-            <div className="discovery-mcq-container">
-              <label className="discovery-input-label">
+            {/* Row 5: How are you currently solving your content problem? (Dropdown) */}
+            <div className="discovery-input-group">
+              <label className="discovery-input-label" htmlFor="contact-content-solution">
                 How are you currently solving your content problem? <span className="req-star">*</span>
               </label>
               <p className="discovery-input-desc">
                 Choose the option that best describes how your content is handled today.
               </p>
-              <div
-                className="discovery-mcq-grid"
-                role="radiogroup"
-                aria-label="How content is currently handled"
-              >
-                {CONTENT_SOLUTION_OPTIONS.map((opt) => {
-                  const isSelected = contentSolution === opt.label;
-                  return (
-                    <button
-                      key={opt.label}
-                      type="button"
-                      role="radio"
-                      aria-checked={isSelected}
-                      className={`discovery-mcq-pill ${isSelected ? "is-selected" : ""}`}
-                      onClick={() => setContentSolution(opt.label)}
-                      disabled={isSubmitting}
-                    >
-                      <span className="discovery-mcq-radio-dot">
-                        {isSelected && <span className="discovery-mcq-inner-dot" />}
-                      </span>
-                      <span className="discovery-mcq-text">{opt.label}</span>
-                    </button>
-                  );
-                })}
+              <div className="discovery-input-wrapper">
+                <select
+                  id="contact-content-solution"
+                  className="discovery-modal-input no-icon"
+                  value={contentSolution}
+                  onChange={(e) => setContentSolution(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                >
+                  <option value="" disabled>Select an option</option>
+                  {CONTENT_SOLUTION_OPTIONS.map((opt) => (
+                    <option key={opt.label} value={opt.label}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
-            {/* Row 6: Expected Monthly Content Requirement (MCQ) */}
-            <div className="discovery-mcq-container">
-              <label className="discovery-input-label">
+            {/* Row 6: Expected Monthly Content Requirement (Dropdown) */}
+            <div className="discovery-input-group">
+              <label className="discovery-input-label" htmlFor="contact-monthly-requirement">
                 Expected Monthly Content Requirement <span className="req-star">*</span>
               </label>
               <p className="discovery-input-desc">
                 How many content pieces do you expect per month (e.g., reels/posts/shorts)?
               </p>
-              <div
-                className="discovery-mcq-grid"
-                role="radiogroup"
-                aria-label="Expected monthly content requirement"
-              >
-                {MONTHLY_REQUIREMENT_OPTIONS.map((opt) => {
-                  const isSelected = monthlyRequirement === opt.label;
-                  return (
-                    <button
-                      key={opt.label}
-                      type="button"
-                      role="radio"
-                      aria-checked={isSelected}
-                      className={`discovery-mcq-pill ${isSelected ? "is-selected" : ""}`}
-                      onClick={() => setMonthlyRequirement(opt.label)}
-                      disabled={isSubmitting}
-                    >
-                      <span className="discovery-mcq-radio-dot">
-                        {isSelected && <span className="discovery-mcq-inner-dot" />}
-                      </span>
-                      <span className="discovery-mcq-text">{opt.label}</span>
-                    </button>
-                  );
-                })}
+              <div className="discovery-input-wrapper">
+                <select
+                  id="contact-monthly-requirement"
+                  className="discovery-modal-input no-icon"
+                  value={monthlyRequirement}
+                  onChange={(e) => setMonthlyRequirement(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                >
+                  <option value="" disabled>Select an option</option>
+                  {MONTHLY_REQUIREMENT_OPTIONS.map((opt) => (
+                    <option key={opt.label} value={opt.label}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
