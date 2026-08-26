@@ -12,86 +12,45 @@ import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
 import ClientTestimonialsSection from './ClientTestimonialsSection';
-import QuickInquiryPricingForm from './QuickInquiryPricingForm';
 import { ASSETS } from '@/config/assets';
 
-interface PortfolioVideoItem {
-  id?: string;
+interface VideoItem {
   src: string;
   poster?: string;
-  type?: string;
   label: string;
 }
 
-const VIDEOS: PortfolioVideoItem[] = ASSETS.videos.portfolio.map((item) => ({
-  id: item.id,
-  src: item.src,
-  poster: item.poster,
-  type: item.type,
-  label: item.label,
-}));
+const VIDEOS: VideoItem[] = [
+  ...ASSETS.videos.portfolio.map(item => ({ src: item.src, poster: item.poster, label: item.label })),
+  { src: '', label: 'Creative in Production' },
+  { src: '', label: 'Brand Campaign in Production' },
+  { src: '', label: 'Performance Ad in Production' },
+  { src: '', label: 'Creator Story in Production' },
+];
 
 interface LazyPortfolioCardProps {
-  video: PortfolioVideoItem;
+  video: VideoItem;
   index: number;
   isMobile?: boolean;
-  activeAudioIndex: number | null;
-  onSetActiveAudio: (index: number | null) => void;
 }
 
-function LazyPortfolioCard({
-  video,
-  index,
-  isMobile,
-  activeAudioIndex,
-  onSetActiveAudio,
-}: LazyPortfolioCardProps) {
+function LazyPortfolioCard({ video, index, isMobile }: LazyPortfolioCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
 
-  // Sync mute state: when another card in this portfolio grid is unmuted, this card becomes muted
-  useEffect(() => {
-    if (activeAudioIndex !== null && activeAudioIndex !== index) {
-      if (videoRef.current && !videoRef.current.muted) {
-        videoRef.current.muted = true;
-      }
-      setIsMuted(true);
-    }
-  }, [activeAudioIndex, index]);
-
-  // Viewport-aware autoplay: starts muted by default without restarting or interrupting playback position
   useEffect(() => {
     const el = cardRef.current;
-    const vid = videoRef.current;
     if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
-        if (vid) {
+        if (videoRef.current) {
           if (entry.isIntersecting) {
-            // Autoplay silently in MUTE mode by default
-            vid.defaultMuted = true;
-            vid.muted = isMuted;
-            const playPromise = vid.play();
-            if (playPromise !== undefined) {
-              playPromise
-                .then(() => {
-                  setIsPlaying(true);
-                })
-                .catch(() => {
-                  // Fallback safe muted play
-                  vid.muted = true;
-                  setIsMuted(true);
-                  vid.play().then(() => setIsPlaying(true)).catch(() => {});
-                });
-            }
+            videoRef.current.play().catch(() => {});
           } else {
-            vid.pause();
-            setIsPlaying(false);
+            videoRef.current.pause();
           }
         }
       },
@@ -103,160 +62,42 @@ function LazyPortfolioCard({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [video.src]);
-
-  // Play / Pause toggle
-  const handleTogglePlay = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    const vid = videoRef.current;
-    if (!vid) return;
-
-    if (vid.paused) {
-      vid.play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          vid.muted = true;
-          setIsMuted(true);
-          vid.play().then(() => setIsPlaying(true)).catch(() => {});
-        });
-    } else {
-      vid.pause();
-      setIsPlaying(false);
-    }
-  };
-
-  // Mute / Unmute toggle
-  const handleToggleMute = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    const vid = videoRef.current;
-    if (!vid) return;
-
-    if (isMuted || vid.muted) {
-      // Unmute: sound ON from current playback position (no restart)
-      vid.muted = false;
-      setIsMuted(false);
-      onSetActiveAudio(index);
-      if (vid.paused) {
-        vid.play().catch(() => {});
-      }
-    } else {
-      // Mute: audio OFF, continues playing
-      vid.muted = true;
-      setIsMuted(true);
-      if (activeAudioIndex === index) {
-        onSetActiveAudio(null);
-      }
-    }
-  };
-
-  // Card click interaction: clicking the video unmutes this exact video from its current position
-  const handleCardClick = () => {
-    const vid = videoRef.current;
-    if (!vid) return;
-
-    if (isMuted || vid.muted) {
-      // Unmute and continue playing seamlessly from CURRENT timestamp
-      vid.muted = false;
-      setIsMuted(false);
-      onSetActiveAudio(index);
-      if (vid.paused) {
-        vid.play().then(() => setIsPlaying(true)).catch(() => {});
-      }
-    } else {
-      // If already unmuted and playing, clicking the video toggles audio off while continuing playback
-      vid.muted = true;
-      setIsMuted(true);
-      if (activeAudioIndex === index) {
-        onSetActiveAudio(null);
-      }
-    }
-  };
+  }, []);
 
   return (
     <div
       ref={cardRef}
-      className={`video-card ${!isPlaying ? 'is-paused' : 'is-playing'}`}
+      className={`video-card ${!video.src ? 'empty-slot' : ''}`}
       data-index={index}
-      onClick={handleCardClick}
-      role="region"
-      aria-label={`Portfolio video ${index + 1}`}
     >
       <div className="video-card-top-bar" style={{ justifyContent: 'flex-end' }}>
         <span className="video-index-tag">{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
       </div>
 
-      <video
-        ref={videoRef}
-        playsInline
-        loop
-        autoPlay
-        muted={isMuted}
-        preload={isInView ? "metadata" : "none"}
-        poster={video.poster}
-        aria-label={video.label}
-        src={isInView ? video.src : undefined}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onVolumeChange={() => {
-          if (videoRef.current) {
-            setIsMuted(videoRef.current.muted);
-          }
-        }}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
-
-      {/* Center Play Icon when paused */}
-      {!isPlaying && (
-        <div className="portfolio-center-play-overlay" aria-hidden="true">
-          <div className="portfolio-center-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: "2px" }}>
-              <path d="M8 5v14l11-7z" />
+      {video.src ? (
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          loop
+          preload={isInView ? "metadata" : "none"}
+          poster={video.poster}
+          aria-label={video.label}
+          src={isInView ? video.src : undefined}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      ) : (
+        <div className="empty-slot-content">
+          <div className="empty-slot-icon-wrap">
+            <svg width={isMobile ? "24" : "26"} height={isMobile ? "24" : "26"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
             </svg>
           </div>
+          <div className="empty-slot-label">{video.label}</div>
+          <span className="empty-slot-sub">{isMobile ? '✦ Slot Reserved' : '✦ Creative Slot Reserved'}</span>
         </div>
       )}
-
-      {/* Video Controls Bar */}
-      <div className="portfolio-card-controls-bar">
-        {/* Play/Pause Button */}
-        <button
-          type="button"
-          className="portfolio-control-btn portfolio-play-btn"
-          onClick={handleTogglePlay}
-          aria-label={isPlaying ? "Pause video" : "Play video"}
-        >
-          {isPlaying ? (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-            </svg>
-          ) : (
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: "1.5px" }}>
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          )}
-        </button>
-
-        {/* Mute/Unmute Button */}
-        <button
-          type="button"
-          className="portfolio-control-btn portfolio-mute-btn"
-          onClick={handleToggleMute}
-          aria-label={isMuted ? "Unmute video" : "Mute video"}
-        >
-          {isMuted ? (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-          )}
-        </button>
-      </div>
     </div>
   );
 }
@@ -268,7 +109,6 @@ export default function ReelCompanySite() {
   const [heroVideoName, setHeroVideoName] = useState('CN-Outro-Animation.mp4');
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
-  const [activePortfolioAudioIndex, setActivePortfolioAudioIndex] = useState<number | null>(null);
   // Discovery Call Modal state
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const lastActiveCtaRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
@@ -284,7 +124,6 @@ export default function ReelCompanySite() {
   const closeDiscoveryModal = () => {
     setDiscoveryModalOpen(false);
   };
-
 
   // Portfolio Access Modal state
   const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
@@ -637,7 +476,82 @@ export default function ReelCompanySite() {
     };
   }, []);
 
+  // Autoplay Guarantee for Portfolio Videos when Section is In View
+  useEffect(() => {
+    const playAll = () => {
+      const videos = document.querySelectorAll<HTMLVideoElement>('.portfolio-grid video, .portfolio-mobile-carousel video');
+      videos.forEach(v => {
+        if (v.paused) {
+          v.play().catch(() => {});
+        }
+      });
+    };
 
+    const section = document.getElementById('portfolio');
+    if (!section) return;
+
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          playAll();
+        }
+      });
+    }, { threshold: 0.05 });
+
+    sectionObserver.observe(section);
+
+    // Visibility change / window focus guarantee
+    const handleVisibilityChange = () => {
+      if (!document.hidden) playAll();
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      sectionObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  // Hover & Manual toggle for individual portfolio video card
+  const playPortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
+    if (!cardEl) return;
+    const video = cardEl.querySelector<HTMLVideoElement>('video');
+    if (!video) return;
+
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
+    }
+
+    video.play().catch(() => {});
+    setPortfolioPlayingState(prev => ({ ...prev, [idx]: true }));
+  };
+
+  const pausePortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
+    if (!cardEl) return;
+    const video = cardEl.querySelector<HTMLVideoElement>('video');
+    if (!video) return;
+
+    video.pause();
+    setPortfolioPlayingState(prev => ({ ...prev, [idx]: false }));
+  };
+
+  const togglePortfolioVideo = (idx: number, cardEl: HTMLElement | null) => {
+    if (!cardEl) return;
+    const video = cardEl.querySelector<HTMLVideoElement>('video');
+    if (!video) return;
+
+    if (!video.src && video.dataset.src) {
+      video.src = video.dataset.src;
+    }
+
+    if (video.paused) {
+      video.play().catch(() => {});
+      setPortfolioPlayingState(prev => ({ ...prev, [idx]: true }));
+    } else {
+      video.pause();
+      setPortfolioPlayingState(prev => ({ ...prev, [idx]: false }));
+    }
+  };
 
   // GSAP Animations
   useEffect(() => {
@@ -758,11 +672,11 @@ export default function ReelCompanySite() {
             <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
             <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
             <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
-            <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
+            <a href="#footer-cta" className={`nav-link ${activeSection === 'footer-cta' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
           </nav>
-          <Link href="/contact" className="btn btn-red header-cta" id="header-cta-btn" suppressHydrationWarning>
+          <button type="button" className="btn btn-red header-cta" id="header-cta-btn" onClick={openDiscoveryModal} suppressHydrationWarning>
             Book a Call
-          </Link>
+          </button>
           <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu} suppressHydrationWarning>
             <span></span><span></span><span></span>
           </button>
@@ -778,10 +692,9 @@ export default function ReelCompanySite() {
             <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
             <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
             <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
-            <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Contact</Link>
+            <a href="#footer-cta" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Privacy Policy</Link>
-            <Link href="/terms-and-conditions" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Terms &amp; Conditions</Link>
-            <Link href="/contact" className="btn btn-red mobile-nav-cta" onClick={closeMobileMenu} suppressHydrationWarning>Book a Call</Link>
+            <button type="button" className="btn btn-red mobile-nav-cta" onClick={() => { closeMobileMenu(); openDiscoveryModal(); }} suppressHydrationWarning>Book a Call</button>
           </div>
         </div>
       </header>
@@ -816,7 +729,7 @@ export default function ReelCompanySite() {
                   </p>
                 </div>
                 <div className="hero-ctas">
-                  <Link href="/contact" className="btn btn-red">Book a Discovery Call</Link>
+                  <button type="button" className="btn btn-red" onClick={openDiscoveryModal}>Book a Discovery Call</button>
                 </div>
               </div>
 
@@ -976,8 +889,6 @@ export default function ReelCompanySite() {
                 video={v}
                 index={i}
                 isMobile={false}
-                activeAudioIndex={activePortfolioAudioIndex}
-                onSetActiveAudio={setActivePortfolioAudioIndex}
               />
             ))}
           </div>
@@ -989,8 +900,6 @@ export default function ReelCompanySite() {
                 video={v}
                 index={i}
                 isMobile={true}
-                activeAudioIndex={activePortfolioAudioIndex}
-                onSetActiveAudio={setActivePortfolioAudioIndex}
               />
             ))}
           </div>
@@ -1054,12 +963,13 @@ export default function ReelCompanySite() {
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
               <div className="pricing-callout-cta-wrap" style={{ marginTop: "1.5rem" }}>
-                <Link
-                  href="/contact"
+                <button
+                  type="button"
                   className="btn btn-red"
+                  onClick={openDiscoveryModal}
                 >
                   Book a Discovery Call
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -1071,7 +981,7 @@ export default function ReelCompanySite() {
         {/* ═══════════════════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════════════ */}
         <ClientTestimonialsSection />
 
-        {/* ═══════════════════════════════ FOOTER CTA & QUICK INQUIRY ═══════════════════════════ */}
+        {/* ═══════════════════════════════ FOOTER CTA ═══════════════════════════ */}
         <section id="footer-cta" className="footer-cta-section" aria-label="Final Call To Action">
           <div className="footer-cta-glow"></div>
           <div className="footer-cta-container">
@@ -1083,11 +993,10 @@ export default function ReelCompanySite() {
                 <span className="footer-cta-line">Bigger Team?</span>
               </h2>
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
-              {/* 1. BIG & HIGHLIGHTED PRIMARY CTA BUTTON */}
               <div className="footer-cta-buttons" style={{ marginBottom: "2.25rem" }}>
-                <Link href="/contact" className="btn btn-red btn-lg footer-primary-cta-btn">
+                <button type="button" className="btn btn-red btn-lg footer-primary-cta-btn" onClick={openDiscoveryModal}>
                   Book a Discovery Call
-                </Link>
+                </button>
                 <a
                   href="https://wa.me/918109214834?text=Hi%20there,%20I'm%20interested%20in%20working%20together!"
                   target="_blank"
@@ -1130,19 +1039,19 @@ export default function ReelCompanySite() {
               <a href="#hero" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
               <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-              <Link href="/contact">Contact</Link>
+              <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
               <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <Link 
-                href="/contact" 
-                className="footer-nav-link-btn"
-                style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
+              <button 
+                type="button" 
+                className="footer-nav-link-btn" 
+                onClick={openDiscoveryModal}
               >
                 Book a Call
-              </Link>
+              </button>
               <button 
                 type="button" 
                 className="footer-nav-link-btn" 
@@ -1150,13 +1059,13 @@ export default function ReelCompanySite() {
               >
                 Portfolio Access
               </button>
-              <a 
-                href="mailto:connect@thereelcompany.in"
-                className="footer-nav-link-btn"
-                style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
+              <button 
+                type="button" 
+                className="footer-nav-link-btn" 
+                onClick={openDiscoveryModal}
               >
                 Email Us
-              </a>
+              </button>
             </div>
             <div className="footer-nav-col footer-contact-col">
               <h4>Contact</h4>
@@ -1233,8 +1142,6 @@ export default function ReelCompanySite() {
         isOpen={portfolioModalOpen}
         onClose={closePortfolioModal}
       />
-
-
     </>
   );
 }
