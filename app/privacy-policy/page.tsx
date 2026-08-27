@@ -38,18 +38,15 @@ export default function PrivacyPolicyPage() {
             <Link href="/#services" className="nav-link" suppressHydrationWarning>Services</Link>
             <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
-          <a
+          <Link
             href="/contact"
             className="btn btn-red header-cta"
             id="header-cta-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              openDiscoveryModal();
-            }}
+            prefetch={true}
             suppressHydrationWarning
           >
             Book a Discovery Call
-          </a>
+          </Link>
           <button
             className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
             id="mobile-menu-toggle"
@@ -98,17 +95,14 @@ export default function PrivacyPolicyPage() {
             <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link active" onClick={closeMobileMenu}>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link" onClick={closeMobileMenu}>Terms &amp; Conditions</Link>
-            <a
+            <Link
               href="/contact"
               className="btn btn-red mobile-nav-cta"
-              onClick={(e) => {
-                e.preventDefault();
-                closeMobileMenu();
-                openDiscoveryModal();
-              }}
+              onClick={closeMobileMenu}
+              prefetch={true}
             >
               Book a Discovery Call
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -259,17 +253,14 @@ export default function PrivacyPolicyPage() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <a 
+              <Link 
                 href="/contact" 
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  openDiscoveryModal();
-                }}
+                prefetch={true}
               >
                 Book a Discovery Call
-              </a>
+              </Link>
               <Link href="/#portfolio">
                 Portfolio Access
               </Link>
