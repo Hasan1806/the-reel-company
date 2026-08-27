@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-
 interface QueryModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -156,18 +155,7 @@ export default function QueryModal({ isOpen, onClose, triggerRef }: QueryModalPr
           ) : (
             <div style={{ position: 'relative', width: '100%', height: '556px', overflow: 'hidden' }}>
               {/* Optional loading state here */}
-              <iframe
-                src="https://docs.google.com/forms/d/e/1FAIpQLSd7n5N3QLp44MfEaSqq34sk3K6hnTLGzMWkoyEeFs_nwgKgTg/viewform?embedded=true"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                marginHeight={0}
-                marginWidth={0}
-                onLoad={handleIframeLoad}
-                style={{ border: 'none', background: '#fff' }} // Google forms have white bg by default
-              >
-                Loading…
-              </iframe>
+              <div className="deftform" data-form-id="69e179a0-4190-4579-b14a-04e020f58e83" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
             </div>
           )}
         </div>

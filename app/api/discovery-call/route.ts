@@ -7,7 +7,7 @@ function sanitize(text: string): string {
 
 // Google Form linked to the primary Google Sheet
 const GOOGLE_FORM_ACTION_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSfo7zUw86_yoFHA0d8AVUtbGjDfD3yyUq76fz9M0RC1uSyqJQ/formResponse";
+  "https://formspree.io/f/mzebpvbv";
 
 const CONTENT_SOLUTION_MAP: Record<string, string> = {
   "In-House Team": "In House Team",

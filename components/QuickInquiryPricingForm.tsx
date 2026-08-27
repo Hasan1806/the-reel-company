@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSd7n5N3QLp44MfEaSqq34sk3K6hnTLGzMWkoyEeFs_nwgKgTg/formResponse";
+const GOOGLE_FORM_ACTION = "https://formspree.io/f/mzebpvbv";
 const ENTRY_PHONE = "entry.894765100";
 const ENTRY_EMAIL = "entry.835878436";
 
@@ -79,97 +79,9 @@ export default function QuickInquiryPricingForm() {
   return (
     <div className="quick-inquiry-box compact">
       {!isSuccess ? (
-        <form onSubmit={handleSubmit} className="quick-inquiry-form" noValidate>
-          <div className="quick-inquiry-header">
-            <div className="quick-inquiry-divider">
-              <span className="quick-divider-line" />
-              <span className="quick-divider-text">OR GET A QUICK CALLBACK</span>
-              <span className="quick-divider-line" />
-            </div>
-            <p className="quick-inquiry-sub">Leave your details and our team will contact you within 2 hours:</p>
-          </div>
-
-          {errorMessage && (
-            <div className="quick-inquiry-error" role="alert">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-              <span>{errorMessage}</span>
-            </div>
-          )}
-
-          <div className="quick-inquiry-fields">
-            {/* Phone Number Field */}
-            <div className="quick-inquiry-field-group">
-              <label htmlFor="quick-phone" className="quick-inquiry-label">
-                Phone Number <span className="quick-req">*</span>
-              </label>
-              <div className="quick-inquiry-input-wrap">
-                <svg className="quick-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <input
-                  id="quick-phone"
-                  type="tel"
-                  className="quick-inquiry-input"
-                  placeholder="+91 98765 43210"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  autoComplete="tel"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
-
-            {/* Email Field */}
-            <div className="quick-inquiry-field-group">
-              <label htmlFor="quick-email" className="quick-inquiry-label">
-                Email Address <span className="quick-req">*</span>
-              </label>
-              <div className="quick-inquiry-input-wrap">
-                <svg className="quick-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-                <input
-                  id="quick-email"
-                  type="email"
-                  className="quick-inquiry-input"
-                  placeholder="name@yourbrand.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="btn quick-inquiry-submit-btn"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className="discovery-submit-spinner" />
-                <span>Submitting...</span>
-              </>
-            ) : (
-              <>
-                <span>Request Callback</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </>
-            )}
-          </button>
-        </form>
+        <>
+          <div className="deftform" data-form-id="69e179a0-4190-4579-b14a-04e020f58e83" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
+        </>
       ) : (
         /* In-place Luxury Confirmation State */
         <div className="quick-inquiry-success">

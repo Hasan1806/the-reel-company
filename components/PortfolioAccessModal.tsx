@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-
 interface PortfolioAccessModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -11,7 +10,7 @@ const PLAYBOOK_PORTFOLIO_URL =
   "https://www.playbook.com/s/creator-navigator/ugc-content-portfolio";
 
 const GOOGLE_PORTFOLIO_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSch9tLR2yl2BGu3-EiXK_p7UQLbCA5NSANVpnYen0pOs7Zj4w/formResponse";
+  "https://formspree.io/f/mzebpvbv";
 
 export default function PortfolioAccessModal({
   isOpen,
@@ -82,6 +81,7 @@ export default function PortfolioAccessModal({
       setErrorMessage("");
       setFieldErrors({});
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const handleClose = () => {
@@ -225,173 +225,7 @@ export default function PortfolioAccessModal({
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="portfolio-modal-form" noValidate>
-          {errorMessage && (
-            <div className="portfolio-modal-error" role="alert">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span>{errorMessage}</span>
-            </div>
-          )}
-
-          {/* Full Name Field */}
-          <div className="portfolio-input-group">
-            <label htmlFor="portfolio-form-name" className="portfolio-input-label">
-              Full Name <span className="req-star">*</span>
-            </label>
-            <div className="portfolio-input-wrapper">
-              <svg
-                className="portfolio-input-icon"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-              <input
-                ref={firstInputRef}
-                id="portfolio-form-name"
-                type="text"
-                className={`portfolio-modal-input ${fieldErrors.name ? "is-error" : ""}`}
-                placeholder="Your full name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: false });
-                }}
-                required
-                disabled={isSubmitting}
-                autoComplete="name"
-              />
-            </div>
-          </div>
-
-          {/* Phone Number Field */}
-          <div className="portfolio-input-group">
-            <label htmlFor="portfolio-form-phone" className="portfolio-input-label">
-              Phone Number <span className="req-star">*</span>
-            </label>
-            <div className="portfolio-input-wrapper">
-              <svg
-                className="portfolio-input-icon"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              <input
-                id="portfolio-form-phone"
-                type="tel"
-                className={`portfolio-modal-input ${fieldErrors.phone ? "is-error" : ""}`}
-                placeholder="Phone number with country code"
-                value={phone}
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                  if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: false });
-                }}
-                required
-                disabled={isSubmitting}
-                autoComplete="tel"
-              />
-            </div>
-          </div>
-
-          {/* Email Address Field */}
-          <div className="portfolio-input-group">
-            <label htmlFor="portfolio-form-email" className="portfolio-input-label">
-              Work / Business Email <span className="req-star">*</span>
-            </label>
-            <div className="portfolio-input-wrapper">
-              <svg
-                className="portfolio-input-icon"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-              <input
-                id="portfolio-form-email"
-                type="email"
-                className={`portfolio-modal-input ${fieldErrors.email ? "is-error" : ""}`}
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: false });
-                }}
-                required
-                disabled={isSubmitting}
-                autoComplete="email"
-              />
-            </div>
-          </div>
-
-          {/* Bottom Error banner */}
-          {errorMessage && (
-            <div className="portfolio-modal-error portfolio-bottom-error" role="alert">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginRight: "6px" }}>
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span>{errorMessage}</span>
-            </div>
-          )}
-
-          {/* Submit CTA Button */}
-          <button
-            type="submit"
-            className="btn btn-red portfolio-modal-submit-btn"
-            disabled={isSubmitting}
-            onClick={handleSubmit}
-          >
-            {isSubmitting ? (
-              <>
-                <span className="portfolio-submit-spinner" />
-                <span>Opening Portfolio...</span>
-              </>
-            ) : (
-              <>
-                <span>Access Full Portfolio</span>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </>
-            )}
-          </button>
-        </form>
+          <div className="deftform" data-form-id="69e179a0-4190-4579-b14a-04e020f58e83" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
 
         <p className="portfolio-modal-privacy-note">
           🔒 Zero spam • Instant access to 250+ top-performing UGC creatives

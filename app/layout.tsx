@@ -68,6 +68,7 @@ export default function RootLayout({
         />
         {/* Meta Pixel noscript fallback */}
         <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             height="1"
             width="1"
@@ -79,6 +80,9 @@ export default function RootLayout({
 
         {/* Client Route Change PageView Tracker */}
         <MetaPixelTracker />
+
+        {/* Global Deftform Embed Script (Loads instantly) */}
+        <Script src="https://cdn.deftform.com/embed.js" strategy="afterInteractive" />
 
         {children}
       </body>

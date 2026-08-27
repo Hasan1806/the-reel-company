@@ -5,7 +5,7 @@ function sanitize(text: string): string {
 }
 
 const PORTFOLIO_GOOGLE_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSch9tLR2yl2BGu3-EiXK_p7UQLbCA5NSANVpnYen0pOs7Zj4w/formResponse";
+  "https://formspree.io/f/mzebpvbv";
 
 const PORTFOLIO_REDIRECT_URL =
   "https://www.playbook.com/s/creator-navigator/ugc-content-portfolio";
