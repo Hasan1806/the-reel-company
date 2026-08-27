@@ -139,14 +139,10 @@ export async function POST(request: Request) {
       console.warn("[GOOGLE FORM FORWARDING NOTE]:", gErr?.message || gErr);
     }
 
-    // 2. Also forward to Google Sheet Webhook if configured or fallback
-    const webhookUrl =
-      process.env.GOOGLE_SHEET_WEBHOOK_URL ||
-      "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec";
-
-    if (webhookUrl) {
+    // 2. Optional: Forward to external webhook ONLY if explicitly configured in environment variables
+    if (process.env.GOOGLE_SHEET_WEBHOOK_URL) {
       const payload = {
-        secret: process.env.GOOGLE_SHEET_SECRET || "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm",
+        secret: process.env.GOOGLE_SHEET_SECRET || "",
         fullName: cleanFullName,
         name: cleanFullName,
         phoneNumber: cleanPhone,
@@ -165,7 +161,7 @@ export async function POST(request: Request) {
         timestamp,
       };
 
-      fetch(webhookUrl, {
+      fetch(process.env.GOOGLE_SHEET_WEBHOOK_URL, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
