@@ -86,7 +86,7 @@ function LazyPortfolioCard({
                   // Fallback safe muted play
                   vid.muted = true;
                   setIsMuted(true);
-                  vid.play().then(() => setIsPlaying(true)).catch(() => {});
+                  vid.play().then(() => setIsPlaying(true)).catch(() => { });
                 });
             }
           } else {
@@ -118,7 +118,7 @@ function LazyPortfolioCard({
         .catch(() => {
           vid.muted = true;
           setIsMuted(true);
-          vid.play().then(() => setIsPlaying(true)).catch(() => {});
+          vid.play().then(() => setIsPlaying(true)).catch(() => { });
         });
     } else {
       vid.pause();
@@ -138,7 +138,7 @@ function LazyPortfolioCard({
       setIsMuted(false);
       onSetActiveAudio(index);
       if (vid.paused) {
-        vid.play().catch(() => {});
+        vid.play().catch(() => { });
       }
     } else {
       // Mute: audio OFF, continues playing
@@ -161,7 +161,7 @@ function LazyPortfolioCard({
       setIsMuted(false);
       onSetActiveAudio(index);
       if (vid.paused) {
-        vid.play().then(() => setIsPlaying(true)).catch(() => {});
+        vid.play().then(() => setIsPlaying(true)).catch(() => { });
       }
     } else {
       // If already unmuted and playing, clicking the video toggles audio off while continuing playback
@@ -466,7 +466,7 @@ export default function ReelCompanySite() {
     if (file && file.type.startsWith('video/') && heroVideoRef.current) {
       const fileUrl = URL.createObjectURL(file);
       heroVideoRef.current.src = fileUrl;
-      heroVideoRef.current.play().catch(() => {});
+      heroVideoRef.current.play().catch(() => { });
       setHeroVideoName(file.name);
       setHeroPlaying(true);
     }
@@ -475,7 +475,7 @@ export default function ReelCompanySite() {
   const toggleHeroPlay = () => {
     if (!heroVideoRef.current) return;
     if (heroVideoRef.current.paused) {
-      heroVideoRef.current.play().catch(() => {});
+      heroVideoRef.current.play().catch(() => { });
       setHeroPlaying(true);
     } else {
       heroVideoRef.current.pause();
@@ -500,7 +500,7 @@ export default function ReelCompanySite() {
           // Autoplay retry on first interaction if blocked
           const onUserAction = () => {
             if (heroVideoRef.current) {
-              heroVideoRef.current.play().catch(() => {});
+              heroVideoRef.current.play().catch(() => { });
             }
             window.removeEventListener('click', onUserAction);
             window.removeEventListener('scroll', onUserAction);
@@ -536,10 +536,10 @@ export default function ReelCompanySite() {
   // Marquee touch interactions
   useEffect(() => {
     const items = document.querySelectorAll('.client-item');
-    const touchStartHandler = function(this: HTMLElement) {
+    const touchStartHandler = function (this: HTMLElement) {
       this.classList.add('active');
     };
-    const touchEndHandler = function(this: HTMLElement) {
+    const touchEndHandler = function (this: HTMLElement) {
       setTimeout(() => this.classList.remove('active'), 1200);
     };
 
@@ -863,10 +863,10 @@ export default function ReelCompanySite() {
 
                 {/* Sparkle Accent Stars */}
                 <svg className="hero-sparkle sparkle-top-right" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
                 <svg className="hero-sparkle sparkle-bottom-left" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
 
                 <div className="hero-phone-card">
@@ -887,7 +887,7 @@ export default function ReelCompanySite() {
                         if (target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
                           target.src = fallbackSrc;
                           target.load();
-                          target.play().catch(() => {});
+                          target.play().catch(() => { });
                         }
                       }}
                     >
@@ -1015,7 +1015,7 @@ export default function ReelCompanySite() {
           <div className="problem-inner">
             <div className="problem-left-col">
               <p className="section-label">The Reality</p>
-              <h2 className="section-title">Content Is The Biggest<br/>Growth Lever.<br/><em>And The Hardest To Scale.</em></h2>
+              <h2 className="section-title">Content Is The Biggest<br />Growth Lever.<br /><em>And The Hardest To Scale.</em></h2>
               <p className="section-sub">Most brands hit the same wall when trying to scale content. Here&apos;s what&apos;s holding you back.</p>
             </div>
             <div className="problem-cards" id="problem-cards">
@@ -1137,7 +1137,7 @@ export default function ReelCompanySite() {
                 height={48}
               />
             </a>
-            <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br/>On-demand. Affordable. Fast.</p>
+            <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br />On-demand. Affordable. Fast.</p>
           </div>
           <nav className="footer-nav" aria-label="Footer navigation">
             <div className="footer-nav-col">
@@ -1151,21 +1151,21 @@ export default function ReelCompanySite() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <a 
-                href="https://share.deftform.com/6xP6ET" 
+              <a
+                href="https://share.deftform.com/6xP6ET"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Book a Discovery Call
               </a>
-              <button 
-                type="button" 
-                className="footer-nav-link-btn" 
+              <button
+                type="button"
+                className="footer-nav-link-btn"
                 onClick={(e) => handleAnchorClick(e, '#portfolio')}
               >
                 Portfolio Access
               </button>
-              <a 
+              <a
                 href="mailto:connect@thereelcompany.in"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}

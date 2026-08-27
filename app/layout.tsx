@@ -32,7 +32,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <link rel="preconnect" href="https://formrobin.com" />
+        <link rel="preconnect" href="https://deftform.com" />
+        <link rel="preconnect" href="https://share.deftform.com" />
+        <link rel="dns-prefetch" href="https://share.deftform.com" />
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-480.avif" type="image/avif" media="(max-width: 480px)" />
         <link rel="preload" as="image" href="/camera-lens-black-center-hero-768.avif" type="image/avif" media="(min-width: 481px) and (max-width: 768px)" />
@@ -81,8 +83,6 @@ export default function RootLayout({
         {/* Client Route Change PageView Tracker */}
         <MetaPixelTracker />
 
-        {/* Global Deftform Embed Script (Loads instantly) */}
-        <Script src="https://cdn.deftform.com/embed.js" strategy="afterInteractive" />
 
         {children}
       </body>

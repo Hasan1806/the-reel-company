@@ -24,6 +24,7 @@ export default function TermsAndConditionsPage() {
       <header id="site-header" role="banner" className="scrolled" suppressHydrationWarning>
         <div className="header-inner" suppressHydrationWarning>
           <Link href="/" className="logo" aria-label="The Reel Company Home" suppressHydrationWarning>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={ASSETS.brand.logo.primary}
               alt={ASSETS.brand.logo.alt}
@@ -227,7 +228,7 @@ export default function TermsAndConditionsPage() {
               <span className="logo-mark">TRC</span>
               <span className="logo-text">The Reel Company</span>
             </Link>
-            <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br/>On-demand. Affordable. Fast.</p>
+            <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br />On-demand. Affordable. Fast.</p>
           </div>
           <nav className="footer-nav" aria-label="Footer navigation">
             <div className="footer-nav-col">
@@ -241,8 +242,8 @@ export default function TermsAndConditionsPage() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <a 
-                href="https://share.deftform.com/6xP6ET" 
+              <a
+                href="https://share.deftform.com/6xP6ET"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
@@ -251,7 +252,7 @@ export default function TermsAndConditionsPage() {
               <Link href="/#portfolio">
                 Portfolio Access
               </Link>
-              <a 
+              <a
                 href="mailto:connect@thereelcompany.in"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}

@@ -141,6 +141,7 @@ export default function LensZoomHero({ children }: LensZoomHeroProps) {
             willChange: "transform, opacity",
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={lensImgRef}
             src={ASSETS.images.hero.cutouts.lensEyeBgPng}

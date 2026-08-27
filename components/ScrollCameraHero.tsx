@@ -163,6 +163,7 @@ export default function ScrollCameraHero({ children }: ScrollCameraHeroProps) {
             willChange: "transform, opacity",
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={cameraImgRef}
             src={ASSETS.images.hero.cutouts.cameraHeroPng}

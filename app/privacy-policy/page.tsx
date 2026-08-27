@@ -236,7 +236,7 @@ export default function PrivacyPolicyPage() {
               <span className="logo-mark">TRC</span>
               <span className="logo-text">The Reel Company</span>
             </Link>
-            <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br/>On-demand. Affordable. Fast.</p>
+            <p className="footer-tagline">Studio-quality UGC &amp; ad videos.<br />On-demand. Affordable. Fast.</p>
           </div>
           <nav className="footer-nav" aria-label="Footer navigation">
             <div className="footer-nav-col">
@@ -250,8 +250,8 @@ export default function PrivacyPolicyPage() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <a 
-                href="https://share.deftform.com/6xP6ET" 
+              <a
+                href="https://share.deftform.com/6xP6ET"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
@@ -260,7 +260,7 @@ export default function PrivacyPolicyPage() {
               <Link href="/#portfolio">
                 Portfolio Access
               </Link>
-              <a 
+              <a
                 href="mailto:connect@thereelcompany.in"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}

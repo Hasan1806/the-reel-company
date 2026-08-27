@@ -74,6 +74,7 @@ export default function EditorialMarqueeSection() {
           >
             <div className="editorial-text-wrap">
               <span className="editorial-marquee-text">{service.text}</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={service.image.src}
                 alt={service.text}
