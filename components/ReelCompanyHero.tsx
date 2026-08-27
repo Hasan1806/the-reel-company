@@ -47,14 +47,13 @@ export default function ReelCompanyHero({
           >
             View our Work
           </button>
-          <Link
-            href="/contact"
+          <a
+            href="https://share.deftform.com/6xP6ET"
             id="hero-book-call-btn"
             className="btn btn-red hero-cta-btn hero-book-call-btn"
-            prefetch={true}
           >
             Book a Discovery Call
-          </Link>
+          </a>
         </div>
       </div>
 
