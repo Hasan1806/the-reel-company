@@ -154,7 +154,7 @@ export default function PortfolioAccessModal({
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: googleFormData.toString(),
-      }).catch(() => {});
+      }).catch(() => { });
     } catch (e) {
       console.warn("Submit process handled:", e);
     }
@@ -225,7 +225,7 @@ export default function PortfolioAccessModal({
         </div>
 
         {/* Form Body */}
-          <div className="deftform" data-form-id="69e179a0-4190-4579-b14a-04e020f58e83" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
+        <div className="deftform" data-form-id="69e179a0-4190-4579-b14a-04e020f58e83" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
 
         <p className="portfolio-modal-privacy-note">
           🔒 Zero spam • Instant access to 250+ top-performing UGC creatives

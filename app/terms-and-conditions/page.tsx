@@ -11,7 +11,7 @@ export default function TermsAndConditionsPage() {
   const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const openDiscoveryModal = () => setDiscoveryModalOpen(true);
+  const openDiscoveryModal = () => window.location.href = 'https://share.deftform.com/6xP6ET';
   const closeDiscoveryModal = () => setDiscoveryModalOpen(false);
   const openPortfolioModal = () => setPortfolioModalOpen(true);
   const closePortfolioModal = () => setPortfolioModalOpen(false);
@@ -38,15 +38,13 @@ export default function TermsAndConditionsPage() {
             <Link href="/#services" className="nav-link" suppressHydrationWarning>Services</Link>
             <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
-          <Link
-            href="/contact"
+          <a
+            href="https://share.deftform.com/6xP6ET"
             className="btn btn-red header-cta"
             id="header-cta-btn"
-            prefetch={true}
-            suppressHydrationWarning
           >
             Book a Discovery Call
-          </Link>
+          </a>
           <button
             className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
             id="mobile-menu-toggle"
@@ -95,14 +93,13 @@ export default function TermsAndConditionsPage() {
             <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu}>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link active" onClick={closeMobileMenu}>Terms &amp; Conditions</Link>
-            <Link
-              href="/contact"
+            <a
+              href="https://share.deftform.com/6xP6ET"
               className="btn btn-red mobile-nav-cta"
               onClick={closeMobileMenu}
-              prefetch={true}
             >
               Book a Discovery Call
-            </Link>
+            </a>
           </div>
         </div>
       </header>
@@ -244,14 +241,13 @@ export default function TermsAndConditionsPage() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <Link 
-                href="/contact" 
+              <a 
+                href="https://share.deftform.com/6xP6ET" 
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
-                prefetch={true}
               >
                 Book a Discovery Call
-              </Link>
+              </a>
               <Link href="/#portfolio">
                 Portfolio Access
               </Link>
