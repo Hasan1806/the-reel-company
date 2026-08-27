@@ -5,6 +5,7 @@ function sanitize(text: string): string {
   return typeof text === "string" ? text.replace(/[<>]/g, "").trim() : "";
 }
 
+// Google Form linked to the primary Google Sheet
 const GOOGLE_FORM_ACTION_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSfo7zUw86_yoFHA0d8AVUtbGjDfD3yyUq76fz9M0RC1uSyqJQ/formResponse";
 
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
       videoCount = "",
       estimatedMOQ = "",
       honeypot = "",
-      source = "Website Discovery Call Modal",
+      source = "Website Book a Discovery Call",
     } = body;
 
     // Honeypot bot protection
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
     const cleanEmail = sanitize(email);
     const cleanBrand = sanitize(brandName || companyName || company);
     const cleanRole = sanitize(role || designation);
-    const cleanWeb = sanitize(websiteOrSocial) || "N/A";
+    const cleanWeb = sanitize(websiteOrSocial);
     const rawContentSolution = sanitize(contentSolution || "In-House Team");
     const rawRequirement = sanitize(monthlyRequirement || videoCount || estimatedMOQ || "11 - 30");
 
@@ -100,35 +101,52 @@ export async function POST(request: Request) {
 
     console.log("[DISCOVERY CALL LEAD RECEIVED]:", JSON.stringify(leadData, null, 2));
 
-    // 1. Forward to Google Forms server-side with safety timeout
+    // 1. Forward directly to Google Form with verified entry field IDs
+    // entry.1936983498 -> Full Name
+    // entry.203780078  -> Phone Number
+    // entry.979876141  -> Email
+    // entry.897870888  -> Brand Name (appends role/website info for full context)
+    // entry.982760340  -> How are you currently solving your content problem?
+    // entry.1194319614 -> Expected Monthly Content Requirement?
     const googleFormData = new URLSearchParams();
     googleFormData.append("entry.1936983498", cleanFullName);
     googleFormData.append("entry.203780078", cleanPhone);
     googleFormData.append("entry.979876141", cleanEmail);
-    googleFormData.append("entry.897870888", cleanBrand);
-    googleFormData.append("entry.1100839857", cleanRole ? `${cleanRole} | ${cleanWeb}` : cleanWeb);
-    googleFormData.append("entry.793890874", cleanWeb);
-    googleFormData.append("entry.1916628574", googleSolutionValue);
-    googleFormData.append("entry.1949108106", googleSolutionValue);
+    
+    // Combine brand + role + website in brand field so nothing is lost in the sheet
+    const brandWithMetadata = [
+      cleanBrand,
+      cleanRole ? `(${cleanRole})` : "",
+      cleanWeb && cleanWeb !== "N/A" ? `[${cleanWeb}]` : "",
+    ].filter(Boolean).join(" ");
+
+    googleFormData.append("entry.897870888", brandWithMetadata || cleanBrand);
     googleFormData.append("entry.982760340", googleSolutionValue);
     googleFormData.append("entry.1194319614", googleRequirementValue);
 
-    // Forward to Google Forms asynchronously with safety timeout (Google Forms writes cleanly to the linked Sheet)
-    fetch(GOOGLE_FORM_ACTION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: googleFormData.toString(),
-      signal: AbortSignal.timeout(5000),
-    }).catch((gErr) => {
-      console.warn("Google Form forwarding non-blocking note:", gErr?.message || gErr);
-    });
+    // Guaranteed server-side forward to Google Forms (which writes to the connected Google Sheet)
+    try {
+      await fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: googleFormData.toString(),
+        signal: AbortSignal.timeout(8000),
+      });
+      console.log("[GOOGLE FORM FORWARDING SUCCESS]: Response recorded in Google Sheet");
+    } catch (gErr: any) {
+      console.warn("[GOOGLE FORM FORWARDING NOTE]:", gErr?.message || gErr);
+    }
 
-    // If explicit separate webhook is configured in environment, use it; otherwise do not duplicate
-    if (process.env.GOOGLE_SHEET_WEBHOOK_URL) {
+    // 2. Also forward to Google Sheet Webhook if configured or fallback
+    const webhookUrl =
+      process.env.GOOGLE_SHEET_WEBHOOK_URL ||
+      "https://script.google.com/macros/s/AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm/exec";
+
+    if (webhookUrl) {
       const payload = {
-        secret: process.env.GOOGLE_SHEET_SECRET || "",
+        secret: process.env.GOOGLE_SHEET_SECRET || "AKfycbyBGm2YZIYt5m41QYT2dx9bkvfI9iXwgs4WZshHwXwklo6rLI4ET8SIN2VoatZV7jpm",
         fullName: cleanFullName,
         name: cleanFullName,
         phoneNumber: cleanPhone,
@@ -140,14 +158,14 @@ export async function POST(request: Request) {
         role: cleanRole,
         designation: cleanRole,
         websiteOrSocial: cleanWeb,
-        contentSolution: rawContentSolution,
-        monthlyRequirement: rawRequirement,
-        videoCount: rawRequirement,
+        contentSolution: googleSolutionValue,
+        monthlyRequirement: googleRequirementValue,
+        videoCount: googleRequirementValue,
         source,
         timestamp,
       };
 
-      fetch(process.env.GOOGLE_SHEET_WEBHOOK_URL, {
+      fetch(webhookUrl, {
         method: "POST",
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
@@ -155,7 +173,7 @@ export async function POST(request: Request) {
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(5000),
       }).catch((sheetErr) => {
-        console.warn("Sheet Webhook non-blocking note:", sheetErr?.message || sheetErr);
+        console.warn("[SHEET WEBHOOK NOTE]:", sheetErr?.message || sheetErr);
       });
     }
 
@@ -172,3 +190,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

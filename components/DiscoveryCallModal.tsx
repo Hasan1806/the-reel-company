@@ -202,7 +202,34 @@ export default function DiscoveryCallModal({
     });
 
     try {
-      // 1. Submit via backend API (fast single dispatch & server-logged)
+      // 1. Direct client-side background dispatch to Google Forms (guarantees row entry even with network hiccups)
+      const googleSolution =
+        CONTENT_SOLUTION_OPTIONS.find((o) => o.label === currentSolution)?.googleValue || "In House Team";
+      const googleReq =
+        MONTHLY_REQUIREMENT_OPTIONS.find((o) => o.label === currentRequirement)?.googleValue || "20-50";
+
+      const brandWithMetadata = [
+        cleanBrand,
+        cleanRole ? `(${cleanRole})` : "",
+        cleanWeb && cleanWeb !== "N/A" ? `[${cleanWeb}]` : "",
+      ].filter(Boolean).join(" ");
+
+      const googleFormData = new URLSearchParams();
+      googleFormData.append("entry.1936983498", cleanFullName);
+      googleFormData.append("entry.203780078", cleanPhone);
+      googleFormData.append("entry.979876141", cleanEmail);
+      googleFormData.append("entry.897870888", brandWithMetadata || cleanBrand);
+      googleFormData.append("entry.982760340", googleSolution);
+      googleFormData.append("entry.1194319614", googleReq);
+
+      fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: googleFormData.toString(),
+      }).catch((err) => console.warn("Client Google Form post note:", err));
+
+      // 2. Submit via backend API (fast single dispatch & server-logged)
       const res = await fetch("/api/discovery-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

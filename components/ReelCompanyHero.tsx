@@ -47,13 +47,19 @@ export default function ReelCompanyHero({
           >
             View our Work
           </button>
-          <Link
+          <a
             href="/contact"
             id="hero-book-call-btn"
             className="btn btn-red hero-cta-btn hero-book-call-btn"
+            onClick={(e) => {
+              if (openDiscoveryModal) {
+                e.preventDefault();
+                openDiscoveryModal(e);
+              }
+            }}
           >
             Book a Discovery Call
-          </Link>
+          </a>
         </div>
       </div>
 
