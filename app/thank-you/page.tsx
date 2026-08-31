@@ -123,7 +123,7 @@ export default function ThankYouPage() {
 
       {/* Right Side (Video) */}
       <div className={styles.rightSide}>
-        {/* Full bleed video */}
+        {/* Full bleed / responsive video */}
         <video
           src={ASSETS.videos.hero.src}
           poster={ASSETS.videos.hero.poster}
@@ -131,6 +131,7 @@ export default function ThankYouPage() {
           loop
           muted
           playsInline
+          preload="auto"
           className={styles.video}
         />
       </div>
