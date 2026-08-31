@@ -79,7 +79,7 @@ export default function EditorialMarqueeSection() {
                 src={service.image.src}
                 alt={service.text}
                 className="editorial-floating-image"
-                loading="eager"
+                loading="lazy"
                 decoding="async"
                 style={{
                   width: service.image.width,

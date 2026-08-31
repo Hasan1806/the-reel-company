@@ -5,15 +5,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import dynamic from 'next/dynamic';
 import ReelCompanyHero from './ReelCompanyHero';
-import DiscoveryCallModal from './DiscoveryCallModal';
-import PortfolioAccessModal from './PortfolioAccessModal';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
 import UgcProcessSection from './process/UgcProcessSection';
 import FAQSection from './FAQSection';
 import ClientTestimonialsSection from './ClientTestimonialsSection';
 import QuickInquiryPricingForm from './QuickInquiryPricingForm';
 import { ASSETS } from '@/config/assets';
+
+const DiscoveryCallModal = dynamic(() => import('./DiscoveryCallModal'), {
+  ssr: false,
+});
+const PortfolioAccessModal = dynamic(() => import('./PortfolioAccessModal'), {
+  ssr: false,
+});
 
 interface PortfolioVideoItem {
   id?: string;
@@ -390,6 +396,32 @@ export default function ReelCompanySite() {
     }
   }, [scrollToSection]);
 
+  // Safely pre-warm modal chunks and form presentation layer during idle time without blocking startup
+  useEffect(() => {
+    const prewarmResources = () => {
+      // Pre-warm modal JS chunks
+      import('./DiscoveryCallModal').catch(() => {});
+      import('./PortfolioAccessModal').catch(() => {});
+    };
+
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        const handle = (window as unknown as { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => number }).requestIdleCallback(
+          prewarmResources,
+          { timeout: 2500 }
+        );
+        return () => {
+          if ('cancelIdleCallback' in window) {
+            (window as unknown as { cancelIdleCallback: (h: number) => void }).cancelIdleCallback(handle);
+          }
+        };
+      } else {
+        const timer = setTimeout(prewarmResources, 2000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, []);
+
   // Scroll listener for header & nav active link (RAF-throttled, cached offsets, zero duplicate re-renders)
   useEffect(() => {
     const sections = ['hero', 'portfolio', 'services', 'footer-cta'];
@@ -515,6 +547,7 @@ export default function ReelCompanySite() {
   }, []);
 
   useEffect(() => {
+    const timers: NodeJS.Timeout[] = [];
     const raf = requestAnimationFrame(() => {
       const badge = document.querySelector('.hero-badge');
       const lines = document.querySelectorAll('.line-inner');
@@ -523,14 +556,17 @@ export default function ReelCompanySite() {
       const ctas = document.querySelector('.hero-ctas');
       const videoWrap = document.querySelector('.hero-video-wrap');
 
-      setTimeout(() => { badge?.classList.add('animated'); }, 100);
-      setTimeout(() => { lines.forEach(l => l.classList.add('revealed')); }, 300);
-      setTimeout(() => { tagline?.classList.add('animated'); }, 500);
-      setTimeout(() => { sub?.classList.add('animated'); }, 700);
-      setTimeout(() => { ctas?.classList.add('animated'); }, 900);
-      setTimeout(() => { videoWrap?.classList.add('animated'); }, 400);
+      timers.push(setTimeout(() => { badge?.classList.add('animated'); }, 100));
+      timers.push(setTimeout(() => { lines.forEach(l => l.classList.add('revealed')); }, 300));
+      timers.push(setTimeout(() => { tagline?.classList.add('animated'); }, 500));
+      timers.push(setTimeout(() => { sub?.classList.add('animated'); }, 700));
+      timers.push(setTimeout(() => { ctas?.classList.add('animated'); }, 900));
+      timers.push(setTimeout(() => { videoWrap?.classList.add('animated'); }, 400));
     });
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      timers.forEach(clearTimeout);
+    };
   }, []);
 
   // Marquee touch interactions

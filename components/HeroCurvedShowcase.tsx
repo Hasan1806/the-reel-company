@@ -53,6 +53,7 @@ export default function HeroCurvedShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const isPlayingRef = useRef<boolean[]>(new Array(CURVED_HERO_VIDEOS.length).fill(false));
 
   useEffect(() => {
     const container = containerRef.current;
@@ -95,14 +96,14 @@ export default function HeroCurvedShowcase() {
 
     window.addEventListener("resize", updateDimensions, { passive: true });
 
-    // IntersectionObserver to pause RAF when scrolled offscreen
+    // IntersectionObserver to pause RAF and video decoders when scrolled offscreen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
         if (isVisible) {
           lastTime = performance.now();
-          videoRefs.current.forEach((vid) => {
-            if (vid && vid.paused) {
+          videoRefs.current.forEach((vid, i) => {
+            if (vid && isPlayingRef.current[i] && vid.paused) {
               vid.play().catch(() => {});
             }
           });
@@ -173,19 +174,30 @@ export default function HeroCurvedShowcase() {
           // Dynamic transform update with GPU hardware acceleration
           card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
           card.style.opacity = opacity.toFixed(3);
-          card.style.filter = `brightness(${brightness.toFixed(3)})`;
-          card.style.zIndex = String(Math.floor(10 + centerFactor * 30));
+          const targetZ = Math.floor(10 + centerFactor * 30);
+          if (card.dataset.z !== String(targetZ)) {
+            card.dataset.z = String(targetZ);
+            card.style.zIndex = String(targetZ);
+          }
 
-          // Smart video decode throttling: only decode active onscreen videos
+          // Smart video decode throttling & progressive attachment
           const vid = videoRefs.current[i];
           if (vid) {
-            const isCardInViewport = Math.abs(u) <= 1.2 && opacity > 0.05;
+            const isCardInViewport = Math.abs(u) <= 1.25 && opacity > 0.05;
             if (isCardInViewport) {
-              if (vid.paused) {
+              // Lazy attach source when approaching viewport
+              const desiredSrc = vid.dataset.src;
+              if (desiredSrc && !vid.src) {
+                vid.src = desiredSrc;
+                vid.load();
+              }
+              if (!isPlayingRef.current[i]) {
+                isPlayingRef.current[i] = true;
                 vid.play().catch(() => {});
               }
             } else {
-              if (!vid.paused) {
+              if (isPlayingRef.current[i]) {
+                isPlayingRef.current[i] = false;
                 vid.pause();
               }
             }
@@ -196,9 +208,13 @@ export default function HeroCurvedShowcase() {
       animationFrameId = requestAnimationFrame(tick);
     };
 
-    animationFrameId = requestAnimationFrame(tick);
+    // Defer start by one frame so initial critical UI paints instantly
+    const startRaf = requestAnimationFrame(() => {
+      animationFrameId = requestAnimationFrame(tick);
+    });
 
     return () => {
+      cancelAnimationFrame(startRaf);
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", updateDimensions);
       observer.disconnect();
@@ -232,7 +248,7 @@ export default function HeroCurvedShowcase() {
                 ref={(el) => {
                   videoRefs.current[idx] = el;
                 }}
-                src={item.src}
+                data-src={item.src}
                 poster={item.poster}
                 autoPlay
                 muted
@@ -241,7 +257,7 @@ export default function HeroCurvedShowcase() {
                 controls={false}
                 disablePictureInPicture
                 className="hero-curved-video"
-                preload="metadata"
+                preload="none"
               />
             </div>
           </div>

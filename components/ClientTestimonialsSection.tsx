@@ -97,12 +97,12 @@ export default function ClientTestimonialsSection() {
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const videoRefs = useRef<Map<string, HTMLVideoElement>>(new Map());
 
-  // Centralized Pause State Model to eliminate race conditions
+  // Centralized Pause State Model to eliminate race conditions (starts paused offscreen)
   const pauseReasonsRef = useRef({
     hover: false,
     interaction: false,
     videoPlaying: false,
-    offscreen: false,
+    offscreen: true,
     tabHidden: false,
   });
 

@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import MetaPixelTracker from '@/components/MetaPixelTracker';
 import './globals.css';
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-plus-jakarta',
+});
 
 export const metadata: Metadata = {
   title: 'The Reel Company — Studio-Quality UGC & Content Production',
@@ -22,12 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={plusJakartaSans.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://connect.facebook.net" />
@@ -35,10 +41,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://deftform.com" />
         <link rel="preconnect" href="https://share.deftform.com" />
         <link rel="dns-prefetch" href="https://share.deftform.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
-        <link rel="preload" as="image" href="/camera-lens-black-center-hero-480.avif" type="image/avif" media="(max-width: 480px)" />
-        <link rel="preload" as="image" href="/camera-lens-black-center-hero-768.avif" type="image/avif" media="(min-width: 481px) and (max-width: 768px)" />
-        <link rel="preload" as="image" href="/camera-lens-black-center-hero-1920.avif" type="image/avif" media="(min-width: 769px)" />
         <noscript>
           <style>{`
             .intro-lens-scroll-section { height: auto !important; }
@@ -49,10 +51,10 @@ export default function RootLayout({
         </noscript>
       </head>
       <body suppressHydrationWarning>
-        {/* Meta Pixel Base Script */}
+        {/* Meta Pixel Base Script - Loaded with lazyOnload to prioritize initial rendering */}
         <Script
           id="meta-pixel-base"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)
@@ -82,7 +84,6 @@ export default function RootLayout({
 
         {/* Client Route Change PageView Tracker */}
         <MetaPixelTracker />
-
 
         {children}
       </body>

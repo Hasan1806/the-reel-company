@@ -13,8 +13,8 @@
   --radius-card: 28px;
   --radius-pill: 999px;
   --max-w: 1360px;
-  --font-head: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-head: var(--font-plus-jakarta), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: var(--font-plus-jakarta), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --ease-out: cubic-bezier(0.16,1,0.3,1);
   --ease-in-out: cubic-bezier(0.65,0,0.35,1);
 }
