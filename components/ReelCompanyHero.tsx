@@ -47,13 +47,13 @@ export default function ReelCompanyHero({
           >
             View our Work
           </button>
-          <a
-            href="https://share.deftform.com/6xP6ET"
+          <Link
+            href="/contact"
             id="hero-book-call-btn"
             className="btn btn-red hero-cta-btn hero-book-call-btn"
           >
             Book a Discovery Call
-          </a>
+          </Link>
         </div>
       </div>
 

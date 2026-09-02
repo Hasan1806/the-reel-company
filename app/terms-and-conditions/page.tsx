@@ -2,16 +2,18 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import DiscoveryCallModal from "@/components/DiscoveryCallModal";
 import PortfolioAccessModal from "@/components/PortfolioAccessModal";
 import { ASSETS } from "@/config/assets";
 
 export default function TermsAndConditionsPage() {
+  const router = useRouter();
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const openDiscoveryModal = () => window.location.href = 'https://share.deftform.com/6xP6ET';
+  const openDiscoveryModal = () => router.push('/contact');
   const closeDiscoveryModal = () => setDiscoveryModalOpen(false);
   const openPortfolioModal = () => setPortfolioModalOpen(true);
   const closePortfolioModal = () => setPortfolioModalOpen(false);
@@ -39,13 +41,13 @@ export default function TermsAndConditionsPage() {
             <Link href="/#services" className="nav-link" suppressHydrationWarning>Services</Link>
             <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
-          <a
-            href="https://share.deftform.com/6xP6ET"
+          <Link
+            href="/contact"
             className="btn btn-red header-cta"
             id="header-cta-btn"
           >
             Book a Discovery Call
-          </a>
+          </Link>
           <button
             className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
             id="mobile-menu-toggle"
@@ -94,13 +96,13 @@ export default function TermsAndConditionsPage() {
             <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu}>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link active" onClick={closeMobileMenu}>Terms &amp; Conditions</Link>
-            <a
-              href="https://share.deftform.com/6xP6ET"
+            <Link
+              href="/contact"
               className="btn btn-red mobile-nav-cta"
               onClick={closeMobileMenu}
             >
               Book a Discovery Call
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -242,13 +244,13 @@ export default function TermsAndConditionsPage() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <a
-                href="https://share.deftform.com/6xP6ET"
+              <Link
+                href="/contact"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Book a Discovery Call
-              </a>
+              </Link>
               <Link href="/#portfolio">
                 Portfolio Access
               </Link>

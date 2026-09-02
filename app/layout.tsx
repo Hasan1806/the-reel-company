@@ -39,7 +39,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="preconnect" href="https://deftform.com" />
+        <link rel="preconnect" href="https://cdn.deftform.com" />
         <link rel="preconnect" href="https://share.deftform.com" />
+        <link rel="dns-prefetch" href="https://cdn.deftform.com" />
         <link rel="dns-prefetch" href="https://share.deftform.com" />
         <noscript>
           <style>{`
@@ -84,6 +86,9 @@ export default function RootLayout({
 
         {/* Client Route Change PageView Tracker */}
         <MetaPixelTracker />
+
+        {/* Global Deftform Embed Script */}
+        <Script src="https://cdn.deftform.com/embed.js" strategy="afterInteractive" />
 
         {children}
       </body>

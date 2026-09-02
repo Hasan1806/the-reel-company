@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
@@ -276,7 +277,7 @@ export default function ReelCompanySite() {
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
   const [activePortfolioAudioIndex, setActivePortfolioAudioIndex] = useState<number | null>(null);
-  // Discovery Call Modal state
+  const router = useRouter();
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
   const lastActiveCtaRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
 
@@ -284,7 +285,7 @@ export default function ReelCompanySite() {
     if (e) {
       e.preventDefault();
     }
-    window.location.href = 'https://share.deftform.com/6xP6ET';
+    router.push('/contact');
   };
 
   const closeDiscoveryModal = () => {
@@ -796,14 +797,14 @@ export default function ReelCompanySite() {
             <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
             <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
           </nav>
-          <a
-            href="https://share.deftform.com/6xP6ET"
+          <Link
+            href="/contact"
             className="btn btn-red header-cta"
             id="header-cta-btn"
             suppressHydrationWarning
           >
             Book a Discovery Call
-          </a>
+          </Link>
           <button className={`mobile-menu-toggle ${mobileMenuOpen ? 'open' : ''}`} id="mobile-menu-toggle" aria-label="Open menu" aria-expanded={mobileMenuOpen ? 'true' : 'false'} aria-controls="mobile-nav" onClick={toggleMobileMenu} suppressHydrationWarning>
             <span></span><span></span><span></span>
           </button>
@@ -822,14 +823,14 @@ export default function ReelCompanySite() {
             <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Contact</Link>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Terms &amp; Conditions</Link>
-            <a
-              href="https://share.deftform.com/6xP6ET"
+            <Link
+              href="/contact"
               className="btn btn-red mobile-nav-cta"
               onClick={closeMobileMenu}
               suppressHydrationWarning
             >
               Book a Discovery Call
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -864,7 +865,7 @@ export default function ReelCompanySite() {
                   </p>
                 </div>
                 <div className="hero-ctas">
-                  <a href="https://share.deftform.com/6xP6ET" className="btn btn-red">Book a Discovery Call</a>
+                  <Link href="/contact" className="btn btn-red">Book a Discovery Call</Link>
                 </div>
               </div>
 
@@ -1102,12 +1103,12 @@ export default function ReelCompanySite() {
                 Full-spectrum video production tailored for modern brand stories — from initial concept and filming to high-end post-production.
               </p>
               <div className="pricing-callout-cta-wrap" style={{ marginTop: "1.5rem" }}>
-                <a
-                  href="https://share.deftform.com/6xP6ET"
+                <Link
+                  href="/contact"
                   className="btn btn-red"
                 >
                   Book a Discovery Call
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -1133,12 +1134,12 @@ export default function ReelCompanySite() {
               <p className="footer-cta-sub">We become your on-demand content department. Strategy, production, editing — all handled. You focus on your business.</p>
               {/* 1. BIG & HIGHLIGHTED PRIMARY CTA BUTTON */}
               <div className="footer-cta-buttons" style={{ marginBottom: "2.25rem" }}>
-                <a
-                  href="https://share.deftform.com/6xP6ET"
+                <Link
+                  href="/contact"
                   className="btn btn-red btn-lg footer-primary-cta-btn"
                 >
                   Book a Discovery Call
-                </a>
+                </Link>
                 <a
                   href="https://wa.me/918109214834?text=Hi%20there,%20I'm%20interested%20in%20working%20together!"
                   target="_blank"
@@ -1187,13 +1188,13 @@ export default function ReelCompanySite() {
             </div>
             <div className="footer-nav-col">
               <h4>Work with us</h4>
-              <a
-                href="https://share.deftform.com/6xP6ET"
+              <Link
+                href="/contact"
                 className="footer-nav-link-btn"
                 style={{ display: "inline-block", textAlign: "left", textDecoration: "none" }}
               >
                 Book a Discovery Call
-              </a>
+              </Link>
               <button
                 type="button"
                 className="footer-nav-link-btn"
