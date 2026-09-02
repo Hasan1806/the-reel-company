@@ -60,12 +60,16 @@ export default function HeroCurvedShowcase() {
     if (!container) return;
 
     let animationFrameId: number;
+    let deferTimer: ReturnType<typeof setTimeout> | null = null;
     let isVisible = true;
     let lastTime = performance.now();
     let globalProgress = 0;
+    let frameCount = 0;
 
     // Single cycle duration: ~18s (noticeably faster ~1.45x, dynamic, fluid and cinematic)
     const SPEED = 1 / (18 * 1000);
+    // Throttle video play/pause decisions to every Nth frame (~12fps for video vs 60fps for transforms)
+    const VIDEO_EVAL_INTERVAL = 5;
 
     // Track geometry parameters (compact, lightweight proportions matching reference)
     let containerWidth = container.clientWidth || window.innerWidth;
@@ -126,6 +130,8 @@ export default function HeroCurvedShowcase() {
 
       if (isVisible) {
         globalProgress = (globalProgress + dt * SPEED) % 1;
+        frameCount++;
+        const evaluateVideos = frameCount % VIDEO_EVAL_INTERVAL === 0;
 
         const totalItems = CURVED_HERO_VIDEOS.length;
         const span = totalItems * cardSpacing;
@@ -172,33 +178,37 @@ export default function HeroCurvedShowcase() {
           const brightness = 0.82 + 0.18 * centerFactor;
 
           // Dynamic transform update with GPU hardware acceleration
+          const isCardVisible = Math.abs(u) <= 1.28 && opacity > 0.01;
           card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
           card.style.opacity = opacity.toFixed(3);
+          card.style.visibility = isCardVisible ? "visible" : "hidden";
           const targetZ = Math.floor(10 + centerFactor * 30);
           if (card.dataset.z !== String(targetZ)) {
             card.dataset.z = String(targetZ);
             card.style.zIndex = String(targetZ);
           }
 
-          // Smart video decode throttling & progressive attachment
-          const vid = videoRefs.current[i];
-          if (vid) {
-            const isCardInViewport = Math.abs(u) <= 1.25 && opacity > 0.05;
-            if (isCardInViewport) {
-              // Lazy attach source when approaching viewport
-              const desiredSrc = vid.dataset.src;
-              if (desiredSrc && !vid.src) {
-                vid.src = desiredSrc;
-                vid.load();
-              }
-              if (!isPlayingRef.current[i]) {
-                isPlayingRef.current[i] = true;
-                vid.play().catch(() => {});
-              }
-            } else {
-              if (isPlayingRef.current[i]) {
-                isPlayingRef.current[i] = false;
-                vid.pause();
+          // Smart video decode throttling & progressive attachment (evaluated every Nth frame)
+          if (evaluateVideos) {
+            const vid = videoRefs.current[i];
+            if (vid) {
+              const isCardInViewport = Math.abs(u) <= 1.25 && opacity > 0.05;
+              if (isCardInViewport) {
+                // Lazy attach source when approaching viewport
+                const desiredSrc = vid.dataset.src;
+                if (desiredSrc && !vid.src) {
+                  vid.src = desiredSrc;
+                  vid.load();
+                }
+                if (!isPlayingRef.current[i]) {
+                  isPlayingRef.current[i] = true;
+                  vid.play().catch(() => {});
+                }
+              } else {
+                if (isPlayingRef.current[i]) {
+                  isPlayingRef.current[i] = false;
+                  vid.pause();
+                }
               }
             }
           }
@@ -208,13 +218,14 @@ export default function HeroCurvedShowcase() {
       animationFrameId = requestAnimationFrame(tick);
     };
 
-    // Defer start by one frame so initial critical UI paints instantly
-    const startRaf = requestAnimationFrame(() => {
+    // Defer animation start by 100ms so FCP/LCP paint completes without main-thread contention
+    deferTimer = setTimeout(() => {
+      lastTime = performance.now();
       animationFrameId = requestAnimationFrame(tick);
-    });
+    }, 100);
 
     return () => {
-      cancelAnimationFrame(startRaf);
+      if (deferTimer) clearTimeout(deferTimer);
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", updateDimensions);
       observer.disconnect();

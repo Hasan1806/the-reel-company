@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import DiscoveryCallModal from "@/components/DiscoveryCallModal";
@@ -26,12 +27,13 @@ export default function PrivacyPolicyPage() {
       <header id="site-header" role="banner" className="scrolled" suppressHydrationWarning>
         <div className="header-inner" suppressHydrationWarning>
           <Link href="/" className="logo" aria-label="The Reel Company Home" suppressHydrationWarning>
-            <img
+            <Image
               src={ASSETS.brand.logo.primary}
               alt={ASSETS.brand.logo.alt}
               className="brand-logo-img"
               width={140}
               height={40}
+              priority
             />
           </Link>
           <nav id="main-nav" aria-label="Main navigation" suppressHydrationWarning>

@@ -385,6 +385,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   user-select: none;
   transform-origin: 50% 50%;
+  contain: layout style paint;
 }
 
 @media (max-width: 768px) {
@@ -530,6 +531,19 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   width: 100%;
   box-sizing: border-box;
   clear: both;
+}
+
+/* ── Content-Visibility: Skip rendering for below-fold sections until near viewport ── */
+.showreel-section,
+.problem-section,
+.process-section,
+.pricing-callout-section,
+.editorial-marquee-section,
+.client-testimonials-section,
+.faq-section,
+.footer-cta-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 .client-marquee-track,
@@ -1075,6 +1089,7 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: transform 0.4s var(--ease-out), border-color 0.3s, box-shadow 0.4s;
+  contain: content;
 }
 
 @keyframes cardShimmer {

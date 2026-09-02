@@ -55,8 +55,9 @@ function LazyPortfolioCard({
 }: LazyPortfolioCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const srcAttached = useRef(false);
 
   // Sync mute state: when another card in this portfolio grid is unmuted, this card becomes muted
   useEffect(() => {
@@ -89,18 +90,21 @@ function LazyPortfolioCard({
     }
   }, [isMuted]);
 
-  // Viewport-aware autoplay & instantaneous mount playback
+  // Viewport-aware lazy src attachment & autoplay
   useEffect(() => {
     const el = cardRef.current;
     const vid = videoRef.current;
     if (!el || !vid) return;
 
-    // Trigger immediate playback on mount
-    tryPlay();
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          // Lazy-attach src on first intersection
+          if (!srcAttached.current) {
+            srcAttached.current = true;
+            vid.src = video.src;
+            vid.load();
+          }
           tryPlay();
         } else {
           if (!vid.paused) {
@@ -117,7 +121,7 @@ function LazyPortfolioCard({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [tryPlay]);
+  }, [tryPlay, video.src]);
 
   // Play / Pause toggle
   const handleTogglePlay = (e?: React.MouseEvent) => {
@@ -197,14 +201,10 @@ function LazyPortfolioCard({
         ref={videoRef}
         playsInline
         loop
-        autoPlay
         muted={isMuted}
-        preload="auto"
+        preload="none"
         poster={video.poster}
         aria-label={video.label}
-        src={video.src}
-        onLoadedData={() => tryPlay()}
-        onCanPlay={() => tryPlay()}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onVolumeChange={() => {
@@ -678,105 +678,124 @@ export default function ReelCompanySite() {
 
 
 
-  // GSAP Animations
+  // GSAP Animations — deferred to idle time to avoid blocking FCP→TTI critical path
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    let ctx: ReturnType<typeof gsap.context> | null = null;
+    let idleHandle: number | null = null;
+    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
-    const ctx = gsap.context(() => {
-      // Hero parallax
-      const heroBg = document.getElementById('hero-bg-image');
-      if (heroBg) {
-        gsap.to(heroBg, {
-          y: '20%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1.5,
-          }
+    const initGsap = () => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      ctx = gsap.context(() => {
+        // Hero parallax
+        const heroBg = document.getElementById('hero-bg-image');
+        if (heroBg) {
+          gsap.to(heroBg, {
+            y: '20%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#hero',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 1.5,
+            }
+          });
+        }
+
+        // Production parallax
+        const prodBg = document.getElementById('production-bg');
+        if (prodBg) {
+          gsap.to(prodBg, {
+            y: '18%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#production',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 1.5,
+            }
+          });
+        }
+
+        // Production text scroll reveal
+        gsap.utils.toArray<HTMLElement>('.production-headline, .production-sub').forEach(el => {
+          gsap.fromTo(el,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1, y: 0, duration: 1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
         });
-      }
 
-      // Production parallax
-      const prodBg = document.getElementById('production-bg');
-      if (prodBg) {
-        gsap.to(prodBg, {
-          y: '18%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#production',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
-          }
+        // Comparison section reveal
+        const table = document.querySelector('.table-wrap');
+        if (table) {
+          gsap.fromTo(table,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1, y: 0, duration: .8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: table,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
+        }
+
+        // Footer CTA reveal
+        const footerContent = document.querySelector('.footer-cta-content');
+        if (footerContent) {
+          gsap.fromTo(footerContent,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1, y: 0, duration: .9,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: footerContent,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
+        }
+
+        // Background colour transition for client CTA
+        ScrollTrigger.create({
+          trigger: '#client-cta',
+          start: 'top 60%',
+          end: 'bottom 40%',
+          onEnter: () => gsap.to('body', { '--body-tint': 1, duration: .6 }),
+          onLeave: () => gsap.to('body', { '--body-tint': 0, duration: .6 }),
+          onEnterBack: () => gsap.to('body', { '--body-tint': 1, duration: .6 }),
+          onLeaveBack: () => gsap.to('body', { '--body-tint': 0, duration: .6 }),
         });
-      }
-
-      // Production text scroll reveal
-      gsap.utils.toArray<HTMLElement>('.production-headline, .production-sub').forEach(el => {
-        gsap.fromTo(el,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1, y: 0, duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-            }
-          }
-        );
       });
+    };
 
-      // Comparison section reveal
-      const table = document.querySelector('.table-wrap');
-      if (table) {
-        gsap.fromTo(table,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0, duration: .8,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: table,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse',
-            }
-          }
-        );
-      }
-
-      // Footer CTA reveal
-      const footerContent = document.querySelector('.footer-cta-content');
-      if (footerContent) {
-        gsap.fromTo(footerContent,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0, duration: .9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: footerContent,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-            }
-          }
-        );
-      }
-
-      // Background colour transition for client CTA
-      ScrollTrigger.create({
-        trigger: '#client-cta',
-        start: 'top 60%',
-        end: 'bottom 40%',
-        onEnter: () => gsap.to('body', { '--body-tint': 1, duration: .6 }),
-        onLeave: () => gsap.to('body', { '--body-tint': 0, duration: .6 }),
-        onEnterBack: () => gsap.to('body', { '--body-tint': 1, duration: .6 }),
-        onLeaveBack: () => gsap.to('body', { '--body-tint': 0, duration: .6 }),
-      });
-    });
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleHandle = (window as unknown as { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => number }).requestIdleCallback(
+        initGsap,
+        { timeout: 3000 }
+      );
+    } else {
+      fallbackTimer = setTimeout(initGsap, 200);
+    }
 
     return () => {
-      ctx.revert();
+      if (idleHandle !== null && 'cancelIdleCallback' in window) {
+        (window as unknown as { cancelIdleCallback: (h: number) => void }).cancelIdleCallback(idleHandle);
+      }
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      if (ctx) ctx.revert();
     };
   }, []);
 

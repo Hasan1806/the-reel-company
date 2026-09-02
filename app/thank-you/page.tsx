@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ASSETS } from "@/config/assets";
 import styles from "./thank-you.module.css";
@@ -27,9 +28,12 @@ export default function ThankYouPage() {
           
           {/* Logo */}
           <Link href="/" aria-label="The Reel Company Home" className={styles.logo}>
-            <img
+            <Image
               src={ASSETS.brand.logo.primary}
               alt={ASSETS.brand.logo.alt}
+              width={140}
+              height={40}
+              priority
             />
           </Link>
 

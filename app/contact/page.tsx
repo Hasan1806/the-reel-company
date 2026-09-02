@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ASSETS } from "@/config/assets";
 import DiscoveryCallForm from "@/components/DiscoveryCallForm";
@@ -20,12 +21,13 @@ export default function ContactPage() {
       <header className="contact-header">
         <div className="contact-header-inner">
           <Link href="/" className="logo" aria-label="The Reel Company Home">
-            <img
+            <Image
               src={ASSETS.brand.logo.primary}
               alt={ASSETS.brand.logo.alt}
               className="brand-logo-img"
               width={140}
               height={40}
+              priority
             />
           </Link>
           <Link href="/" className="contact-back-home-link">
