@@ -55,63 +55,69 @@ function LazyPortfolioCard({
 }: LazyPortfolioCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isInView, setIsInView] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
 
   // Sync mute state: when another card in this portfolio grid is unmuted, this card becomes muted
   useEffect(() => {
     if (activeAudioIndex !== null && activeAudioIndex !== index) {
-      if (videoRef.current && !videoRef.current.muted) {
+      if (videoRef.current) {
         videoRef.current.muted = true;
       }
       setIsMuted(true);
     }
   }, [activeAudioIndex, index]);
 
-  // Viewport-aware autoplay: starts muted by default without restarting or interrupting playback position
+  // Safe autoplay helper
+  const tryPlay = useCallback(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    vid.defaultMuted = true;
+    vid.muted = isMuted;
+    const playPromise = vid.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          // Guaranteed muted autoplay fallback
+          vid.muted = true;
+          setIsMuted(true);
+          vid.play().then(() => setIsPlaying(true)).catch(() => {});
+        });
+    }
+  }, [isMuted]);
+
+  // Viewport-aware autoplay & instantaneous mount playback
   useEffect(() => {
     const el = cardRef.current;
     const vid = videoRef.current;
-    if (!el) return;
+    if (!el || !vid) return;
+
+    // Trigger immediate playback on mount
+    tryPlay();
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting);
-        if (vid) {
-          if (entry.isIntersecting) {
-            // Autoplay silently in MUTE mode by default
-            vid.defaultMuted = true;
-            vid.muted = isMuted;
-            const playPromise = vid.play();
-            if (playPromise !== undefined) {
-              playPromise
-                .then(() => {
-                  setIsPlaying(true);
-                })
-                .catch(() => {
-                  // Fallback safe muted play
-                  vid.muted = true;
-                  setIsMuted(true);
-                  vid.play().then(() => setIsPlaying(true)).catch(() => { });
-                });
-            }
-          } else {
+        if (entry.isIntersecting) {
+          tryPlay();
+        } else {
+          if (!vid.paused) {
             vid.pause();
             setIsPlaying(false);
           }
         }
       },
       {
-        rootMargin: '250px 0px',
+        rootMargin: '450px 0px',
         threshold: 0.05,
       }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [video.src]);
+  }, [tryPlay]);
 
   // Play / Pause toggle
   const handleTogglePlay = (e?: React.MouseEvent) => {
@@ -120,13 +126,7 @@ function LazyPortfolioCard({
     if (!vid) return;
 
     if (vid.paused) {
-      vid.play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          vid.muted = true;
-          setIsMuted(true);
-          vid.play().then(() => setIsPlaying(true)).catch(() => { });
-        });
+      tryPlay();
     } else {
       vid.pause();
       setIsPlaying(false);
@@ -145,7 +145,7 @@ function LazyPortfolioCard({
       setIsMuted(false);
       onSetActiveAudio(index);
       if (vid.paused) {
-        vid.play().catch(() => { });
+        vid.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     } else {
       // Mute: audio OFF, continues playing
@@ -168,7 +168,7 @@ function LazyPortfolioCard({
       setIsMuted(false);
       onSetActiveAudio(index);
       if (vid.paused) {
-        vid.play().then(() => setIsPlaying(true)).catch(() => { });
+        vid.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     } else {
       // If already unmuted and playing, clicking the video toggles audio off while continuing playback
@@ -199,10 +199,12 @@ function LazyPortfolioCard({
         loop
         autoPlay
         muted={isMuted}
-        preload={isInView ? "metadata" : "none"}
+        preload="auto"
         poster={video.poster}
         aria-label={video.label}
-        src={isInView ? video.src : undefined}
+        src={video.src}
+        onLoadedData={() => tryPlay()}
+        onCanPlay={() => tryPlay()}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onVolumeChange={() => {
