@@ -1195,7 +1195,7 @@ export default function ReelCompanySite() {
         </LazyViewportSection>
 
         {/* ═══════════════════════════════ PROBLEM / THE REALITY ═══════════════════════════ */}
-        <LazyViewportSection minHeight="500px" id="problems" className="problem-section" ariaLabel="Content Challenges">
+        <section id="problems" className="problem-section" aria-label="Content Challenges">
           <div className="problem-inner">
             <div className="problem-left-col">
               <p className="section-label">The Reality</p>
@@ -1229,7 +1229,7 @@ export default function ReelCompanySite() {
               </div>
             </div>
           </div>
-        </LazyViewportSection>
+        </section>
 
         {/* ═══════════════════════════════ UGC PROCESS ═══════════════════════════ */}
         <LazyViewportSection minHeight="450px">
