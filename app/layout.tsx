@@ -12,8 +12,20 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.thereelcompany.in'),
   title: 'The Reel Company — Studio-Quality UGC & Content Production',
   description: 'The Reel Company delivers studio-quality UGC and ad videos for brands. On-demand, affordable, and delivered quickly. Stop struggling to create content.',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'The Reel Company — Studio-Quality UGC & Content Production',
+    description: 'The Reel Company delivers studio-quality UGC and ad videos for brands. On-demand, affordable, and delivered quickly.',
+    url: 'https://www.thereelcompany.in',
+    siteName: 'The Reel Company',
+    locale: 'en_US',
+    type: 'website',
+  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -34,15 +46,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-        <link rel="preconnect" href="https://connect.facebook.net" />
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <link rel="preconnect" href="https://deftform.com" />
-        <link rel="preconnect" href="https://cdn.deftform.com" />
-        <link rel="preconnect" href="https://share.deftform.com" />
+        <link rel="preconnect" href="https://cdn.deftform.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.deftform.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cdn.deftform.com" />
-        <link rel="dns-prefetch" href="https://share.deftform.com" />
+        <link rel="dns-prefetch" href="https://api.deftform.com" />
         <noscript>
           <style>{`
             .intro-lens-scroll-section { height: auto !important; }
@@ -87,7 +96,7 @@ export default function RootLayout({
         {/* Client Route Change PageView Tracker */}
         <MetaPixelTracker />
 
-        {/* Global Deftform Embed Script */}
+        {/* Global Deftform Embed Script - afterInteractive ensures immediate availability on form open */}
         <Script src="https://cdn.deftform.com/embed.js" strategy="afterInteractive" />
 
         {children}

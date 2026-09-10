@@ -166,6 +166,12 @@ export default function ClientTestimonialsSection() {
     const targetVideo = videoRefs.current.get(instanceKey);
     if (!targetVideo) return;
 
+    // Attach video source dynamically on user play
+    if (!targetVideo.src && targetVideo.dataset.src) {
+      targetVideo.src = targetVideo.dataset.src;
+      targetVideo.load();
+    }
+
     if (activeInstanceKey === instanceKey) {
       if (targetVideo.paused) {
         targetVideo.play().then(() => {
@@ -337,6 +343,7 @@ export default function ClientTestimonialsSection() {
   // ════════════════ LEFT → RIGHT RAF ANIMATION LOOP ════════════════
   useEffect(() => {
     const track = trackRef.current;
+    const sectionEl = sectionRef.current;
     if (!track) return;
 
     // Set initial scroll position to middle set on mount
@@ -350,7 +357,19 @@ export default function ClientTestimonialsSection() {
     initializePosition();
     const initTimer = setTimeout(initializePosition, 100);
 
+    const stopLoop = () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+    };
+
     const animate = (currentTime: number) => {
+      if (pauseReasonsRef.current.offscreen || pauseReasonsRef.current.tabHidden) {
+        rafIdRef.current = null;
+        return;
+      }
+
       if (!lastTimeRef.current) {
         lastTimeRef.current = currentTime;
       }
@@ -363,9 +382,7 @@ export default function ClientTestimonialsSection() {
       const isPaused =
         pauseReasonsRef.current.hover ||
         pauseReasonsRef.current.interaction ||
-        pauseReasonsRef.current.videoPlaying ||
-        pauseReasonsRef.current.offscreen ||
-        pauseReasonsRef.current.tabHidden;
+        pauseReasonsRef.current.videoPlaying;
 
       if (!isPaused && trackRef.current) {
         const trackEl = trackRef.current;
@@ -386,78 +403,54 @@ export default function ClientTestimonialsSection() {
       rafIdRef.current = requestAnimationFrame(animate);
     };
 
-    rafIdRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      clearTimeout(initTimer);
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
+    const startLoop = () => {
+      if (!rafIdRef.current && !pauseReasonsRef.current.offscreen && !pauseReasonsRef.current.tabHidden) {
+        lastTimeRef.current = performance.now();
+        rafIdRef.current = requestAnimationFrame(animate);
       }
     };
-  }, []);
 
-  // Pause active video if it scrolls out of view (>65% out of view)
-  useEffect(() => {
-    if (activeInstanceKey === null) return;
+    // Section Visibility Observer: only run RAF when section is scrolled into view
+    let observer: IntersectionObserver | null = null;
+    if (sectionEl && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              pauseActiveVideo();
+              pauseReasonsRef.current.offscreen = true;
+              stopLoop();
+            } else {
+              pauseReasonsRef.current.offscreen = false;
+              startLoop();
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(sectionEl);
+    }
 
-    const activeCardEl = cardRefs.current.get(activeInstanceKey);
-    if (!activeCardEl || typeof IntersectionObserver === 'undefined') return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
-          pauseActiveVideo();
-          scheduleResume(2000);
-        }
-      },
-      {
-        root: trackRef.current,
-        threshold: [0, 0.35, 0.7, 1.0]
-      }
-    );
-
-    observer.observe(activeCardEl);
-    return () => observer.disconnect();
-  }, [activeInstanceKey, pauseActiveVideo, scheduleResume]);
-
-  // Section Visibility: pause RAF when section is offscreen to save battery/CPU
-  useEffect(() => {
-    const sectionEl = sectionRef.current;
-    if (!sectionEl || typeof IntersectionObserver === 'undefined') return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            pauseActiveVideo();
-            pauseReasonsRef.current.offscreen = true;
-          } else {
-            pauseReasonsRef.current.offscreen = false;
-            lastTimeRef.current = performance.now();
-          }
-        });
-      },
-      { threshold: 0.08 }
-    );
-
-    observer.observe(sectionEl);
-    return () => observer.disconnect();
-  }, [pauseActiveVideo]);
-
-  // Page Visibility API: pause when tab is inactive
-  useEffect(() => {
+    // Page Visibility API: pause when tab is inactive
     const handleVisibilityChange = () => {
       if (document.hidden) {
         pauseActiveVideo();
         pauseReasonsRef.current.tabHidden = true;
+        stopLoop();
       } else {
         pauseReasonsRef.current.tabHidden = false;
-        lastTimeRef.current = performance.now();
+        startLoop();
       }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearTimeout(initTimer);
+      stopLoop();
+      if (observer) observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [pauseActiveVideo]);
 
   return (
@@ -545,19 +538,43 @@ export default function ClientTestimonialsSection() {
                     }}
                   >
                     <div className="testimonial-video-wrap">
+                      {/* Native lazy-loaded poster image: 0 network bytes on initial page load */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={video.poster}
+                        alt={`${video.name} testimonial`}
+                        loading="lazy"
+                        decoding="async"
+                        className="testimonial-video-el"
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: isThisPlaying ? 'none' : 'block',
+                        }}
+                      />
+
                       <video
                         ref={(el) => setVideoRef(instanceKey, el)}
-                        poster={video.poster}
+                        data-src={video.src}
+                        data-fallback={video.fallbackSrc}
                         preload="none"
                         playsInline
                         muted={isMuted}
                         loop={false}
                         onEnded={() => handleVideoEnded(instanceKey)}
                         className="testimonial-video-el"
-                      >
-                        <source src={video.src} type="video/webm" />
-                        <source src={video.fallbackSrc} type="video/mp4" />
-                      </video>
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: isThisPlaying ? 'block' : 'none',
+                        }}
+                      />
 
                       {/* Ambient overlay */}
                       <div className={`testimonial-overlay ${isThisPlaying ? 'is-playing' : ''}`}></div>

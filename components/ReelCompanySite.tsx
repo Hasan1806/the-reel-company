@@ -9,12 +9,20 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
 import ReelCompanyHero from './ReelCompanyHero';
 import EditorialMarqueeSection from './EditorialMarqueeSection';
-import UgcProcessSection from './process/UgcProcessSection';
-import FAQSection from './FAQSection';
-import ClientTestimonialsSection from './ClientTestimonialsSection';
-import QuickInquiryPricingForm from './QuickInquiryPricingForm';
 import { ASSETS } from '@/config/assets';
 
+const UgcProcessSection = dynamic(() => import('./process/UgcProcessSection'), {
+  ssr: true,
+});
+const FAQSection = dynamic(() => import('./FAQSection'), {
+  ssr: true,
+});
+const ClientTestimonialsSection = dynamic(() => import('./ClientTestimonialsSection'), {
+  ssr: true,
+});
+const QuickInquiryPricingForm = dynamic(() => import('./QuickInquiryPricingForm'), {
+  ssr: true,
+});
 const DiscoveryCallModal = dynamic(() => import('./DiscoveryCallModal'), {
   ssr: false,
 });
@@ -102,6 +110,7 @@ function LazyPortfolioCard({
           // Lazy-attach src on first intersection
           if (!srcAttached.current) {
             srcAttached.current = true;
+            if (video.poster) vid.poster = video.poster;
             vid.src = video.src;
             vid.load();
           }
@@ -114,14 +123,14 @@ function LazyPortfolioCard({
         }
       },
       {
-        rootMargin: '450px 0px',
+        rootMargin: '120px 0px',
         threshold: 0.05,
       }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [tryPlay, video.src]);
+  }, [tryPlay, video.src, video.poster]);
 
   // Play / Pause toggle
   const handleTogglePlay = (e?: React.MouseEvent) => {
@@ -197,13 +206,24 @@ function LazyPortfolioCard({
         <span className="video-index-tag">{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
       </div>
 
+      {/* Lazy Poster image: zero network traffic until scrolled near */}
+      {!isPlaying && video.poster && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={video.poster}
+          alt={video.label}
+          loading="lazy"
+          decoding="async"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      )}
+
       <video
         ref={videoRef}
         playsInline
         loop
         muted={isMuted}
         preload="none"
-        poster={video.poster}
         aria-label={video.label}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
@@ -212,7 +232,7 @@ function LazyPortfolioCard({
             setIsMuted(videoRef.current.muted);
           }
         }}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
       />
 
       {/* Center Play Icon when paused */}
@@ -524,52 +544,61 @@ export default function ReelCompanySite() {
     setHeroMuted(heroVideoRef.current.muted);
   };
 
-  // Hero Reveal Animation & Video Auto-play Guarantee
+  // Studio Overview Video Viewport-triggered Autoplay
   useEffect(() => {
-    if (heroVideoRef.current) {
-      heroVideoRef.current.defaultMuted = true;
-      heroVideoRef.current.muted = true;
-      const playPromise = heroVideoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay retry on first interaction if blocked
-          const onUserAction = () => {
-            if (heroVideoRef.current) {
-              heroVideoRef.current.play().catch(() => { });
-            }
-            window.removeEventListener('click', onUserAction);
-            window.removeEventListener('scroll', onUserAction);
-            window.removeEventListener('touchstart', onUserAction);
-          };
-          window.addEventListener('click', onUserAction, { once: true });
-          window.addEventListener('scroll', onUserAction, { once: true });
-          window.addEventListener('touchstart', onUserAction, { once: true });
-        });
-      }
-    }
+    const vid = heroVideoRef.current;
+    if (!vid) return;
+
+    let attached = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!attached) {
+            attached = true;
+            vid.src = ASSETS.videos.hero.src;
+            vid.load();
+          }
+          vid.defaultMuted = true;
+          vid.muted = true;
+          vid.play().then(() => setHeroPlaying(true)).catch(() => {});
+        } else {
+          if (!vid.paused) {
+            vid.pause();
+            setHeroPlaying(false);
+          }
+        }
+      },
+      { rootMargin: '150px 0px', threshold: 0.05 }
+    );
+
+    observer.observe(vid);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    const timers: NodeJS.Timeout[] = [];
-    const raf = requestAnimationFrame(() => {
-      const badge = document.querySelector('.hero-badge');
-      const lines = document.querySelectorAll('.line-inner');
-      const tagline = document.querySelector('.hero-tagline');
-      const sub = document.querySelector('.hero-sub');
-      const ctas = document.querySelector('.hero-ctas');
-      const videoWrap = document.querySelector('.hero-video-wrap');
+    const studioSection = document.getElementById('studio-overview');
+    if (!studioSection) return;
 
-      timers.push(setTimeout(() => { badge?.classList.add('animated'); }, 100));
-      timers.push(setTimeout(() => { lines.forEach(l => l.classList.add('revealed')); }, 300));
-      timers.push(setTimeout(() => { tagline?.classList.add('animated'); }, 500));
-      timers.push(setTimeout(() => { sub?.classList.add('animated'); }, 700));
-      timers.push(setTimeout(() => { ctas?.classList.add('animated'); }, 900));
-      timers.push(setTimeout(() => { videoWrap?.classList.add('animated'); }, 400));
-    });
-    return () => {
-      cancelAnimationFrame(raf);
-      timers.forEach(clearTimeout);
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const tagline = studioSection.querySelector('.hero-tagline');
+          const sub = studioSection.querySelector('.hero-sub');
+          const ctas = studioSection.querySelector('.hero-ctas');
+          const videoWrap = studioSection.querySelector('.hero-video-wrap');
+
+          tagline?.classList.add('animated');
+          sub?.classList.add('animated');
+          ctas?.classList.add('animated');
+          videoWrap?.classList.add('animated');
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(studioSection);
+    return () => observer.disconnect();
   }, []);
 
   // Marquee touch interactions
@@ -751,23 +780,6 @@ export default function ReelCompanySite() {
           );
         }
 
-        // Footer CTA reveal
-        const footerContent = document.querySelector('.footer-cta-content');
-        if (footerContent) {
-          gsap.fromTo(footerContent,
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1, y: 0, duration: .9,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: footerContent,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse',
-              }
-            }
-          );
-        }
-
         // Background colour transition for client CTA
         ScrollTrigger.create({
           trigger: '#client-cta',
@@ -931,14 +943,25 @@ export default function ReelCompanySite() {
                   <div className="phone-conic-ring"></div>
                   <div className="phone-glow"></div>
                   <div className="phone-frame">
+                    {/* Lazy Poster image */}
+                    {ASSETS.videos.hero.poster && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={ASSETS.videos.hero.poster}
+                        alt="Studio Reel showcase preview"
+                        loading="lazy"
+                        decoding="async"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    )}
                     <video
-                      autoPlay={ASSETS.videoConfig.hero.autoPlay}
-                      muted={ASSETS.videoConfig.hero.muted}
-                      loop={ASSETS.videoConfig.hero.loop}
-                      playsInline={ASSETS.videoConfig.hero.playsInline}
-                      preload={ASSETS.videoConfig.hero.preload}
-                      poster={ASSETS.videos.hero.poster}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      ref={heroVideoRef}
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      aria-label="Studio Reel showcase"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
                       onError={(e) => {
                         const target = e.currentTarget;
                         const fallbackSrc = ASSETS.videos.hero.fallback;
@@ -948,12 +971,7 @@ export default function ReelCompanySite() {
                           target.play().catch(() => { });
                         }
                       }}
-                    >
-                      <source src={ASSETS.videos.hero.src} type="video/mp4" />
-                      <source src="/cn-outro-hero-video.mp4" type="video/mp4" />
-                      <source src="https://creatornavigator.in/wp-content/uploads/2024/12/CN-Outro-Animation.mp4" type="video/mp4" />
-                      <source src={ASSETS.videos.hero.fallback} type="video/mp4" />
-                    </video>
+                    />
                   </div>
                 </div>
               </div>

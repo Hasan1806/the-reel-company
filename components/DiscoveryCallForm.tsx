@@ -1,30 +1,61 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function DiscoveryCallForm() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // If Deftform embed is already on window, trigger initialization
-    if (typeof (window as any).initDeftform === "function") {
-      try {
-        (window as any).initDeftform();
-      } catch (err) {
-        console.warn("Deftform init error:", err);
+    let checkInterval: NodeJS.Timeout | null = null;
+    let attempts = 0;
+
+    const runInit = () => {
+      if (typeof (window as any).initDeftform === "function") {
+        try {
+          (window as any).initDeftform();
+          setIsLoaded(true);
+          return true;
+        } catch (err) {
+          console.warn("Deftform init error:", err);
+        }
       }
+      return false;
+    };
+
+    // 1. Try immediately if embed script was already cached/loaded by Next.js
+    if (runInit()) return;
+
+    // 2. Check existing script tag and listen to its load event
+    let script = document.querySelector<HTMLScriptElement>(
+      'script[src="https://cdn.deftform.com/embed.js"]'
+    );
+
+    if (!script) {
+      script = document.createElement("script");
+      script.src = "https://cdn.deftform.com/embed.js";
+      script.async = true;
+      script.onload = () => {
+        runInit();
+      };
+      document.body.appendChild(script);
     } else {
-      // Dynamically load the embed script if not present
-      const existingScript = document.querySelector(
-        'script[src="https://cdn.deftform.com/embed.js"]'
-      );
-      if (!existingScript) {
-        const script = document.createElement("script");
-        script.src = "https://cdn.deftform.com/embed.js";
-        script.async = true;
-        document.body.appendChild(script);
-      }
+      script.addEventListener("load", runInit);
     }
+
+    // 3. Fast high-frequency polling check (every 30ms) to trigger initDeftform the millisecond it evaluates
+    checkInterval = setInterval(() => {
+      attempts++;
+      if (runInit() || attempts > 40) {
+        if (checkInterval) clearInterval(checkInterval);
+        setIsLoaded(true);
+      }
+    }, 30);
+
+    return () => {
+      if (checkInterval) clearInterval(checkInterval);
+      if (script) script.removeEventListener("load", runInit);
+    };
   }, []);
 
   return (
@@ -45,16 +76,43 @@ export default function DiscoveryCallForm() {
         </p>
       </div>
 
-      {/* Form Body */}
-      <div
-        ref={containerRef}
-        className="deftform"
-        data-form-id="69e179a0-4190-4579-b14a-04e020f58e83"
-        data-form-width="100%"
-        data-form-align="center"
-        data-form-auto-height="1"
-        style={{ minHeight: "560px", width: "100%" }}
-      />
+      {/* Form Body with Smooth Instant Skeleton Fallback */}
+      <div style={{ position: "relative", minHeight: "560px", width: "100%" }}>
+        {!isLoaded && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.25rem",
+              padding: "2rem",
+              background: "rgba(255, 255, 255, 0.02)",
+              borderRadius: "16px",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
+              zIndex: 0,
+            }}
+          >
+            <div style={{ height: "18px", width: "35%", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }} />
+            <div style={{ height: "46px", width: "100%", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }} />
+            <div style={{ height: "18px", width: "30%", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }} />
+            <div style={{ height: "46px", width: "100%", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }} />
+            <div style={{ height: "18px", width: "45%", background: "rgba(255,255,255,0.06)", borderRadius: "6px" }} />
+            <div style={{ height: "46px", width: "100%", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }} />
+            <div style={{ height: "46px", width: "100%", background: "rgba(224,32,32,0.2)", borderRadius: "999px", marginTop: "0.75rem" }} />
+          </div>
+        )}
+        <div
+          ref={containerRef}
+          className="deftform"
+          data-form-id="69e179a0-4190-4579-b14a-04e020f58e83"
+          data-form-width="100%"
+          data-form-align="center"
+          data-form-auto-height="1"
+          style={{ minHeight: "560px", width: "100%", position: "relative", zIndex: 1 }}
+        />
+      </div>
     </div>
   );
 }
+

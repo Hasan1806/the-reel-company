@@ -100,18 +100,153 @@ export default function HeroCurvedShowcase() {
 
     window.addEventListener("resize", updateDimensions, { passive: true });
 
+    // Render single frame without requesting next frame
+    const renderFrame = (progress: number, evaluateVideos: boolean) => {
+      const totalItems = CURVED_HERO_VIDEOS.length;
+      const span = totalItems * cardSpacing;
+      const wCenter = containerWidth / 2 - cardWidth / 2;
+      const xMin = wCenter - span / 2;
+      const visibleHalfWidth = (containerWidth + cardWidth * 0.8) / 2;
+      const maxRotation = isMobile ? 7.5 : 5.0;
+
+      for (let i = 0; i < totalItems; i++) {
+        const card = cardRefs.current[i];
+        if (!card) continue;
+
+        // Card loop progress (0 to 1) moving continuously LEFT -> RIGHT
+        const p = (progress + i / totalItems) % 1;
+        const x = xMin + p * span;
+
+        // Normalized offset from center: -1 (far left) to 0 (center) to +1 (far right)
+        const u = (x - wCenter) / visibleHalfWidth;
+        const absU = Math.abs(u);
+        const clampedU = Math.max(-1.15, Math.min(1.15, u));
+        const isCardVisible = absU <= 1.25;
+
+        if (!isCardVisible) {
+          if (card.style.visibility !== "hidden") {
+            card.style.visibility = "hidden";
+            card.style.opacity = "0";
+          }
+          if (evaluateVideos && isPlayingRef.current[i]) {
+            isPlayingRef.current[i] = false;
+            const vid = videoRefs.current[i];
+            if (vid && !vid.paused) vid.pause();
+          }
+          continue;
+        }
+
+        // Broad U-curve: fast polynomial approximation
+        const absClamped = Math.min(1, Math.abs(clampedU));
+        const y = curveDepth * (1 - absClamped * absClamped);
+
+        // Center focus factor (1.0 at center, drops to 0.0 at outer wings)
+        const centerFactor = Math.max(0, 1 - absClamped * 1.2);
+
+        // Prominent center scale: center card is enlarged and focused
+        const scale = isMobile
+          ? 0.86 + 0.24 * centerFactor
+          : 0.90 + 0.14 * centerFactor;
+
+        // Dynamic curve tangent tilt: left cards tilt CCW, right cards tilt CW, center upright
+        const rotation = clampedU * maxRotation;
+
+        // Edge fade attenuation for seamless infinite entry/exit
+        let opacity = 1;
+        if (p < 0.05) {
+          opacity = p * 20;
+        } else if (p > 0.95) {
+          opacity = (1 - p) * 20;
+        }
+
+        // Dynamic transform update with GPU hardware acceleration
+        card.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${rotation.toFixed(1)}deg) scale(${scale.toFixed(2)})`;
+        card.style.opacity = opacity.toFixed(2);
+        if (card.style.visibility !== "visible") {
+          card.style.visibility = "visible";
+        }
+        const targetZ = Math.floor(10 + centerFactor * 30);
+        if (card.dataset.z !== String(targetZ)) {
+          card.dataset.z = String(targetZ);
+          card.style.zIndex = String(targetZ);
+        }
+
+        // Smart video decode throttling & progressive attachment (evaluated every Nth frame)
+        if (evaluateVideos) {
+          const vid = videoRefs.current[i];
+          if (vid) {
+            // Only active cards in the central viewing arc decode & play video (1-2 videos max)
+            const isCenterFocus = absU <= 0.40 && opacity > 0.3;
+            if (isCenterFocus) {
+              const desiredSrc = vid.dataset.src;
+              if (desiredSrc && !vid.src) {
+                vid.src = desiredSrc;
+                vid.load();
+              }
+              if (!isPlayingRef.current[i]) {
+                isPlayingRef.current[i] = true;
+                vid.play().catch(() => {});
+              }
+            } else {
+              if (isPlayingRef.current[i]) {
+                isPlayingRef.current[i] = false;
+                vid.pause();
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const stopLoop = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    };
+
+    const loop = (now: number) => {
+      if (!isVisible) {
+        animationFrameId = 0;
+        return;
+      }
+
+      const dt = now - lastTime;
+      const minFrameTime = isMobile ? 32 : 16;
+      if (dt < minFrameTime) {
+        animationFrameId = requestAnimationFrame(loop);
+        return;
+      }
+      lastTime = now;
+
+      globalProgress = (globalProgress + dt * SPEED) % 1;
+      frameCount++;
+      const evaluateVideos = frameCount % VIDEO_EVAL_INTERVAL === 0;
+
+      renderFrame(globalProgress, evaluateVideos);
+      animationFrameId = requestAnimationFrame(loop);
+    };
+
+    const startLoop = () => {
+      if (!animationFrameId && isVisible) {
+        lastTime = performance.now();
+        animationFrameId = requestAnimationFrame(loop);
+      }
+    };
+
     // IntersectionObserver to pause RAF and video decoders when scrolled offscreen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
         if (isVisible) {
-          lastTime = performance.now();
+          startLoop();
           videoRefs.current.forEach((vid, i) => {
             if (vid && isPlayingRef.current[i] && vid.paused) {
               vid.play().catch(() => {});
             }
           });
         } else {
+          stopLoop();
           videoRefs.current.forEach((vid) => {
             if (vid && !vid.paused) {
               vid.pause();
@@ -123,110 +258,29 @@ export default function HeroCurvedShowcase() {
     );
     observer.observe(container);
 
-    // Master Animation Loop
-    const tick = (now: number) => {
-      const dt = Math.min(now - lastTime, 64);
-      lastTime = now;
+    // Render initial static frame immediately without starting RAF
+    renderFrame(0, true);
 
-      if (isVisible) {
-        globalProgress = (globalProgress + dt * SPEED) % 1;
-        frameCount++;
-        const evaluateVideos = frameCount % VIDEO_EVAL_INTERVAL === 0;
-
-        const totalItems = CURVED_HERO_VIDEOS.length;
-        const span = totalItems * cardSpacing;
-        const wCenter = containerWidth / 2 - cardWidth / 2;
-        const xMin = wCenter - span / 2;
-        const visibleHalfWidth = (containerWidth + cardWidth * 0.8) / 2;
-        const maxRotation = isMobile ? 7.5 : 5.0;
-
-        for (let i = 0; i < totalItems; i++) {
-          const card = cardRefs.current[i];
-          if (!card) continue;
-
-          // Card loop progress (0 to 1) moving continuously LEFT -> RIGHT
-          const p = (globalProgress + i / totalItems) % 1;
-          const x = xMin + p * span;
-
-          // Normalized offset from center: -1 (far left) to 0 (center) to +1 (far right)
-          const u = (x - wCenter) / visibleHalfWidth;
-          const clampedU = Math.max(-1.15, Math.min(1.15, u));
-
-          // Broad U-curve: p = 2.4 gives a smooth, organic arc with rounded base
-          const y = curveDepth * (1 - Math.pow(Math.min(1, Math.abs(clampedU)), 2.4));
-
-          // Center focus factor (1.0 at center, drops to 0.0 at outer wings)
-          const centerFactor = Math.max(0, 1 - Math.pow(Math.min(1, Math.abs(clampedU)), 1.5));
-
-          // Prominent center scale: center card is enlarged and focused
-          const scale = isMobile
-            ? 0.86 + 0.24 * centerFactor
-            : 0.90 + 0.14 * centerFactor;
-
-          // Dynamic curve tangent tilt: left cards tilt CCW, right cards tilt CW, center upright
-          const rotation = clampedU * maxRotation;
-
-          // Edge fade attenuation for seamless infinite entry/exit
-          let opacity = 1;
-          if (p < 0.05) {
-            opacity = p / 0.05;
-          } else if (p > 0.95) {
-            opacity = (1 - p) / 0.05;
-          }
-
-          // Subtle brightness focus for the active center card
-          const brightness = 0.82 + 0.18 * centerFactor;
-
-          // Dynamic transform update with GPU hardware acceleration
-          const isCardVisible = Math.abs(u) <= 1.28 && opacity > 0.01;
-          card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-          card.style.opacity = opacity.toFixed(3);
-          card.style.visibility = isCardVisible ? "visible" : "hidden";
-          const targetZ = Math.floor(10 + centerFactor * 30);
-          if (card.dataset.z !== String(targetZ)) {
-            card.dataset.z = String(targetZ);
-            card.style.zIndex = String(targetZ);
-          }
-
-          // Smart video decode throttling & progressive attachment (evaluated every Nth frame)
-          if (evaluateVideos) {
-            const vid = videoRefs.current[i];
-            if (vid) {
-              const isCardInViewport = Math.abs(u) <= 1.25 && opacity > 0.05;
-              if (isCardInViewport) {
-                // Lazy attach source when approaching viewport
-                const desiredSrc = vid.dataset.src;
-                if (desiredSrc && !vid.src) {
-                  vid.src = desiredSrc;
-                  vid.load();
-                }
-                if (!isPlayingRef.current[i]) {
-                  isPlayingRef.current[i] = true;
-                  vid.play().catch(() => {});
-                }
-              } else {
-                if (isPlayingRef.current[i]) {
-                  isPlayingRef.current[i] = false;
-                  vid.pause();
-                }
-              }
-            }
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(tick);
-    };
-
-    // Defer animation start by 100ms so FCP/LCP paint completes without main-thread contention
-    deferTimer = setTimeout(() => {
-      lastTime = performance.now();
-      animationFrameId = requestAnimationFrame(tick);
-    }, 100);
+    // Defer continuous animation loop to idle time past critical rendering & hydration
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      deferTimer = (window as unknown as { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => any }).requestIdleCallback(
+        () => {
+          deferTimer = setTimeout(startLoop, 150) as any;
+        },
+        { timeout: 1200 }
+      );
+    } else {
+      deferTimer = setTimeout(startLoop, 500);
+    }
 
     return () => {
-      if (deferTimer) clearTimeout(deferTimer);
-      cancelAnimationFrame(animationFrameId);
+      if (deferTimer) {
+        if (typeof window !== "undefined" && "cancelIdleCallback" in window) {
+          (window as unknown as { cancelIdleCallback: (h: any) => void }).cancelIdleCallback(deferTimer);
+        }
+        clearTimeout(deferTimer);
+      }
+      stopLoop();
       window.removeEventListener("resize", updateDimensions);
       observer.disconnect();
     };
@@ -255,13 +309,20 @@ export default function HeroCurvedShowcase() {
             }}
           >
             <div className="hero-curved-card-inner">
+              {/* Native lazy-loaded poster for smooth rendering without initial network contention */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.poster}
+                alt={`Hero video card ${idx + 1}`}
+                loading={idx < 4 ? "eager" : "lazy"}
+                decoding="async"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
               <video
                 ref={(el) => {
                   videoRefs.current[idx] = el;
                 }}
                 data-src={item.src}
-                poster={item.poster}
-                autoPlay
                 muted
                 loop
                 playsInline
@@ -269,6 +330,7 @@ export default function HeroCurvedShowcase() {
                 disablePictureInPicture
                 className="hero-curved-video"
                 preload="none"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
               />
             </div>
           </div>
