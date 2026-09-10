@@ -4,24 +4,23 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
 import ReelCompanyHero from './ReelCompanyHero';
-import EditorialMarqueeSection from './EditorialMarqueeSection';
 import { ASSETS } from '@/config/assets';
-
+const EditorialMarqueeSection = dynamic(() => import('./EditorialMarqueeSection'), {
+  ssr: false,
+});
 const UgcProcessSection = dynamic(() => import('./process/UgcProcessSection'), {
-  ssr: true,
+  ssr: false,
 });
 const FAQSection = dynamic(() => import('./FAQSection'), {
-  ssr: true,
+  ssr: false,
 });
 const ClientTestimonialsSection = dynamic(() => import('./ClientTestimonialsSection'), {
-  ssr: true,
+  ssr: false,
 });
 const QuickInquiryPricingForm = dynamic(() => import('./QuickInquiryPricingForm'), {
-  ssr: true,
+  ssr: false,
 });
 const DiscoveryCallModal = dynamic(() => import('./DiscoveryCallModal'), {
   ssr: false,
@@ -65,6 +64,7 @@ function LazyPortfolioCard({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   const srcAttached = useRef(false);
 
   // Sync mute state: when another card in this portfolio grid is unmuted, this card becomes muted
@@ -101,29 +101,32 @@ function LazyPortfolioCard({
   // Viewport-aware lazy src attachment & autoplay
   useEffect(() => {
     const el = cardRef.current;
-    const vid = videoRef.current;
-    if (!el || !vid) return;
+    if (!el) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Lazy-attach src on first intersection
-          if (!srcAttached.current) {
-            srcAttached.current = true;
-            if (video.poster) vid.poster = video.poster;
-            vid.src = video.src;
-            vid.load();
+          setIsMounted(true);
+          const vid = videoRef.current;
+          if (vid) {
+            if (!srcAttached.current) {
+              srcAttached.current = true;
+              if (video.poster) vid.poster = video.poster;
+              vid.src = video.src;
+              vid.load();
+            }
+            tryPlay();
           }
-          tryPlay();
         } else {
-          if (!vid.paused) {
+          const vid = videoRef.current;
+          if (vid && !vid.paused) {
             vid.pause();
             setIsPlaying(false);
           }
         }
       },
       {
-        rootMargin: '120px 0px',
+        rootMargin: '100px 0px',
         threshold: 0.05,
       }
     );
@@ -132,9 +135,25 @@ function LazyPortfolioCard({
     return () => observer.disconnect();
   }, [tryPlay, video.src, video.poster]);
 
+  // When isMounted becomes true and video element mounts into DOM
+  useEffect(() => {
+    if (isMounted && videoRef.current && !srcAttached.current) {
+      srcAttached.current = true;
+      const vid = videoRef.current;
+      if (video.poster) vid.poster = video.poster;
+      vid.src = video.src;
+      vid.load();
+      tryPlay();
+    }
+  }, [isMounted, tryPlay, video.poster, video.src]);
+
   // Play / Pause toggle
   const handleTogglePlay = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+    if (!isMounted) {
+      setIsMounted(true);
+      return;
+    }
     const vid = videoRef.current;
     if (!vid) return;
 
@@ -149,6 +168,10 @@ function LazyPortfolioCard({
   // Mute / Unmute toggle
   const handleToggleMute = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+    if (!isMounted) {
+      setIsMounted(true);
+      return;
+    }
     const vid = videoRef.current;
     if (!vid) return;
 
@@ -172,6 +195,10 @@ function LazyPortfolioCard({
 
   // Card click interaction: clicking the video unmutes this exact video from its current position
   const handleCardClick = () => {
+    if (!isMounted) {
+      setIsMounted(true);
+      return;
+    }
     const vid = videoRef.current;
     if (!vid) return;
 
@@ -207,7 +234,7 @@ function LazyPortfolioCard({
       </div>
 
       {/* Lazy Poster image: zero network traffic until scrolled near */}
-      {!isPlaying && video.poster && (
+      {(!isPlaying || !isMounted) && video.poster && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={video.poster}
@@ -218,22 +245,24 @@ function LazyPortfolioCard({
         />
       )}
 
-      <video
-        ref={videoRef}
-        playsInline
-        loop
-        muted={isMuted}
-        preload="none"
-        aria-label={video.label}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onVolumeChange={() => {
-          if (videoRef.current) {
-            setIsMuted(videoRef.current.muted);
-          }
-        }}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
-      />
+      {isMounted && (
+        <video
+          ref={videoRef}
+          playsInline
+          loop
+          muted={isMuted}
+          preload="none"
+          aria-label={video.label}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onVolumeChange={() => {
+            if (videoRef.current) {
+              setIsMuted(videoRef.current.muted);
+            }
+          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
+        />
+      )}
 
       {/* Center Play Icon when paused */}
       {!isPlaying && (
@@ -291,6 +320,55 @@ function LazyPortfolioCard({
   );
 }
 
+interface LazyViewportSectionProps {
+  children: React.ReactNode;
+  minHeight?: string;
+  id?: string;
+  className?: string;
+  ariaLabel?: string;
+}
+
+function LazyViewportSection({
+  children,
+  minHeight = '350px',
+  id,
+  className,
+  ariaLabel,
+}: LazyViewportSectionProps) {
+  const [isNear, setIsNear] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsNear(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '400px 0px', threshold: 0 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      id={id}
+      className={className}
+      aria-label={ariaLabel}
+      style={{ minHeight: !isNear ? minHeight : undefined }}
+    >
+      {isNear ? children : null}
+    </div>
+  );
+}
+
 export default function ReelCompanySite() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
@@ -298,6 +376,7 @@ export default function ReelCompanySite() {
   const [heroVideoName, setHeroVideoName] = useState('CN-Outro-Animation.mp4');
   const [heroPlaying, setHeroPlaying] = useState(true);
   const [heroMuted, setHeroMuted] = useState(true);
+  const [isStudioVideoMounted, setIsStudioVideoMounted] = useState(false);
   const [activePortfolioAudioIndex, setActivePortfolioAudioIndex] = useState<number | null>(null);
   const router = useRouter();
   const [discoveryModalOpen, setDiscoveryModalOpen] = useState(false);
@@ -546,34 +625,53 @@ export default function ReelCompanySite() {
 
   // Studio Overview Video Viewport-triggered Autoplay
   useEffect(() => {
-    const vid = heroVideoRef.current;
-    if (!vid) return;
+    const studioSection = document.getElementById('studio-overview');
+    if (!studioSection) return;
 
     let attached = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!attached) {
-            attached = true;
-            vid.src = ASSETS.videos.hero.src;
-            vid.load();
+          setIsStudioVideoMounted(true);
+          const vid = heroVideoRef.current;
+          if (vid) {
+            if (!attached) {
+              attached = true;
+              vid.src = ASSETS.videos.hero.src;
+              vid.load();
+            }
+            vid.defaultMuted = true;
+            vid.muted = true;
+            vid.play().then(() => setHeroPlaying(true)).catch(() => {});
           }
-          vid.defaultMuted = true;
-          vid.muted = true;
-          vid.play().then(() => setHeroPlaying(true)).catch(() => {});
         } else {
-          if (!vid.paused) {
+          const vid = heroVideoRef.current;
+          if (vid && !vid.paused) {
             vid.pause();
             setHeroPlaying(false);
           }
         }
       },
-      { rootMargin: '150px 0px', threshold: 0.05 }
+      { rootMargin: '0px 0px', threshold: 0.15 }
     );
 
-    observer.observe(vid);
+    observer.observe(studioSection);
     return () => observer.disconnect();
   }, []);
+
+  // When studio video mounts, attach src and play
+  useEffect(() => {
+    if (isStudioVideoMounted && heroVideoRef.current) {
+      const vid = heroVideoRef.current;
+      if (!vid.src) {
+        vid.src = ASSETS.videos.hero.src;
+        vid.load();
+      }
+      vid.defaultMuted = true;
+      vid.muted = true;
+      vid.play().then(() => setHeroPlaying(true)).catch(() => {});
+    }
+  }, [isStudioVideoMounted]);
 
   useEffect(() => {
     const studioSection = document.getElementById('studio-overview');
@@ -707,16 +805,19 @@ export default function ReelCompanySite() {
 
 
 
-  // GSAP Animations — deferred to idle time to avoid blocking FCP→TTI critical path
+  // GSAP Animations — deferred to first user interaction
   useEffect(() => {
-    let ctx: ReturnType<typeof gsap.context> | null = null;
-    let idleHandle: number | null = null;
-    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+    let ctx: { revert: () => void } | null = null;
 
-    const initGsap = () => {
-      gsap.registerPlugin(ScrollTrigger);
+    const initGsap = async () => {
+      try {
+        const [{ default: gsap }, { default: ScrollTrigger }] = await Promise.all([
+          import('gsap'),
+          import('gsap/ScrollTrigger'),
+        ]);
+        gsap.registerPlugin(ScrollTrigger);
 
-      ctx = gsap.context(() => {
+        ctx = gsap.context(() => {
         // Hero parallax
         const heroBg = document.getElementById('hero-bg-image');
         if (heroBg) {
@@ -791,22 +892,29 @@ export default function ReelCompanySite() {
           onLeaveBack: () => gsap.to('body', { '--body-tint': 0, duration: .6 }),
         });
       });
+      } catch (err) {
+        console.warn('GSAP dynamic import note:', err);
+      }
     };
 
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      idleHandle = (window as unknown as { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => number }).requestIdleCallback(
-        initGsap,
-        { timeout: 3000 }
-      );
-    } else {
-      fallbackTimer = setTimeout(initGsap, 200);
-    }
+    let gsapInitialized = false;
+    const triggerGsap = () => {
+      if (gsapInitialized) return;
+      gsapInitialized = true;
+      initGsap();
+      ['scroll', 'touchstart', 'mousemove', 'click', 'wheel'].forEach(evt => {
+        window.removeEventListener(evt, triggerGsap);
+      });
+    };
+
+    ['scroll', 'touchstart', 'mousemove', 'click', 'wheel'].forEach(evt => {
+      window.addEventListener(evt, triggerGsap, { once: true, passive: true });
+    });
 
     return () => {
-      if (idleHandle !== null && 'cancelIdleCallback' in window) {
-        (window as unknown as { cancelIdleCallback: (h: number) => void }).cancelIdleCallback(idleHandle);
-      }
-      if (fallbackTimer) clearTimeout(fallbackTimer);
+      ['scroll', 'touchstart', 'mousemove', 'click', 'wheel'].forEach(evt => {
+        window.removeEventListener(evt, triggerGsap);
+      });
       if (ctx) ctx.revert();
     };
   }, []);
@@ -944,7 +1052,7 @@ export default function ReelCompanySite() {
                   <div className="phone-glow"></div>
                   <div className="phone-frame">
                     {/* Lazy Poster image */}
-                    {ASSETS.videos.hero.poster && (
+                    {ASSETS.videos.hero.poster && (!heroPlaying || !isStudioVideoMounted) && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={ASSETS.videos.hero.poster}
@@ -954,24 +1062,26 @@ export default function ReelCompanySite() {
                         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     )}
-                    <video
-                      ref={heroVideoRef}
-                      muted
-                      loop
-                      playsInline
-                      preload="none"
-                      aria-label="Studio Reel showcase"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        const fallbackSrc = ASSETS.videos.hero.fallback;
-                        if (target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
-                          target.src = fallbackSrc;
-                          target.load();
-                          target.play().catch(() => { });
-                        }
-                      }}
-                    />
+                    {isStudioVideoMounted && (
+                      <video
+                        ref={heroVideoRef}
+                        muted
+                        loop
+                        playsInline
+                        preload="none"
+                        aria-label="Studio Reel showcase"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          const fallbackSrc = ASSETS.videos.hero.fallback;
+                          if (target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
+                            target.src = fallbackSrc;
+                            target.load();
+                            target.play().catch(() => { });
+                          }
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -1048,7 +1158,7 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ SHOWREEL ═══════════════════════════ */}
-        <section id="portfolio" className="showreel-section" aria-label="Portfolio Showreel">
+        <LazyViewportSection minHeight="600px" id="portfolio" className="showreel-section" ariaLabel="Portfolio Showreel">
           <div className="portfolio-ambient-glow-left"></div>
           <div className="portfolio-ambient-glow-right"></div>
 
@@ -1082,12 +1192,10 @@ export default function ReelCompanySite() {
               />
             ))}
           </div>
-        </section>
-
-
+        </LazyViewportSection>
 
         {/* ═══════════════════════════════ PROBLEM / THE REALITY ═══════════════════════════ */}
-        <section id="problems" className="problem-section" aria-label="Content Challenges">
+        <LazyViewportSection minHeight="500px" id="problems" className="problem-section" ariaLabel="Content Challenges">
           <div className="problem-inner">
             <div className="problem-left-col">
               <p className="section-label">The Reality</p>
@@ -1121,10 +1229,12 @@ export default function ReelCompanySite() {
               </div>
             </div>
           </div>
-        </section>
+        </LazyViewportSection>
 
         {/* ═══════════════════════════════ UGC PROCESS ═══════════════════════════ */}
-        <UgcProcessSection />
+        <LazyViewportSection minHeight="450px">
+          <UgcProcessSection />
+        </LazyViewportSection>
 
         {/* ═══════════════════════════════ COMPACT PRICING CALLOUT ═══════════════════════════ */}
         <section className="pricing-callout-section" aria-label="Transparent Pricing">
@@ -1154,10 +1264,14 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ EDITORIAL SERVICES MARQUEE ═══════════════════════════ */}
-        <EditorialMarqueeSection />
+        <LazyViewportSection minHeight="300px">
+          <EditorialMarqueeSection />
+        </LazyViewportSection>
 
         {/* ═══════════════════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════════════ */}
-        <ClientTestimonialsSection />
+        <LazyViewportSection minHeight="600px">
+          <ClientTestimonialsSection />
+        </LazyViewportSection>
 
         {/* ═══════════════════════════════ FOOTER CTA & QUICK INQUIRY ═══════════════════════════ */}
         <section id="footer-cta" className="footer-cta-section" aria-label="Final Call To Action">
@@ -1197,7 +1311,9 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ FAQ SECTION ═══════════════════════════ */}
-        <FAQSection />
+        <LazyViewportSection minHeight="400px">
+          <FAQSection />
+        </LazyViewportSection>
       </main>
 
       {/* ═══════════════════════════════ FOOTER ═══════════════════════════ */}

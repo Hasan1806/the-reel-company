@@ -72,7 +72,7 @@ export default function HeroCurvedShowcase() {
     const VIDEO_EVAL_INTERVAL = 5;
 
     // Track geometry parameters (compact, lightweight proportions matching reference)
-    let containerWidth = container.clientWidth || window.innerWidth;
+    let containerWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
     let isMobile = containerWidth < 768;
     let isTablet = containerWidth >= 768 && containerWidth < 1024;
 
@@ -85,8 +85,7 @@ export default function HeroCurvedShowcase() {
     let cardSpacing = isMobile ? Math.round(cardWidth * 1.06) : isTablet ? 86 : 96;
 
     const updateDimensions = () => {
-      if (!container) return;
-      containerWidth = container.clientWidth || window.innerWidth;
+      containerWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
       isMobile = containerWidth < 768;
       isTablet = containerWidth >= 768 && containerWidth < 1024;
       cardWidth = isMobile
@@ -173,23 +172,37 @@ export default function HeroCurvedShowcase() {
 
         // Smart video decode throttling & progressive attachment (evaluated every Nth frame)
         if (evaluateVideos) {
-          const vid = videoRefs.current[i];
-          if (vid) {
-            // Only active cards in the central viewing arc decode & play video (1-2 videos max)
-            const isCenterFocus = absU <= 0.40 && opacity > 0.3;
-            if (isCenterFocus) {
-              const desiredSrc = vid.dataset.src;
-              if (desiredSrc && !vid.src) {
-                vid.src = desiredSrc;
-                vid.load();
+          const isCenterFocus = absU <= 0.40 && opacity > 0.3;
+          if (isCenterFocus) {
+            let vid = videoRefs.current[i];
+            if (!vid) {
+              const cardInner = card.querySelector<HTMLElement>('.hero-curved-card-inner');
+              if (cardInner) {
+                vid = document.createElement('video');
+                vid.muted = true;
+                vid.defaultMuted = true;
+                vid.loop = true;
+                vid.playsInline = true;
+                vid.setAttribute('playsinline', '');
+                vid.setAttribute('webkit-playsinline', '');
+                vid.disablePictureInPicture = true;
+                vid.className = 'hero-curved-video';
+                vid.preload = 'auto';
+                vid.style.cssText = 'width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1;';
+                vid.src = CURVED_HERO_VIDEOS[i].src;
+                cardInner.appendChild(vid);
+                videoRefs.current[i] = vid;
               }
-              if (!isPlayingRef.current[i]) {
-                isPlayingRef.current[i] = true;
-                vid.play().catch(() => {});
-              }
-            } else {
-              if (isPlayingRef.current[i]) {
-                isPlayingRef.current[i] = false;
+            }
+            if (vid && !isPlayingRef.current[i]) {
+              isPlayingRef.current[i] = true;
+              vid.play().catch(() => {});
+            }
+          } else {
+            if (isPlayingRef.current[i]) {
+              isPlayingRef.current[i] = false;
+              const vid = videoRefs.current[i];
+              if (vid && !vid.paused) {
                 vid.pause();
               }
             }
@@ -234,17 +247,30 @@ export default function HeroCurvedShowcase() {
       }
     };
 
+    let loopStarted = false;
+
+    const triggerStartLoop = () => {
+      if (loopStarted) return;
+      loopStarted = true;
+      startLoop();
+      ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
+        window.removeEventListener(evt, triggerStartLoop);
+      });
+    };
+
     // IntersectionObserver to pause RAF and video decoders when scrolled offscreen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
         if (isVisible) {
-          startLoop();
-          videoRefs.current.forEach((vid, i) => {
-            if (vid && isPlayingRef.current[i] && vid.paused) {
-              vid.play().catch(() => {});
-            }
-          });
+          if (loopStarted) {
+            startLoop();
+            videoRefs.current.forEach((vid, i) => {
+              if (vid && isPlayingRef.current[i] && vid.paused) {
+                vid.play().catch(() => {});
+              }
+            });
+          }
         } else {
           stopLoop();
           videoRefs.current.forEach((vid) => {
@@ -258,31 +284,31 @@ export default function HeroCurvedShowcase() {
     );
     observer.observe(container);
 
-    // Render initial static frame immediately without starting RAF
-    renderFrame(0, true);
+    // Render initial static frame in next animation frame without starting loop or video decoders
+    const initFrameId = requestAnimationFrame(() => {
+      renderFrame(0, false);
+    });
 
-    // Defer continuous animation loop to idle time past critical rendering & hydration
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      deferTimer = (window as unknown as { requestIdleCallback: (cb: () => void, opts: { timeout: number }) => any }).requestIdleCallback(
-        () => {
-          deferTimer = setTimeout(startLoop, 150) as any;
-        },
-        { timeout: 1200 }
-      );
-    } else {
-      deferTimer = setTimeout(startLoop, 500);
-    }
+    // Listen for first interaction to start smooth animation loop
+    ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
+      window.addEventListener(evt, triggerStartLoop, { once: true, passive: true });
+    });
 
     return () => {
-      if (deferTimer) {
-        if (typeof window !== "undefined" && "cancelIdleCallback" in window) {
-          (window as unknown as { cancelIdleCallback: (h: any) => void }).cancelIdleCallback(deferTimer);
-        }
-        clearTimeout(deferTimer);
-      }
+      cancelAnimationFrame(initFrameId);
+      ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
+        window.removeEventListener(evt, triggerStartLoop);
+      });
       stopLoop();
       window.removeEventListener("resize", updateDimensions);
       observer.disconnect();
+      videoRefs.current.forEach((v) => {
+        if (v) {
+          v.pause();
+          v.remove();
+        }
+      });
+      videoRefs.current = [];
     };
   }, []);
 
@@ -292,7 +318,7 @@ export default function HeroCurvedShowcase() {
       <div className="hero-curved-mask-left" aria-hidden="true" />
       <div className="hero-curved-mask-right" aria-hidden="true" />
 
-      {/* 12 Video Cards */}
+      {/* 17 Video Cards */}
       <div className="hero-curved-stage">
         {CURVED_HERO_VIDEOS.map((item, idx) => (
           <div
@@ -314,23 +340,10 @@ export default function HeroCurvedShowcase() {
               <img
                 src={item.poster}
                 alt={`Hero video card ${idx + 1}`}
-                loading={idx < 4 ? "eager" : "lazy"}
+                loading={idx >= 6 && idx <= 10 ? "eager" : "lazy"}
+                fetchPriority={idx === 8 ? "high" : "auto"}
                 decoding="async"
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <video
-                ref={(el) => {
-                  videoRefs.current[idx] = el;
-                }}
-                data-src={item.src}
-                muted
-                loop
-                playsInline
-                controls={false}
-                disablePictureInPicture
-                className="hero-curved-video"
-                preload="none"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
               />
             </div>
           </div>

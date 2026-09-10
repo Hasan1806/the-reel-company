@@ -5,6 +5,10 @@ const nextConfig = {
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
+  swcMinify: true,
+  experimental: {
+    optimizePackageImports: ['gsap'],
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

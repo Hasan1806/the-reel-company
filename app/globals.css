@@ -157,11 +157,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit;}
   position: absolute;
   top: -10%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
   width: min(1050px, 92vw);
   height: 480px;
-  background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.16) 0%, rgba(229, 9, 20, 0.03) 50%, transparent 75%);
-  filter: blur(65px);
+  background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.16) 0%, rgba(229, 9, 20, 0.08) 25%, rgba(229, 9, 20, 0.02) 55%, transparent 75%);
   pointer-events: none;
   z-index: 0;
 }

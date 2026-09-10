@@ -163,29 +163,23 @@ export default function ClientTestimonialsSection() {
 
   // Handle Play/Pause toggle for a specific video card instance
   const handleTogglePlay = useCallback((instanceKey: string) => {
-    const targetVideo = videoRefs.current.get(instanceKey);
-    if (!targetVideo) return;
-
-    // Attach video source dynamically on user play
-    if (!targetVideo.src && targetVideo.dataset.src) {
-      targetVideo.src = targetVideo.dataset.src;
-      targetVideo.load();
-    }
-
     if (activeInstanceKey === instanceKey) {
-      if (targetVideo.paused) {
-        targetVideo.play().then(() => {
-          setIsPlaying(true);
-          pauseReasonsRef.current.videoPlaying = true;
-        }).catch((err) => {
-          console.warn("[Testimonial Video Play Error]", err);
-        });
-      } else {
-        targetVideo.pause();
-        setIsPlaying(false);
-        setActiveInstanceKey(null);
-        pauseReasonsRef.current.videoPlaying = false;
-        scheduleResume(2000);
+      const targetVideo = videoRefs.current.get(instanceKey);
+      if (targetVideo) {
+        if (targetVideo.paused) {
+          targetVideo.play().then(() => {
+            setIsPlaying(true);
+            pauseReasonsRef.current.videoPlaying = true;
+          }).catch((err) => {
+            console.warn("[Testimonial Video Play Error]", err);
+          });
+        } else {
+          targetVideo.pause();
+          setIsPlaying(false);
+          setActiveInstanceKey(null);
+          pauseReasonsRef.current.videoPlaying = false;
+          scheduleResume(2000);
+        }
       }
     } else {
       // Pause any previously playing video
@@ -196,26 +190,12 @@ export default function ClientTestimonialsSection() {
         }
       }
 
-      // Activate and play new video with volume by default
+      // Activate new video on demand
       setActiveInstanceKey(instanceKey);
-      targetVideo.muted = isMuted;
-      targetVideo.play().then(() => {
-        setIsPlaying(true);
-        pauseReasonsRef.current.videoPlaying = true;
-      }).catch((err) => {
-        // Safe fallback in case browser policy restricts unmuted audio
-        if (!targetVideo.muted) {
-          targetVideo.muted = true;
-          setIsMuted(true);
-          targetVideo.play().then(() => {
-            setIsPlaying(true);
-            pauseReasonsRef.current.videoPlaying = true;
-          }).catch(() => {});
-        }
-        console.warn("[Testimonial Video Play Error]", err);
-      });
+      setIsPlaying(true);
+      pauseReasonsRef.current.videoPlaying = true;
     }
-  }, [activeInstanceKey, isMuted, scheduleResume]);
+  }, [activeInstanceKey, scheduleResume]);
 
   // Handle Mute/Unmute toggle
   const handleToggleMute = useCallback((e?: React.MouseEvent) => {
@@ -556,25 +536,39 @@ export default function ClientTestimonialsSection() {
                         }}
                       />
 
-                      <video
-                        ref={(el) => setVideoRef(instanceKey, el)}
-                        data-src={video.src}
-                        data-fallback={video.fallbackSrc}
-                        preload="none"
-                        playsInline
-                        muted={isMuted}
-                        loop={false}
-                        onEnded={() => handleVideoEnded(instanceKey)}
-                        className="testimonial-video-el"
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: isThisPlaying ? 'block' : 'none',
-                        }}
-                      />
+                      {isThisPlaying && (
+                        <video
+                          ref={(el) => {
+                            setVideoRef(instanceKey, el);
+                            if (el && el.paused) {
+                              el.muted = isMuted;
+                              el.play().catch(() => {
+                                if (!el.muted) {
+                                  el.muted = true;
+                                  setIsMuted(true);
+                                  el.play().catch(() => {});
+                                }
+                              });
+                            }
+                          }}
+                          src={video.src}
+                          playsInline
+                          autoPlay
+                          muted={isMuted}
+                          loop={false}
+                          onEnded={() => handleVideoEnded(instanceKey)}
+                          className="testimonial-video-el"
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                            zIndex: 2,
+                          }}
+                        />
+                      )}
 
                       {/* Ambient overlay */}
                       <div className={`testimonial-overlay ${isThisPlaying ? 'is-playing' : ''}`}></div>
