@@ -5,14 +5,35 @@ import React, { useEffect, useRef, useState } from "react";
 export default function DiscoveryCallForm() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
     let checkInterval: NodeJS.Timeout | null = null;
     let attempts = 0;
 
     const runInit = () => {
+      // Guard: never initialize more than once
+      if (initializedRef.current) return true;
+
+      // Guard: if container already contains an iframe, mark ready and abort
+      if (containerRef.current && containerRef.current.querySelector("iframe")) {
+        initializedRef.current = true;
+        setIsLoaded(true);
+        return true;
+      }
+
       if (typeof (window as any).initDeftform === "function") {
         try {
+          // If container has stale duplicate children, clean them before single init
+          if (containerRef.current) {
+            const iframes = containerRef.current.querySelectorAll("iframe");
+            if (iframes.length > 1) {
+              for (let i = 1; i < iframes.length; i++) {
+                iframes[i].remove();
+              }
+            }
+          }
+          initializedRef.current = true;
           (window as any).initDeftform();
           setIsLoaded(true);
           return true;
@@ -23,7 +44,7 @@ export default function DiscoveryCallForm() {
       return false;
     };
 
-    // 1. Try immediately if embed script was already cached/loaded by Next.js
+    // 1. Try immediately if embed script was already cached/loaded
     if (runInit()) return;
 
     // 2. Check existing script tag and listen to its load event
@@ -31,30 +52,35 @@ export default function DiscoveryCallForm() {
       'script[src="https://cdn.deftform.com/embed.js"]'
     );
 
+    const handleScriptLoad = () => {
+      runInit();
+    };
+
     if (!script) {
       script = document.createElement("script");
       script.src = "https://cdn.deftform.com/embed.js";
       script.async = true;
-      script.onload = () => {
-        runInit();
-      };
+      script.addEventListener("load", handleScriptLoad);
       document.body.appendChild(script);
     } else {
-      script.addEventListener("load", runInit);
+      script.addEventListener("load", handleScriptLoad);
     }
 
-    // 3. Fast high-frequency polling check (every 30ms) to trigger initDeftform the millisecond it evaluates
+    // 3. Interval check that terminates immediately on success or after 1.5s
     checkInterval = setInterval(() => {
       attempts++;
-      if (runInit() || attempts > 40) {
-        if (checkInterval) clearInterval(checkInterval);
+      if (runInit() || attempts > 30) {
+        if (checkInterval) {
+          clearInterval(checkInterval);
+          checkInterval = null;
+        }
         setIsLoaded(true);
       }
-    }, 30);
+    }, 50);
 
     return () => {
       if (checkInterval) clearInterval(checkInterval);
-      if (script) script.removeEventListener("load", runInit);
+      if (script) script.removeEventListener("load", handleScriptLoad);
     };
   }, []);
 
