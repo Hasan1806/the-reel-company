@@ -4,18 +4,18 @@
 ═══════════════════════════════════════════════════════ */
 
 const VIDEOS = [
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787662132/CN1098_watermarked.webm', label: 'Creative UGC 01' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661073/CN0804_1__watermarked.webm', label: 'Creative UGC 02' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661072/CN0663_watermarked.webm', label: 'Creative UGC 03' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661071/CN2473_watermarked.webm', label: 'Creative UGC 04' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661069/CN2539_watermarked.webm', label: 'Creative UGC 05' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661064/SK-86_1_watermarked.webm', label: 'Creative UGC 06' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661062/mount_everest_watermarked.webm', label: 'Creative UGC 07' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661059/CN2423_watermarked.webm', label: 'Creative UGC 08' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787661025/CN0581_watermarked.webm', label: 'Creative UGC 09' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787660985/CN1064_watermarked.webm', label: 'Creative UGC 10' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787662197/CN2579_watermarked.mp4', label: 'Creative UGC 11' },
-  { src: 'https://res.cloudinary.com/cy9upvoa/video/upload/v1787662175/CN2463_watermarked.mp4', label: 'Creative UGC 12' },
+  { src: '/videos/portfolio/CN0581_watermarked.webm', poster: '/videos/portfolio/CN0581_watermarked-poster.webp', label: 'Creative UGC 01' },
+  { src: '/videos/portfolio/CN0663_watermarked.webm', poster: '/videos/portfolio/CN0663_watermarked-poster.webp', label: 'Creative UGC 02' },
+  { src: '/videos/portfolio/CN0804_1_watermarked.webm', poster: '/videos/portfolio/CN0804_1_watermarked-poster.webp', label: 'Creative UGC 03' },
+  { src: '/videos/portfolio/CN1064_watermarked.webm', poster: '/videos/portfolio/CN1064_watermarked-poster.webp', label: 'Creative UGC 04' },
+  { src: '/videos/portfolio/CN1098_watermarked.webm', poster: '/videos/portfolio/CN1098_watermarked-poster.webp', label: 'Creative UGC 05' },
+  { src: '/videos/portfolio/CN2423_watermarked.webm', poster: '/videos/portfolio/CN2423_watermarked-poster.webp', label: 'Creative UGC 06' },
+  { src: '/videos/portfolio/CN2463_watermarked.mp4', poster: '/videos/portfolio/CN2463_watermarked-poster.webp', label: 'Creative UGC 07' },
+  { src: '/videos/portfolio/CN2473_watermarked.webm', poster: '/videos/portfolio/CN2473_watermarked-poster.webp', label: 'Creative UGC 08' },
+  { src: '/videos/portfolio/CN2539_watermarked.webm', poster: '/videos/portfolio/CN2539_watermarked-poster.webp', label: 'Creative UGC 09' },
+  { src: '/videos/portfolio/CN2579_watermarked.mp4', poster: '/videos/portfolio/CN2579_watermarked-poster.webp', label: 'Creative UGC 10' },
+  { src: '/videos/portfolio/SK-86_1_watermarked.webm', poster: '/videos/portfolio/SK-86_1_watermarked-poster.webp', label: 'Creative UGC 11' },
+  { src: '/videos/portfolio/mount_everest_watermarked.webm', poster: '/videos/portfolio/mount_everest_watermarked-poster.webp', label: 'Creative UGC 12' },
 ];
 
 // ─── State ────────────────────────────────────────────

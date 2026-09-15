@@ -9,44 +9,29 @@ export interface CurvedVideoItem {
 }
 
 export const CURVED_HERO_VIDEOS: CurvedVideoItem[] = [
-  { id: "cv-1", src: "/videos/portfolio/portfolio-1.mp4", poster: "/videos/portfolio/portfolio-1-poster.webp" },
-  { id: "cv-2", src: "/videos/portfolio/portfolio-2.mp4", poster: "/videos/portfolio/portfolio-2-poster.webp" },
-  { id: "cv-3", src: "/videos/portfolio/portfolio-3.mp4", poster: "/videos/portfolio/portfolio-3-poster.webp" },
-  { id: "cv-4", src: "/videos/portfolio/portfolio-4.mp4", poster: "/videos/portfolio/portfolio-4-poster.webp" },
-  { id: "cv-5", src: "/videos/portfolio/portfolio-5.mp4", poster: "/videos/portfolio/portfolio-5-poster.webp" },
-  { id: "cv-6", src: "/videos/portfolio/portfolio-6.mp4", poster: "/videos/portfolio/portfolio-6-poster.webp" },
-  { id: "cv-7", src: "/videos/portfolio/portfolio-7.mp4", poster: "/videos/portfolio/portfolio-7-poster.webp" },
-  { id: "cv-8", src: "/videos/portfolio/portfolio-8.mp4", poster: "/videos/portfolio/portfolio-8-poster.webp" },
+  { id: "cv-1", src: "/videos/hero-curve/hero-curve-1.mp4", poster: "/videos/hero-curve/hero-curve-1-poster.webp" },
+  { id: "cv-2", src: "/videos/hero-curve/hero-curve-2.mp4", poster: "/videos/hero-curve/hero-curve-2-poster.webp" },
+  { id: "cv-3", src: "/videos/hero-curve/hero-curve-3.mp4", poster: "/videos/hero-curve/hero-curve-3-poster.webp" },
+  { id: "cv-4", src: "/videos/hero-curve/hero-curve-4.mp4", poster: "/videos/hero-curve/hero-curve-4-poster.webp" },
+  { id: "cv-5", src: "/videos/hero-curve/hero-curve-5.mp4", poster: "/videos/hero-curve/hero-curve-5-poster.webp" },
+  { id: "cv-6", src: "/videos/hero-curve/hero-curve-6.mp4", poster: "/videos/hero-curve/hero-curve-6-poster.webp" },
+  { id: "cv-7", src: "/videos/hero-curve/hero-curve-7.mp4", poster: "/videos/hero-curve/hero-curve-7-poster.webp" },
+  { id: "cv-8", src: "/videos/hero-curve/hero-curve-8.mp4", poster: "/videos/hero-curve/hero-curve-8-poster.webp" },
   { id: "cv-9", src: "/videos/hero-video.mp4", poster: "/videos/hero-video-poster.webp" },
-  { id: "cv-10", src: "/videos/portfolio/portfolio-1.mp4", poster: "/videos/portfolio/portfolio-1-poster.webp" },
-  { id: "cv-11", src: "/videos/portfolio/portfolio-2.mp4", poster: "/videos/portfolio/portfolio-2-poster.webp" },
-  { id: "cv-12", src: "/videos/portfolio/portfolio-3.mp4", poster: "/videos/portfolio/portfolio-3-poster.webp" },
-  // 5 New Appended Videos
-  {
-    id: "cv-13",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663476/CN2704_watermarked.mp4",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663476/CN2704_watermarked.jpg",
-  },
-  {
-    id: "cv-14",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663464/Sugar_Support_4_watermarked.mp4",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663464/Sugar_Support_4_watermarked.jpg",
-  },
-  {
-    id: "cv-15",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663432/CN2694_watermarked.mp4",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663432/CN2694_watermarked.jpg",
-  },
-  {
-    id: "cv-16",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663420/CN2541_watermarked.mp4",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663420/CN2541_watermarked.jpg",
-  },
-  {
-    id: "cv-17",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787663411/CN2545_watermarked.mp4",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787663411/CN2545_watermarked.jpg",
-  },
+  { id: "cv-10", src: "/videos/hero-curve/hero-curve-1.mp4", poster: "/videos/hero-curve/hero-curve-1-poster.webp" },
+  { id: "cv-11", src: "/videos/hero-curve/hero-curve-2.mp4", poster: "/videos/hero-curve/hero-curve-2-poster.webp" },
+  { id: "cv-12", src: "/videos/hero-curve/hero-curve-3.mp4", poster: "/videos/hero-curve/hero-curve-3-poster.webp" },
+  { id: "cv-13", src: "/videos/hero-curve/hero-curve-4.mp4", poster: "/videos/hero-curve/hero-curve-4-poster.webp" },
+  { id: "cv-14", src: "/videos/hero-curve/hero-curve-5.mp4", poster: "/videos/hero-curve/hero-curve-5-poster.webp" },
+  { id: "cv-15", src: "/videos/hero-curve/hero-curve-6.mp4", poster: "/videos/hero-curve/hero-curve-6-poster.webp" },
+  { id: "cv-16", src: "/videos/hero-curve/hero-curve-7.mp4", poster: "/videos/hero-curve/hero-curve-7-poster.webp" },
+  { id: "cv-17", src: "/videos/hero-curve/hero-curve-8.mp4", poster: "/videos/hero-curve/hero-curve-8-poster.webp" },
+  // 5 Newly Added Hero Curve Videos
+  { id: "cv-18", src: "/videos/hero-curve/CN2541_watermarked.mp4", poster: "/videos/hero-curve/CN2541_watermarked-poster.webp?v=1" },
+  { id: "cv-19", src: "/videos/hero-curve/CN2545_watermarked.mp4", poster: "/videos/hero-curve/CN2545_watermarked-poster.webp?v=1" },
+  { id: "cv-20", src: "/videos/hero-curve/CN2694_watermarked.mp4", poster: "/videos/hero-curve/CN2694_watermarked-poster.webp?v=1" },
+  { id: "cv-21", src: "/videos/hero-curve/CN2704_watermarked.mp4", poster: "/videos/hero-curve/CN2704_watermarked-poster.webp?v=1" },
+  { id: "cv-22", src: "/videos/hero-curve/Sugar_Support_4_watermarked.mp4", poster: "/videos/hero-curve/Sugar_Support_4_watermarked-poster.webp?v=1" },
 ];
 
 export default function HeroCurvedShowcase() {
@@ -163,6 +148,9 @@ export default function HeroCurvedShowcase() {
         card.style.opacity = opacity.toFixed(2);
         if (card.style.visibility !== "visible") {
           card.style.visibility = "visible";
+        }
+        if (card.style.willChange !== "transform") {
+          card.style.willChange = "transform";
         }
         const targetZ = Math.floor(10 + centerFactor * 30);
         if (card.dataset.z !== String(targetZ)) {
@@ -318,7 +306,7 @@ export default function HeroCurvedShowcase() {
       <div className="hero-curved-mask-left" aria-hidden="true" />
       <div className="hero-curved-mask-right" aria-hidden="true" />
 
-      {/* 17 Video Cards */}
+      {/* Featured Video Cards */}
       <div className="hero-curved-stage">
         {CURVED_HERO_VIDEOS.map((item, idx) => (
           <div
@@ -331,7 +319,6 @@ export default function HeroCurvedShowcase() {
               position: "absolute",
               top: 0,
               left: 0,
-              willChange: "transform, opacity",
             }}
           >
             <div className="hero-curved-card-inner">
@@ -340,8 +327,8 @@ export default function HeroCurvedShowcase() {
               <img
                 src={item.poster}
                 alt={`Hero video card ${idx + 1}`}
-                loading={idx >= 6 && idx <= 10 ? "eager" : "lazy"}
-                fetchPriority={idx === 8 ? "high" : "auto"}
+                loading={idx >= 9 && idx <= 13 ? "eager" : "lazy"}
+                fetchPriority={idx === 11 ? "high" : "low"}
                 decoding="async"
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
               />

@@ -2,86 +2,21 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
+import { ASSETS } from '@/config/assets';
+
 export interface TestimonialVideo {
   id: number;
   name: string;
+  person?: string;
+  role?: string;
   src: string;
   poster: string;
   fallbackSrc: string;
+  metric?: string;
+  tag?: string;
 }
 
-export const TESTIMONIAL_VIDEOS: TestimonialVideo[] = [
-  {
-    id: 1,
-    name: "Oziva",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588894/oziva.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588894/oziva.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588894/oziva.mp4"
-  },
-  {
-    id: 2,
-    name: "Toothsi",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588887/Toothsi.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588887/Toothsi.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588887/Toothsi.mp4"
-  },
-  {
-    id: 3,
-    name: "EZO",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588894/ezo.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588894/ezo.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588894/ezo.mp4"
-  },
-  {
-    id: 4,
-    name: "Greyt HR",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588895/greyt_hr.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588895/greyt_hr.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588895/greyt_hr.mp4"
-  },
-  {
-    id: 5,
-    name: "Tagda Raho",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588890/tagda_raho.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588890/tagda_raho.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588890/tagda_raho.mp4"
-  },
-  {
-    id: 6,
-    name: "SAMCO",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588891/SAMCO.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588891/SAMCO.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588891/SAMCO.mp4"
-  },
-  {
-    id: 7,
-    name: "Water Science",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588888/water_science.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588888/water_science.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588888/water_science.mp4"
-  },
-  {
-    id: 8,
-    name: "Decode Age",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588886/decode_age.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588886/decode_age.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588886/decode_age.mp4"
-  },
-  {
-    id: 9,
-    name: "Herb Tantra",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588884/herb_tantra.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588884/herb_tantra.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588884/herb_tantra.mp4"
-  },
-  {
-    id: 10,
-    name: "Greensole",
-    src: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588883/greensole.webm",
-    poster: "https://res.cloudinary.com/cy9upvoa/video/upload/so_0,f_auto,q_auto,w_600/v1787588883/greensole.jpg",
-    fallbackSrc: "https://res.cloudinary.com/cy9upvoa/video/upload/v1787588883/greensole.mp4"
-  }
-];
+export const TESTIMONIAL_VIDEOS: readonly TestimonialVideo[] = ASSETS.videos.testimonials;
 
 // Constant auto-scroll speed in pixels per second (calm & legible)
 const AUTO_SCROLL_SPEED = 28;
@@ -518,20 +453,33 @@ export default function ClientTestimonialsSection() {
                     }}
                   >
                     <div className="testimonial-video-wrap">
-                      {/* Native lazy-loaded poster image: 0 network bytes on initial page load */}
+                      {/* Branded Case Study Card Backdrop */}
+                      <div className="testimonial-brand-backdrop">
+                        {video.tag && <span className="testimonial-brand-tag">✦ {video.tag}</span>}
+                        <h3 className="testimonial-brand-name">{video.name}</h3>
+                        {video.person && <p className="testimonial-brand-person">{video.person} ({video.role})</p>}
+                        {video.metric && <div className="testimonial-brand-metric">{video.metric}</div>}
+                        <span className="testimonial-brand-hint">✦ Case Study</span>
+                      </div>
+
+                      {/* Native lazy-loaded poster image */}
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={video.poster}
-                        alt={`${video.name} testimonial`}
+                        alt={`${video.name} - ${video.person || 'Testimonial'}`}
                         loading="lazy"
                         decoding="async"
                         className="testimonial-video-el"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
                         style={{
                           position: 'absolute',
                           inset: 0,
                           width: '100%',
                           height: '100%',
                           objectFit: 'cover',
+                          zIndex: 2,
                           display: isThisPlaying ? 'none' : 'block',
                         }}
                       />
@@ -542,20 +490,28 @@ export default function ClientTestimonialsSection() {
                             setVideoRef(instanceKey, el);
                             if (el && el.paused) {
                               el.muted = isMuted;
-                              el.play().catch(() => {
-                                if (!el.muted) {
-                                  el.muted = true;
-                                  setIsMuted(true);
-                                  el.play().catch(() => {});
-                                }
-                              });
+                              const playPromise = el.play();
+                              if (playPromise !== undefined) {
+                                playPromise.catch(() => {
+                                  if (!el.muted) {
+                                    el.muted = true;
+                                    setIsMuted(true);
+                                    el.play().catch(() => {});
+                                  }
+                                });
+                              }
                             }
                           }}
-                          src={video.src}
                           playsInline
                           autoPlay
                           muted={isMuted}
                           loop={false}
+                          poster={video.poster}
+                          onError={() => {
+                            console.warn(`[Testimonial] Video playback error at ${video.src}.`);
+                            setIsPlaying(false);
+                            setActiveInstanceKey(null);
+                          }}
                           onEnded={() => handleVideoEnded(instanceKey)}
                           className="testimonial-video-el"
                           style={{
@@ -565,13 +521,41 @@ export default function ClientTestimonialsSection() {
                             height: '100%',
                             objectFit: 'cover',
                             display: 'block',
-                            zIndex: 2,
+                            zIndex: 3,
                           }}
-                        />
+                        >
+                          <source src={video.src} type="video/webm" />
+                          <source src={video.fallbackSrc} type="video/mp4" />
+                        </video>
                       )}
 
                       {/* Ambient overlay */}
                       <div className={`testimonial-overlay ${isThisPlaying ? 'is-playing' : ''}`}></div>
+
+                      {/* Top Controls Bar */}
+                      <div className="testimonial-controls-bar">
+                        <div className="testimonial-top-actions">
+                          <button
+                            type="button"
+                            className="testimonial-control-btn testimonial-mute-btn"
+                            onClick={(e) => handleToggleMute(e)}
+                            aria-label={isMuted ? "Unmute testimonial" : "Mute testimonial"}
+                          >
+                            {isMuted ? (
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                              </svg>
+                            ) : (
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      </div>
 
                       {/* Center Play Button (Shown when paused / not actively playing) */}
                       {!isThisPlaying && (
@@ -583,49 +567,6 @@ export default function ClientTestimonialsSection() {
                           </div>
                         </div>
                       )}
-
-                      {/* Video Controls Bar (Bottom Left: Play/Pause, Bottom Right: Mute/Unmute) */}
-                      <div className="testimonial-controls-bar">
-                        <button
-                          type="button"
-                          className="testimonial-control-btn testimonial-play-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleTogglePlay(instanceKey);
-                          }}
-                          aria-label={isThisPlaying ? `Pause ${video.name} testimonial` : `Play ${video.name} testimonial`}
-                        >
-                          {isThisPlaying ? (
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                            </svg>
-                          ) : (
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: "2px" }}>
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          )}
-                        </button>
-
-                        <button
-                          type="button"
-                          className="testimonial-control-btn testimonial-mute-btn"
-                          onClick={(e) => handleToggleMute(e)}
-                          aria-label={isMuted ? "Unmute testimonial" : "Mute testimonial"}
-                        >
-                          {isMuted ? (
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
-                              <line x1="23" y1="9" x2="17" y2="15"></line>
-                              <line x1="17" y1="9" x2="23" y2="15"></line>
-                            </svg>
-                          ) : (
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"></polygon>
-                              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                            </svg>
-                          )}
-                        </button>
-                      </div>
                     </div>
                   </div>
                 );

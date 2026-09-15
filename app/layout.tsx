@@ -48,22 +48,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="preload" as="image" href="/videos/hero-video-poster.webp" type="image/webp" />
+        <link rel="preload" as="image" href="/videos/hero-curve/hero-curve-2-poster.webp" type="image/webp" fetchPriority="high" />
         <link rel="preload" as="image" href="/trc-logo.png" type="image/png" />
-        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://cdn.deftform.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.deftform.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cdn.deftform.com" />
         <link rel="dns-prefetch" href="https://api.deftform.com" />
-        <noscript>
-          <style>{`
-            .intro-lens-scroll-section { height: auto !important; }
-            .intro-lens-sticky-viewport { position: relative !important; height: auto !important; }
-            .intro-black-bg, .intro-lens-layer, .intro-readability-overlay, .intro-text-cta-layer, .temp-transition-stats-wrap { display: none !important; }
-            .main-hero-preview-layer { position: relative !important; pointer-events: auto !important; opacity: 1 !important; }
-          `}</style>
-        </noscript>
       </head>
       <body suppressHydrationWarning>
         {/* Meta Pixel Base Script - Executed on first interaction or idle timeout to protect initial TBT */}

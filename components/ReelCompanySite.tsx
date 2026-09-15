@@ -349,7 +349,7 @@ function LazyViewportSection({
           observer.disconnect();
         }
       },
-      { rootMargin: '400px 0px', threshold: 0 }
+      { rootMargin: '200px 0px', threshold: 0 }
     );
 
     observer.observe(el);
@@ -950,7 +950,13 @@ export default function ReelCompanySite() {
             <span></span><span></span><span></span>
           </button>
         </div>
-        <div className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`} id="mobile-nav" aria-hidden={mobileMenuOpen ? 'false' : 'true'} suppressHydrationWarning>
+        <div
+          className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}
+          id="mobile-nav"
+          aria-hidden={!mobileMenuOpen}
+          inert={!mobileMenuOpen}
+          suppressHydrationWarning
+        >
           <button className="mobile-nav-close" id="mobile-nav-close" aria-label="Close menu" onClick={closeMobileMenu}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -1333,7 +1339,7 @@ export default function ReelCompanySite() {
           </div>
           <nav className="footer-nav" aria-label="Footer navigation">
             <div className="footer-nav-col">
-              <h4>Navigation</h4>
+              <h3>Navigation</h3>
               <a href="#hero" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
               <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
@@ -1342,7 +1348,7 @@ export default function ReelCompanySite() {
               <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
             </div>
             <div className="footer-nav-col">
-              <h4>Work with us</h4>
+              <h3>Work with us</h3>
               <Link
                 href="/contact"
                 className="footer-nav-link-btn"
@@ -1366,7 +1372,7 @@ export default function ReelCompanySite() {
               </a>
             </div>
             <div className="footer-nav-col footer-contact-col">
-              <h4>Contact</h4>
+              <h3>Contact</h3>
               <p className="footer-contact-line">
                 <span className="footer-contact-label">Phone -</span> +91 8109214834
               </p>
