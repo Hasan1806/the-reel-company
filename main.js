@@ -128,7 +128,7 @@ function getPauseIcon() {
 function initHeader() {
   const header = document.getElementById('site-header');
   const navLinks = document.querySelectorAll('.nav-link');
-  const sections = ['hero', 'portfolio', 'capabilities', 'comparison', 'footer-cta'];
+  const sections = ['hero', 'portfolio', 'services', 'footer-cta'];
 
   const onScroll = () => {
     if (window.scrollY > 60) {

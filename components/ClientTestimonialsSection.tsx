@@ -261,17 +261,6 @@ export default function ClientTestimonialsSection() {
     const sectionEl = sectionRef.current;
     if (!track) return;
 
-    // Set initial scroll position to middle set on mount
-    const initializePosition = () => {
-      const singleSetWidth = track.scrollWidth / 3;
-      if (singleSetWidth > 0 && track.scrollLeft === 0) {
-        track.scrollLeft = singleSetWidth;
-      }
-    };
-
-    initializePosition();
-    const initTimer = setTimeout(initializePosition, 100);
-
     const stopLoop = () => {
       if (rafIdRef.current) {
         cancelAnimationFrame(rafIdRef.current);
@@ -325,8 +314,9 @@ export default function ClientTestimonialsSection() {
       }
     };
 
-    // Section Visibility Observer: only run RAF when section is scrolled into view
+    // Section Visibility Observer: only run RAF and position initialize when section is scrolled into view
     let observer: IntersectionObserver | null = null;
+    let initialized = false;
     if (sectionEl && typeof IntersectionObserver !== 'undefined') {
       observer = new IntersectionObserver(
         (entries) => {
@@ -336,12 +326,19 @@ export default function ClientTestimonialsSection() {
               pauseReasonsRef.current.offscreen = true;
               stopLoop();
             } else {
+              if (!initialized) {
+                initialized = true;
+                const singleSetWidth = track.scrollWidth / 3;
+                if (singleSetWidth > 0 && track.scrollLeft === 0) {
+                  track.scrollLeft = singleSetWidth;
+                }
+              }
               pauseReasonsRef.current.offscreen = false;
               startLoop();
             }
           });
         },
-        { threshold: 0.05 }
+        { threshold: 0.05, rootMargin: '100px 0px' }
       );
       observer.observe(sectionEl);
     }
@@ -361,7 +358,6 @@ export default function ClientTestimonialsSection() {
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      clearTimeout(initTimer);
       stopLoop();
       if (observer) observer.disconnect();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -370,7 +366,7 @@ export default function ClientTestimonialsSection() {
 
   return (
     <section 
-      id="client-cta" 
+      id="testimonials" 
       ref={sectionRef} 
       className="client-cta-section" 
       aria-label="Work With Us"

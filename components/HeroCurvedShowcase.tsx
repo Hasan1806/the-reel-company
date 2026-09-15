@@ -272,10 +272,13 @@ export default function HeroCurvedShowcase() {
     );
     observer.observe(container);
 
-    // Render initial static frame in next animation frame without starting loop or video decoders
-    const initFrameId = requestAnimationFrame(() => {
-      renderFrame(0, false);
-    });
+    // Render initial static frame asynchronously after main thread settles
+    let initFrameId = 0;
+    const initTimer = setTimeout(() => {
+      initFrameId = requestAnimationFrame(() => {
+        renderFrame(0, false);
+      });
+    }, 60);
 
     // Listen for first interaction to start smooth animation loop
     ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
@@ -283,7 +286,8 @@ export default function HeroCurvedShowcase() {
     });
 
     return () => {
-      cancelAnimationFrame(initFrameId);
+      clearTimeout(initTimer);
+      if (initFrameId) cancelAnimationFrame(initFrameId);
       ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
         window.removeEventListener(evt, triggerStartLoop);
       });

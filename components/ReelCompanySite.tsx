@@ -6,22 +6,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import ReelCompanyHero from './ReelCompanyHero';
+import EditorialMarqueeSection from './EditorialMarqueeSection';
+import UgcProcessSection from './process/UgcProcessSection';
+import FAQSection from './FAQSection';
+import ClientTestimonialsSection from './ClientTestimonialsSection';
 import { ASSETS } from '@/config/assets';
-const EditorialMarqueeSection = dynamic(() => import('./EditorialMarqueeSection'), {
-  ssr: false,
-});
-const UgcProcessSection = dynamic(() => import('./process/UgcProcessSection'), {
-  ssr: false,
-});
-const FAQSection = dynamic(() => import('./FAQSection'), {
-  ssr: false,
-});
-const ClientTestimonialsSection = dynamic(() => import('./ClientTestimonialsSection'), {
-  ssr: false,
-});
-const QuickInquiryPricingForm = dynamic(() => import('./QuickInquiryPricingForm'), {
-  ssr: false,
-});
+
 const DiscoveryCallModal = dynamic(() => import('./DiscoveryCallModal'), {
   ssr: false,
 });
@@ -320,54 +310,7 @@ function LazyPortfolioCard({
   );
 }
 
-interface LazyViewportSectionProps {
-  children: React.ReactNode;
-  minHeight?: string;
-  id?: string;
-  className?: string;
-  ariaLabel?: string;
-}
 
-function LazyViewportSection({
-  children,
-  minHeight = '350px',
-  id,
-  className,
-  ariaLabel,
-}: LazyViewportSectionProps) {
-  const [isNear, setIsNear] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsNear(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px 0px', threshold: 0 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      id={id}
-      className={className}
-      aria-label={ariaLabel}
-      style={{ minHeight: !isNear ? minHeight : undefined }}
-    >
-      {isNear ? children : null}
-    </div>
-  );
-}
 
 export default function ReelCompanySite() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -442,6 +385,7 @@ export default function ReelCompanySite() {
 
     if (!id || id === 'hero' || id === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection('hero');
       return;
     }
 
@@ -451,15 +395,10 @@ export default function ReelCompanySite() {
 
     const targetEl = document.getElementById(id) || document.querySelector(`#${id}`);
     if (targetEl) {
-      const siteHeader = document.getElementById('site-header');
-      const headerHeight = siteHeader ? siteHeader.offsetHeight : 70;
-      const targetTop = targetEl.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
-      const scrollToPosition = Math.max(0, targetTop - headerHeight - 12);
-
-      window.scrollTo({
-        top: scrollToPosition,
-        behavior: 'smooth'
-      });
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (id === 'portfolio') setActiveSection('portfolio');
+      else if (id === 'services' || id === 'process') setActiveSection('services');
+      else if (id === 'footer-cta' || id === 'contact' || id === 'faq') setActiveSection('contact');
 
       if (typeof window !== 'undefined' && window.history && window.history.pushState) {
         window.history.pushState(null, '', `#${id}`);
@@ -483,6 +422,7 @@ export default function ReelCompanySite() {
   const handleBackToTop = useCallback((e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setActiveSection('hero');
     if (typeof window !== 'undefined' && window.history && window.history.pushState) {
       window.history.pushState(null, '', window.location.pathname);
     }
@@ -524,64 +464,64 @@ export default function ReelCompanySite() {
     }
   }, []);
 
-  // Scroll listener for header & nav active link (RAF-throttled, cached offsets, zero duplicate re-renders)
+  // Scroll listener for header shadow and intersection observer for active nav links
   useEffect(() => {
-    const sections = ['hero', 'portfolio', 'services', 'footer-cta'];
-    let sectionOffsets: { id: string; top: number }[] = [];
-
-    const updateOffsets = () => {
-      sectionOffsets = sections
-        .map(id => {
-          const el = document.getElementById(id);
-          if (!el) return null;
-          const rect = el.getBoundingClientRect();
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-          return { id, top: rect.top + scrollTop };
-        })
-        .filter(Boolean) as { id: string; top: number }[];
-    };
-
-    updateOffsets();
-
-    let ticking = false;
     let lastScrolled = false;
-    let lastActive = 'hero';
-
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          const isScrolled = scrollY > 60;
-          if (isScrolled !== lastScrolled) {
-            lastScrolled = isScrolled;
-            setHeaderScrolled(isScrolled);
-          }
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      const isScrolled = scrollY > 50;
+      if (isScrolled !== lastScrolled) {
+        lastScrolled = isScrolled;
+        setHeaderScrolled(isScrolled);
+      }
 
-          const scrollMid = scrollY + window.innerHeight / 3;
-          let current = sections[0];
-          for (let i = 0; i < sectionOffsets.length; i++) {
-            if (scrollMid >= sectionOffsets[i].top) {
-              current = sectionOffsets[i].id;
-            }
-          }
-
-          if (current !== lastActive) {
-            lastActive = current;
-            setActiveSection(current);
-          }
-          ticking = false;
-        });
-        ticking = true;
+      if (scrollY < 120) {
+        setActiveSection('hero');
       }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', updateOffsets, { passive: true });
-    handleScroll();
+
+    const sectionMap: Record<string, string> = {
+      hero: 'hero',
+      portfolio: 'portfolio',
+      problems: 'portfolio',
+      process: 'services',
+      services: 'services',
+      testimonials: 'services',
+      'footer-cta': 'contact',
+      faq: 'contact',
+      'site-footer': 'contact',
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          visible.sort((a, b) => {
+            const topA = Math.abs(a.boundingClientRect.top);
+            const topB = Math.abs(b.boundingClientRect.top);
+            return topA - topB;
+          });
+          const targetId = visible[0].target.id;
+          if (sectionMap[targetId] && (window.scrollY || window.pageYOffset || 0) >= 120) {
+            setActiveSection(sectionMap[targetId]);
+          }
+        }
+      },
+      {
+        rootMargin: '-10% 0px -35% 0px',
+        threshold: [0, 0.1, 0.25],
+      }
+    );
+
+    Object.keys(sectionMap).forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateOffsets);
+      observer.disconnect();
     };
   }, []);
 
@@ -936,7 +876,7 @@ export default function ReelCompanySite() {
             <a href="#hero" className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
             <a href="#portfolio" className={`nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
             <a href="#services" className={`nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
-            <Link href="/contact" className="nav-link" suppressHydrationWarning>Contact</Link>
+            <a href="#footer-cta" className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
           </nav>
           <Link
             href="/contact"
@@ -964,10 +904,10 @@ export default function ReelCompanySite() {
             </svg>
           </button>
           <div className="mobile-nav-scroll-container" suppressHydrationWarning>
-            <a href="#hero" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
-            <a href="#portfolio" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
-            <a href="#services" className="mobile-nav-link" onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
-            <Link href="/contact" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Contact</Link>
+            <a href="#hero" className={`mobile-nav-link ${activeSection === 'hero' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#hero')} suppressHydrationWarning>Home</a>
+            <a href="#portfolio" className={`mobile-nav-link ${activeSection === 'portfolio' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#portfolio')} suppressHydrationWarning>Portfolio</a>
+            <a href="#services" className={`mobile-nav-link ${activeSection === 'services' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#services')} suppressHydrationWarning>Services</a>
+            <a href="#footer-cta" className={`mobile-nav-link ${activeSection === 'contact' ? 'active' : ''}`} onClick={e => handleAnchorClick(e, '#footer-cta')} suppressHydrationWarning>Contact</a>
             <Link href="/privacy-policy" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Privacy Policy</Link>
             <Link href="/terms-and-conditions" className="mobile-nav-link" onClick={closeMobileMenu} suppressHydrationWarning>Terms &amp; Conditions</Link>
             <Link
@@ -1164,7 +1104,7 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ SHOWREEL ═══════════════════════════ */}
-        <LazyViewportSection minHeight="600px" id="portfolio" className="showreel-section" ariaLabel="Portfolio Showreel">
+        <section id="portfolio" className="showreel-section" aria-label="Portfolio Showreel">
           <div className="portfolio-ambient-glow-left"></div>
           <div className="portfolio-ambient-glow-right"></div>
 
@@ -1198,7 +1138,7 @@ export default function ReelCompanySite() {
               />
             ))}
           </div>
-        </LazyViewportSection>
+        </section>
 
         {/* ═══════════════════════════════ PROBLEM / THE REALITY ═══════════════════════════ */}
         <section id="problems" className="problem-section" aria-label="Content Challenges">
@@ -1238,9 +1178,7 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ UGC PROCESS ═══════════════════════════ */}
-        <LazyViewportSection minHeight="450px">
-          <UgcProcessSection />
-        </LazyViewportSection>
+        <UgcProcessSection />
 
         {/* ═══════════════════════════════ COMPACT PRICING CALLOUT ═══════════════════════════ */}
         <section className="pricing-callout-section" aria-label="Transparent Pricing">
@@ -1270,14 +1208,10 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ EDITORIAL SERVICES MARQUEE ═══════════════════════════ */}
-        <LazyViewportSection minHeight="300px">
-          <EditorialMarqueeSection />
-        </LazyViewportSection>
+        <EditorialMarqueeSection />
 
         {/* ═══════════════════════════════ CLIENT CTA & TESTIMONIALS ═══════════════════════════ */}
-        <LazyViewportSection minHeight="600px">
-          <ClientTestimonialsSection />
-        </LazyViewportSection>
+        <ClientTestimonialsSection />
 
         {/* ═══════════════════════════════ FOOTER CTA & QUICK INQUIRY ═══════════════════════════ */}
         <section id="footer-cta" className="footer-cta-section" aria-label="Final Call To Action">
@@ -1317,9 +1251,7 @@ export default function ReelCompanySite() {
         </section>
 
         {/* ═══════════════════════════════ FAQ SECTION ═══════════════════════════ */}
-        <LazyViewportSection minHeight="400px">
-          <FAQSection />
-        </LazyViewportSection>
+        <FAQSection />
       </main>
 
       {/* ═══════════════════════════════ FOOTER ═══════════════════════════ */}
@@ -1343,7 +1275,7 @@ export default function ReelCompanySite() {
               <a href="#hero" onClick={e => handleAnchorClick(e, '#hero')}>Home</a>
               <a href="#portfolio" onClick={e => handleAnchorClick(e, '#portfolio')}>Portfolio</a>
               <a href="#services" onClick={e => handleAnchorClick(e, '#services')}>Services</a>
-              <Link href="/contact">Contact</Link>
+              <a href="#footer-cta" onClick={e => handleAnchorClick(e, '#footer-cta')}>Contact</a>
               <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
             </div>
