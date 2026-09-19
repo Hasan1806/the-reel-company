@@ -1082,7 +1082,7 @@ export default function ReelCompanySite() {
                 <span className="client-item">PHYSICS WALLAH</span><span className="item-dot">✦</span>
                 <span className="client-item">JUSTDIAL</span><span className="item-dot">✦</span>
                 <span className="client-item">TABBSZ</span><span className="item-dot">✦</span>
-                <span className="client-item">PHILIP CAPITAL</span><span className="item-dot">✦</span>
+                <span className="client-item">PHILLIP CAPITAL</span><span className="item-dot">✦</span>
                 <span className="client-item">OZONE</span><span className="item-dot">✦</span>
                 <span className="client-item">PAGARBOOK</span><span className="item-dot">✦</span>
                 <span className="client-item">ALLEN</span><span className="item-dot">✦</span>
@@ -1094,7 +1094,7 @@ export default function ReelCompanySite() {
                 <span className="client-item">PHYSICS WALLAH</span><span className="item-dot">✦</span>
                 <span className="client-item">JUSTDIAL</span><span className="item-dot">✦</span>
                 <span className="client-item">TABBSZ</span><span className="item-dot">✦</span>
-                <span className="client-item">PHILIP CAPITAL</span><span className="item-dot">✦</span>
+                <span className="client-item">PHILLIP CAPITAL</span><span className="item-dot">✦</span>
                 <span className="client-item">OZONE</span><span className="item-dot">✦</span>
                 <span className="client-item">PAGARBOOK</span><span className="item-dot">✦</span>
                 <span className="client-item">ALLEN</span><span className="item-dot">✦</span>

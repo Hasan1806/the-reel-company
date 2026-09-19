@@ -272,25 +272,11 @@ export default function HeroCurvedShowcase() {
     );
     observer.observe(container);
 
-    // Render initial static frame asynchronously after main thread settles
-    let initFrameId = 0;
-    const initTimer = setTimeout(() => {
-      initFrameId = requestAnimationFrame(() => {
-        renderFrame(0, false);
-      });
-    }, 60);
-
-    // Listen for first interaction to start smooth animation loop
-    ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
-      window.addEventListener(evt, triggerStartLoop, { once: true, passive: true });
-    });
+    // Render initial static frame immediately and start the continuous curve animation instantly on load
+    renderFrame(0, true);
+    triggerStartLoop();
 
     return () => {
-      clearTimeout(initTimer);
-      if (initFrameId) cancelAnimationFrame(initFrameId);
-      ['scroll', 'touchstart', 'mousemove', 'click', 'wheel', 'touchmove'].forEach((evt) => {
-        window.removeEventListener(evt, triggerStartLoop);
-      });
       stopLoop();
       window.removeEventListener("resize", updateDimensions);
       observer.disconnect();
